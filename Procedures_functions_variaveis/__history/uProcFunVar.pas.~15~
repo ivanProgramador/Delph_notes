@@ -1,0 +1,87 @@
+unit uProcFunVar;     //nome do arquivo
+
+interface
+
+//outros aqruivos qu possuem classes dentro deles
+//pra acessar o código manter o mouse em cima ate apaarecer um link clicavel
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    btnPrimeiro: TButton;
+    btnSegundo: TButton;
+    memo: TMemo;
+    procedure btnPrimeiroClick(Sender: TObject);
+  private
+     { Private declarations todo os recursos declarados aqui so são acessiveis dentro desse arquivo  }
+     FValortotal: integer;
+     FAliquota: double;
+
+  public
+    { Public declarations
+      depois que eu declaro um funcção aqui eu posso usar o atalho ctrl + shift + c
+      pra ide escever ela automáticamente dentro da implementation
+      essa função retorna uma valor inteiro
+    }
+    function CalculaValor:integer;
+    function CalculaTributos:Double;
+
+
+  end;
+
+
+//variveis globais
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+{
+  Uma procedure é uma subrotina sem retorno
+  ela processa os comando e depois para
+}
+procedure TForm1.btnPrimeiroClick(Sender: TObject);
+  var
+    //o L na frenet siginifca que estou tratando uma variavel local
+    LValor :integer;
+
+begin
+
+  {atribuindo o valor a variavel privada }
+  FValortotal := 100;
+  FAliquota := 100;
+
+  {atribuindo a função a varivel local}
+
+  LValor := CalculaValor;
+
+
+  memo.Lines.Add('Linha gerada pelo procedure');
+  memo.Lines.Add('===Alinha abaixo é o resultado da função Calcula valor ===');
+  memo.Lines.Add(Lvalor.ToString);
+
+  memo.Lines.Add('Retorno da função que calcula aliquota ');
+  memo.Lines.Add(FAliquota.ToString);
+
+end;
+
+function TForm1.CalculaTributos: Double;
+begin
+    {
+      Multiplicando aliquota por 10%
+     }
+
+    Result := FAliquota  * 0.1;
+end;
+
+function TForm1.CalculaValor: integer;
+begin
+    Result := Fvalortotal + 1;
+end;
+
+end.

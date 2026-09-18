@@ -1,0 +1,51 @@
+unit uTiposDados;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TformTelaDados = class(TForm)
+    edt1: TEdit;
+    btnTeste: TButton;
+    procedure btnTesteClick(Sender: TObject);
+  private
+    { Private declarations }
+
+     inteiro: integer;
+     moeda:currency;
+     fracionario : double;
+     texto: string;
+     verdadeiroFalso : boolean;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  formTelaDados: TformTelaDados;
+
+implementation
+
+{$R *.dfm}
+
+
+
+procedure TformTelaDados.btnTesteClick(Sender: TObject);
+begin
+
+   inteiro := 10;
+   texto := '10';
+   moeda := 10.5;
+
+   verdadeiroFalso := true;
+
+   inteiro := StrToInt(edt1.Text);
+
+   if VerdadeiroFalso then
+      ShowMessage(IntToStr(inteiro));
+end;
+
+end.
