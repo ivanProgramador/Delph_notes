@@ -1,0 +1,54 @@
+object frmPrincipal: TfrmPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'Menu Principal'
+  ClientHeight = 368
+  ClientWidth = 624
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  Menu = MainMenu1
+  WindowState = wsMaximized
+  TextHeight = 15
+  object MainMenu1: TMainMenu
+    Left = 16
+    Top = 16
+    object CADASTRO1: TMenuItem
+      Caption = 'CADASTRO'
+      object CLIENTE1: TMenuItem
+        Caption = 'CLIENTE'
+      end
+      object CATEGORIA1: TMenuItem
+        Caption = 'CATEGORIA'
+      end
+      object PRODUTO1: TMenuItem
+        Caption = 'PRODUTO'
+      end
+      object mnFechar: TMenuItem
+        Caption = 'FECHAR'
+        OnClick = mnFecharClick
+      end
+    end
+    object MOVIMENTAO1: TMenuItem
+      Caption = 'MOVIMENTA'#199#195'O'
+      object VENDAS1: TMenuItem
+        Caption = 'VENDAS'
+      end
+    end
+    object RELATORIO1: TMenuItem
+      Caption = 'RELATORIO'
+      object CLIENTE2: TMenuItem
+        Caption = 'CLIENTE'
+      end
+      object PRODUTO2: TMenuItem
+        Caption = 'PRODUTO'
+      end
+      object VENDAPORDATA1: TMenuItem
+        Caption = 'VENDA POR DATA'
+      end
+    end
+  end
+end

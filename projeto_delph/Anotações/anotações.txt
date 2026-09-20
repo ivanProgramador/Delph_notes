@@ -1,0 +1,5 @@
+pra tela abrir maximizada e deixando abarra de tarefas disponivel 
+  
+  1 - object spector 
+  2 - window state 
+  3 - wsMaximaized 

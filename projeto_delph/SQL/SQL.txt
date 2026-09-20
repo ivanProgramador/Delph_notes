@@ -1,0 +1,6 @@
+Create database vendas;
+use vendas;
+create table Categorias(
+  categoriaId int identity,
+  descricao varchar(70)  
+); 
