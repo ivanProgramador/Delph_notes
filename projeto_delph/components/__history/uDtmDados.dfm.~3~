@@ -1,0 +1,8 @@
+object DataModule1: TDataModule1
+  Height = 396
+  Width = 640
+  object conexao: TADOConnection
+    Left = 48
+    Top = 24
+  end
+end

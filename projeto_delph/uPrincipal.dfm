@@ -14,7 +14,7 @@ object frmPrincipal: TfrmPrincipal
   WindowState = wsMaximized
   TextHeight = 15
   object MainMenu1: TMainMenu
-    Left = 16
+    Left = 24
     Top = 16
     object CADASTRO1: TMenuItem
       Caption = 'CADASTRO'
