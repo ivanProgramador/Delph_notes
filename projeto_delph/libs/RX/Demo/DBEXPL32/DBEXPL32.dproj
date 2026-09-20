@@ -1,0 +1,85 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{3458bad4-e287-4f8a-b249-fc40c8359ebe}</ProjectGuid>
+    <MainSource>DBEXPL32.DPR</MainSource>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+    <DCC_DependencyCheckOutputName>DBEXPL32.exe</DCC_DependencyCheckOutputName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_WriteableConstants>True</DCC_WriteableConstants>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_Define>RELEASE</DCC_Define>
+    <DCC_UNSAFE_TYPE>True</DCC_UNSAFE_TYPE>
+    <DCC_UNSAFE_CODE>True</DCC_UNSAFE_CODE>
+    <DCC_UNSAFE_CAST>True</DCC_UNSAFE_CAST>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_WriteableConstants>True</DCC_WriteableConstants>
+    <DCC_Define>DEBUG</DCC_Define>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality</Borland.Personality>
+    <Borland.ProjectType />
+    <BorlandProject>
+<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">False</VersionInfo><VersionInfo Name="MajorVer">2</VersionInfo><VersionInfo Name="MinorVer">57</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">2</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1033</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">RX</VersionInfoKeys><VersionInfoKeys Name="FileDescription">RX Database Explorer</VersionInfoKeys><VersionInfoKeys Name="FileVersion">2.57.0.2</VersionInfoKeys><VersionInfoKeys Name="InternalName">DBEXPL32</VersionInfoKeys><VersionInfoKeys Name="LegalCopyright">Copyright © 1996, 1998 Master-Bank</VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename">DBEXPL32.EXE</VersionInfoKeys><VersionInfoKeys Name="ProductName">RX Library</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">2.57</VersionInfoKeys><VersionInfoKeys Name="Comments">RX Library Demo Program</VersionInfoKeys><VersionInfoKeys Name="Developers">Fedor Koshevnikov; Igor Pavluk; Serge Korolev</VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">DBEXPL32.DPR</Source></Source><Excluded_Packages>
+      <Excluded_Packages Name="$(BDS)\bin\dcloffice2k100.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+      <Excluded_Packages Name="$(BDS)\bin\dclofficexp100.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+    </Excluded_Packages></Delphi.Personality></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+  <ItemGroup>
+    <DelphiCompile Include="DBEXPL32.DPR">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <DCCReference Include="ABOUT.PAS">
+      <Form>AboutDlg</Form>
+    </DCCReference>
+    <DCCReference Include="BDEINFO.PAS" />
+    <DCCReference Include="BDEPROP.PAS">
+      <Form>BdePropertyDlg</Form>
+    </DCCReference>
+    <DCCReference Include="CHILDWIN.PAS">
+      <Form>MDIChild</Form>
+    </DCCReference>
+    <DCCReference Include="DESTTAB.PAS">
+      <Form>DestTableDlg</Form>
+    </DCCReference>
+    <DCCReference Include="EDITPICT.PAS">
+      <Form>PictEditDlg</Form>
+    </DCCReference>
+    <DCCReference Include="EDITSTR.PAS">
+      <Form>StrEditDlg</Form>
+    </DCCReference>
+    <DCCReference Include="FILTDLG.PAS">
+      <Form>FilterDialog</Form>
+    </DCCReference>
+    <DCCReference Include="MAIN.PAS">
+      <Form>DBExplorerMainForm</Form>
+    </DCCReference>
+    <DCCReference Include="OPENDLG.PAS">
+      <Form>OpenDatabaseDlg</Form>
+    </DCCReference>
+    <DCCReference Include="OPTDLG.PAS">
+      <Form>OptionsDialog</Form>
+    </DCCReference>
+    <DCCReference Include="OPTIONS.PAS" />
+    <DCCReference Include="RENDLG.PAS">
+      <Form>RenameDialog</Form>
+    </DCCReference>
+    <DCCReference Include="SQLMON.PAS">
+      <Form>TraceSQL</Form>
+    </DCCReference>
+    <DCCReference Include="SRCTAB.PAS">
+      <Form>SrcTableDlg</Form>
+    </DCCReference>
+    <DCCReference Include="VIEWBLOB.PAS">
+      <Form>BlobViewDlg</Form>
+    </DCCReference>
+  </ItemGroup>
+</Project>

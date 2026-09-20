@@ -1,0 +1,26 @@
+1 - FILE 
+2 - OPEN PROJECT
+3 - projeto_delph\libs\RX\units\packages_D12_Athens(ATENÇÃO AO SELECIONAR A VERSÃO CORRETA A PASTA É D12 PORQUE MEU        DELPH E12  )
+4 - seleciona primeiro o "DclRxCtl290.dproj"
+5 - depois de selecionar acina o cleam pra ele limpar se tiver alguma sujeira 
+6 - faz o build pra ver se esta tudo funcionando vai dar erro de referencia 
+   corrigindo
+   1 tools
+   2 options
+   3 laguage / delph / library 
+   4 adiciona o caminho da pasta das units no library paths
+ 7 - depois abre o o projeto "C:\Delph_notes\projeto_delph\libs\RX\units\packages_D12_Athens\RtmRxCtl290.dproj" 
+ 8 - faz o build (ele so vai abrir um pacote ele não tem opção de instalação)
+ 9 - abre de novo o projeto "DclRxCtl290.dproj" e faz a build de novo dessa vez vai dar certo
+ 10 - depois de buildar procura a opção de instalação e instala
+ 11 - reprte o prpcesso com a "RtmRxDB290.dproj" bulid isso vai preparar os pacotes 
+ 12 - depois faz o build da  "DclRxDB290.dproj"
+ 13 - depois instala ela 
+ 15 - fim   
+  
+ 
+   
+    
+   
+
+ 

@@ -1,0 +1,96 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{2EF99A31-91B5-4AD2-83D5-AD58936E552F}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="RtmRxCtl370.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="RtmRxDB370.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="RtmRxBde370.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="DclRxCtl370.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="DclRxDB370.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="DclRxBde370.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="RtmRxCtl370">
+        <MSBuild Projects="RtmRxCtl370.dproj"/>
+    </Target>
+    <Target Name="RtmRxCtl370:Clean">
+        <MSBuild Projects="RtmRxCtl370.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RtmRxCtl370:Make">
+        <MSBuild Projects="RtmRxCtl370.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="RtmRxDB370">
+        <MSBuild Projects="RtmRxDB370.dproj"/>
+    </Target>
+    <Target Name="RtmRxDB370:Clean">
+        <MSBuild Projects="RtmRxDB370.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RtmRxDB370:Make">
+        <MSBuild Projects="RtmRxDB370.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="RtmRxBde370">
+        <MSBuild Projects="RtmRxBde370.dproj"/>
+    </Target>
+    <Target Name="RtmRxBde370:Clean">
+        <MSBuild Projects="RtmRxBde370.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RtmRxBde370:Make">
+        <MSBuild Projects="RtmRxBde370.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="DclRxCtl370">
+        <MSBuild Projects="DclRxCtl370.dproj"/>
+    </Target>
+    <Target Name="DclRxCtl370:Clean">
+        <MSBuild Projects="DclRxCtl370.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DclRxCtl370:Make">
+        <MSBuild Projects="DclRxCtl370.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="DclRxDB370">
+        <MSBuild Projects="DclRxDB370.dproj"/>
+    </Target>
+    <Target Name="DclRxDB370:Clean">
+        <MSBuild Projects="DclRxDB370.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DclRxDB370:Make">
+        <MSBuild Projects="DclRxDB370.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="DclRxBde370">
+        <MSBuild Projects="DclRxBde370.dproj"/>
+    </Target>
+    <Target Name="DclRxBde370:Clean">
+        <MSBuild Projects="DclRxBde370.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DclRxBde370:Make">
+        <MSBuild Projects="DclRxBde370.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="RtmRxCtl370;RtmRxDB370;RtmRxBde370;DclRxCtl370;DclRxDB370;DclRxBde370"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="RtmRxCtl370:Clean;RtmRxDB370:Clean;RtmRxBde370:Clean;DclRxCtl370:Clean;DclRxDB370:Clean;DclRxBde370:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="RtmRxCtl370:Make;RtmRxDB370:Make;RtmRxBde370:Make;DclRxCtl370:Make;DclRxDB370:Make;DclRxBde370:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
