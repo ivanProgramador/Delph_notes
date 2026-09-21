@@ -128,7 +128,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="components\uDtmDados.pas">
-            <Form>DataModule1</Form>
+            <Form>dtmDados</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>

@@ -133,7 +133,6 @@ object frmTelaHeranca: TfrmTelaHeranca
       Top = 6
       Width = 220
       Height = 25
-      DataSource = dtmDados.dsCategorias
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
       TabOrder = 6
     end

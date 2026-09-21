@@ -1,4 +1,4 @@
-object dtmDados: TdtmDados
+object DataModule1: TDataModule1
   Height = 396
   Width = 640
   object conexao: TADOConnection

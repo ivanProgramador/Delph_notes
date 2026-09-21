@@ -126,14 +126,12 @@ object frmTelaHeranca: TfrmTelaHeranca
       Height = 25
       Caption = '&Fechar'
       TabOrder = 5
-      OnClick = btnFecharClick
     end
     object btnNavigator: TDBNavigator
       Left = 430
       Top = 6
       Width = 220
       Height = 25
-      DataSource = dtmDados.dsCategorias
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
       TabOrder = 6
     end

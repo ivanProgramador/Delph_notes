@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Classes, Data.DB, Data.Win.ADODB;
 
 type
-  TdtmDados = class(TDataModule)
+  TDataModule1 = class(TDataModule)
     conexao: TADOConnection;
     qrySelectCategorias: TADOQuery;
     dsCategorias: TDataSource;
@@ -17,7 +17,7 @@ type
   end;
 
 var
-  dtmDados: TdtmDados;
+  DataModule1: TDataModule1;
 
 implementation
 

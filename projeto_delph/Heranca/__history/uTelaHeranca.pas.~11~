@@ -24,7 +24,6 @@ type
     BitBtn5: TBitBtn;
     btnFechar: TBitBtn;
     btnNavigator: TDBNavigator;
-    procedure btnFecharClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,12 +36,5 @@ var
 implementation
 
 {$R *.dfm}
-
-uses uDtmDados;
-
-procedure TfrmTelaHeranca.btnFecharClick(Sender: TObject);
-begin
-  Close;
-end;
 
 end.

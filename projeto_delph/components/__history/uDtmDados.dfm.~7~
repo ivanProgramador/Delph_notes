@@ -1,4 +1,4 @@
-object dtmDados: TdtmDados
+object DataModule1: TDataModule1
   Height = 396
   Width = 640
   object conexao: TADOConnection
@@ -12,12 +12,10 @@ object dtmDados: TdtmDados
     Top = 24
   end
   object qrySelectCategorias: TADOQuery
-    Active = True
     Connection = conexao
-    CursorType = ctStatic
     Parameters = <>
     SQL.Strings = (
-      'SELECT  * FROM dbo.Categorias;')
+      'SELECT FROM dbo.Categorias;')
     Left = 136
     Top = 24
   end
