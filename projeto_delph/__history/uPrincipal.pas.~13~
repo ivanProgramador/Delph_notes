@@ -23,7 +23,6 @@ type
     procedure mnFecharClick(Sender: TObject);
     procedure CATEGORIA1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
 
@@ -56,16 +55,9 @@ begin
 
 end;
 
-procedure TfrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  FreeAndNil(TeclaEnter);
-end;
-
 procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
     TeclaEnter := TMREnter.Create(Self);
-    TeclaEnter.FocusEnabled := True;
-    TeclaEnter.FocusColor := clInfoBk;
 end;
 
 procedure TfrmPrincipal.mnFecharClick(Sender: TObject);

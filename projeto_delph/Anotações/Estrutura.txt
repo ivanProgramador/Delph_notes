@@ -22,5 +22,48 @@ coluna 2 available forms formualrios disponiveis que so são criado quando são 
 na coluna 1 ficou somente o formulario principal
 na coluna 2 ficaram todas as outras telas
 
-       
+--------------------------------------------------------------------------------------------------------------
+componente de terceiros 
+ Vou adicionar um componente chamado Enter
  
+ 1- criei uma pasta dentro do projeto chamado terceiros         
+ 2- cliquei em "add files to project" 
+ 3- naveguei ate a pasta cliquei o componente e cliquei em abrir 
+ 
+ FUNCIONALIDADE 
+
+   A função dele é permitir ao usuario na vegar pela tela usando o Botão enter 
+   por padraão o delph faz isso com a tecla TAB isso serve pra operações rapidas 
+   onde o cliente só precise ficar pressionando enter varias vezes ate concluir o
+   processo que ele precisa
+USANDO ELE
+
+ Coloquei o arquivo no uses da tela, 
+  
+ uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus,Enter;	
+
+ criei uma variavel privada 
+
+    private
+    { Private declarations }
+
+    //criando uma instancia
+    TeclaEnter: TMREnter;
+
+
+ no onCreate do formlario coloquei o codigo abaixo pra acionar o componente
+
+    procedure TfrmPrincipal.FormCreate(Sender: TObject);
+        begin
+          TeclaEnter := TMREnter.Create(Self);
+          TeclaEnter.FocusEnabled := True;
+          TeclaEnter.FocusColor := clInfoBk;
+        end;
+
+    
+
+----------------------------------------------------------------------------------------------------------------
+
+

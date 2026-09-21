@@ -23,7 +23,6 @@ type
     procedure mnFecharClick(Sender: TObject);
     procedure CATEGORIA1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
 
@@ -54,11 +53,6 @@ begin
    //liberando a memoria
    frmCadCategoria.Release;
 
-end;
-
-procedure TfrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  FreeAndNil(TeclaEnter);
 end;
 
 procedure TfrmPrincipal.FormCreate(Sender: TObject);

@@ -21,6 +21,7 @@ type
     VENDAPORDATA1: TMenuItem;
     mnFechar: TMenuItem;
     procedure mnFecharClick(Sender: TObject);
+    procedure CATEGORIA1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -33,6 +34,21 @@ var
 implementation
 
 {$R *.dfm}
+
+uses uCadCategorias;
+
+procedure TfrmPrincipal.CATEGORIA1Click(Sender: TObject);
+begin
+   //criando na memoria
+   frmCadCategoria := TfrmCadCategoria.Create(Self);
+
+   //mostrando a tela
+   frmCadCategoria.ShowModal();
+
+   //liberando a memoria
+   frmCadCategoria.Release;
+
+end;
 
 procedure TfrmPrincipal.mnFecharClick(Sender: TObject);
 begin
