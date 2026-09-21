@@ -1,1 +1,26 @@
 No caso desse projeto estou usando uma tela de herança que vai servir de base para as outras telas  
+Criando uma tela de herança
+1 - file 
+2 - new 
+3 - other 
+4 - inheritable Items
+
+Isso vai gerar uma copia identica do formulario que for selecionado    
+eu vou usar isso pra pegar o metodos genericos e funcções que se repetem 
+para eu não precisar escrever tudo novamente em outra tela 
+
+---------------------------------------------------------------------------------------------------
+Definindo formularios como prioridade em tempo de execução 
+ 1 - project 
+ 2 - options
+ 3 - forms
+
+vai aparecer 2 colunas 
+coluna 1 auto-create forms são formulários que são criados na memória de forma automática quando o app abre
+coluna 2 available forms formualrios disponiveis que so são criado quando são chamados
+
+na coluna 1 ficou somente o formulario principal
+na coluna 2 ficaram todas as outras telas
+
+       
+ 

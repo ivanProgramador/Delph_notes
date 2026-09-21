@@ -4,8 +4,7 @@ uses
   Vcl.Forms,
   uPrincipal in 'uPrincipal.pas' {frmPrincipal},
   uDtmDados in 'components\uDtmDados.pas' {dtmDados: TDataModule},
-  uTelaHeranca in 'Heranca\uTelaHeranca.pas' {frmTelaHeranca},
-  uCadCategorias in 'Cadasto\uCadCategorias.pas' {frmCadCategoria};
+  uTelaHeranca in 'Heranca\uTelaHeranca.pas' {frmTelaHeranca};
 
 {$R *.res}
 
@@ -15,6 +14,5 @@ begin
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TdtmDados, dtmDados);
   Application.CreateForm(TfrmTelaHeranca, frmTelaHeranca);
-  Application.CreateForm(TfrmCadCategoria, frmCadCategoria);
   Application.Run;
 end.
