@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Data.DB,
-  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls;
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls,uEnum;
 
 type
   TfrmTelaHeranca = class(TForm)
@@ -32,6 +32,8 @@ type
     procedure btnAlterarClick(Sender: TObject);
   private
 
+    EstadoDoCadastro: TEstadoDoCadastro;
+
     procedure ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,
                           btnApagar:TBitBtn;btnNavigator:TDBNavigator;
                           pgcPrincipal:TPageControl;Flag:Boolean);
@@ -52,12 +54,9 @@ implementation
 uses uDtmDados;
 
 
+//procedimentos de controle de tela
 
-procedure TfrmTelaHeranca.btnNovoClick(Sender: TObject);
-begin
-   //usando a procedure pra controlar o estado dos outros botões
-   ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,false);
-end;
+
 
 procedure TfrmTelaHeranca.ControlarIndiceTab(pgcPrincipal:TPageControl;Indice:integer);
   begin
@@ -75,7 +74,7 @@ procedure TfrmTelaHeranca.ControlarIndiceTab(pgcPrincipal:TPageControl;Indice:in
 procedure TfrmTelaHeranca.ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,
                           btnApagar:TBitBtn;btnNavigator:TDBNavigator;
                           pgcPrincipal:TPageControl;Flag:Boolean);
-    begin
+ begin
 
         btnNovo.Enabled := Flag;
         btnApagar.Enabled := Flag;
@@ -85,9 +84,14 @@ procedure TfrmTelaHeranca.ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGrav
         btnGravar.Enabled := not(Flag);
         btnAlterar.Enabled := Flag;
 
-    end;
+ end;
 
-
+procedure TfrmTelaHeranca.btnNovoClick(Sender: TObject);
+begin
+   //usando a procedure pra controlar o estado dos outros botões
+   ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,false);
+   EstadoDoCadastro := ecInserir;
+end;
 
 procedure TfrmTelaHeranca.btnAlterarClick(Sender: TObject);
 begin
@@ -103,6 +107,7 @@ end;
 procedure TfrmTelaHeranca.btnCancelarClick(Sender: TObject);
 begin
    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+    ControlarIndiceTab(pgcPrincipal,0);
 end;
 
 procedure TfrmTelaHeranca.btnFecharClick(Sender: TObject);
@@ -113,6 +118,7 @@ end;
 procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
 begin
      ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+     ControlarIndiceTab(pgcPrincipal,0);
 end;
 
 end.
