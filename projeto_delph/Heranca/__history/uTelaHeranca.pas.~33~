@@ -27,10 +27,16 @@ type
     procedure btnFecharClick(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure btnApagarClick(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
   private
+
     procedure ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,
                           btnApagar:TBitBtn;btnNavigator:TDBNavigator;
                           pgcPrincipal:TPageControl;Flag:Boolean);
+
+    procedure ControlarIndiceTab(pgcPrincipal: TPageControl; indice: integer);
 
   public
     { Public declarations }
@@ -53,7 +59,14 @@ begin
    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,false);
 end;
 
+procedure TfrmTelaHeranca.ControlarIndiceTab(pgcPrincipal:TPageControl;Indice:integer);
+  begin
+    if (pgcPrincipal.Pages[Indice].TabVisible) then
+     begin
+         pgcPrincipal.TabIndex := Indice;
+     end;
 
+  end;
 
 {
   Essa procedure vai receber um valor atraves da Flag que pode ser true
@@ -76,14 +89,32 @@ procedure TfrmTelaHeranca.ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGrav
 
 
 
+procedure TfrmTelaHeranca.btnAlterarClick(Sender: TObject);
+begin
+     ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,False);
+end;
+
+procedure TfrmTelaHeranca.btnApagarClick(Sender: TObject);
+begin
+    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+    ControlarIndiceTab(pgcPrincipal,0);
+end;
+
 procedure TfrmTelaHeranca.btnCancelarClick(Sender: TObject);
 begin
    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+    ControlarIndiceTab(pgcPrincipal,0);
 end;
 
 procedure TfrmTelaHeranca.btnFecharClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
+begin
+     ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+     ControlarIndiceTab(pgcPrincipal,0);
 end;
 
 end.
