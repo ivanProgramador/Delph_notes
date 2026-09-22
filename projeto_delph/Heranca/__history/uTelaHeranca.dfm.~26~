@@ -91,7 +91,6 @@ object frmTelaHeranca: TfrmTelaHeranca
       Height = 25
       Caption = '&Alterar'
       TabOrder = 1
-      OnClick = btnAlterarClick
     end
     object btnCancelar: TBitBtn
       Left = 166

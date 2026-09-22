@@ -21,11 +21,15 @@ type
     btnAlterar: TBitBtn;
     btnCancelar: TBitBtn;
     btnGravar: TBitBtn;
-    BitBtn5: TBitBtn;
+    btnApagar: TBitBtn;
     btnFechar: TBitBtn;
     btnNavigator: TDBNavigator;
+    procedure btnFecharClick(Sender: TObject);
   private
-    { Private declarations }
+    procedure ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,
+                          btnApagar:TBitBtn;btnNavigator:TDBNavigator;
+                          pgcPrincipal:TPageControl;Flag:Boolean);
+
   public
     { Public declarations }
   end;
@@ -38,5 +42,24 @@ implementation
 {$R *.dfm}
 
 uses uDtmDados;
+
+
+{
+  Essa procedure vai receber um valor atraves da Flag que pode ser true
+  ou pode ser false e abseado nisso ela vai inativar ou ativar os botões
+}
+procedure TfrmTelaHeranca.ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,
+                          btnApagar:TBitBtn;btnNavigator:TDBNavigator;
+                          pgcPrincipal:TPageControl;Flag:Boolean);
+    begin
+
+    end;
+
+
+
+procedure TfrmTelaHeranca.btnFecharClick(Sender: TObject);
+begin
+  Close;
+end;
 
 end.

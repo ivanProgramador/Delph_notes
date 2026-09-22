@@ -21,8 +21,6 @@ object frmTelaHeranca: TfrmTelaHeranca
     ActivePage = tabListagem
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 916
-    ExplicitHeight = 519
     object tabListagem: TTabSheet
       Caption = 'Listagem'
       object pnlListagemTopo: TPanel
@@ -32,14 +30,14 @@ object frmTelaHeranca: TfrmTelaHeranca
         Height = 65
         Align = alTop
         TabOrder = 0
-        ExplicitWidth = 908
-        object mskEdit: TMaskEdit
+        object mskPesquisar: TMaskEdit
           Left = 17
           Top = 22
           Width = 689
           Height = 23
           TabOrder = 0
           Text = ''
+          TextHint = 'Digite sua pesquisa'
         end
         object btnPesquisar: TBitBtn
           Left = 712
@@ -56,6 +54,7 @@ object frmTelaHeranca: TfrmTelaHeranca
         Width = 991
         Height = 417
         Align = alClient
+        DataSource = dtmDados.dsCategorias
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -76,7 +75,6 @@ object frmTelaHeranca: TfrmTelaHeranca
     Height = 48
     Align = alBottom
     TabOrder = 1
-    ExplicitWidth = 916
     object btnNovo: TBitBtn
       Left = 4
       Top = 6
@@ -84,6 +82,7 @@ object frmTelaHeranca: TfrmTelaHeranca
       Height = 25
       Caption = '&Novo'
       TabOrder = 0
+      OnClick = btnNovoClick
     end
     object btnAlterar: TBitBtn
       Left = 85
@@ -100,6 +99,7 @@ object frmTelaHeranca: TfrmTelaHeranca
       Height = 25
       Caption = '&Cancelar'
       TabOrder = 2
+      OnClick = btnCancelarClick
     end
     object btnGravar: TBitBtn
       Left = 247
@@ -109,7 +109,7 @@ object frmTelaHeranca: TfrmTelaHeranca
       Caption = '&Gravar'
       TabOrder = 3
     end
-    object BitBtn5: TBitBtn
+    object btnApagar: TBitBtn
       Left = 328
       Top = 6
       Width = 75
@@ -124,12 +124,14 @@ object frmTelaHeranca: TfrmTelaHeranca
       Height = 25
       Caption = '&Fechar'
       TabOrder = 5
+      OnClick = btnFecharClick
     end
-    object DBNavigator1: TDBNavigator
+    object btnNavigator: TDBNavigator
       Left = 430
       Top = 6
       Width = 220
       Height = 25
+      DataSource = dtmDados.dsCategorias
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
       TabOrder = 6
     end

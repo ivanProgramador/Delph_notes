@@ -1,0 +1,19 @@
+Lógica operacional
+
+1 - clicando no botão novo 
+
+    desabilita NOVO(porque ele entra em modo de gravação),ALTERAR,APAGAR eo Navegator
+    Habilita Cancelar e Gravar 
+    A aba de consulta some 
+    A abadde manutenção abre 
+
+2 - clicando em Cancelar
+    
+    desabilita Cancelar , gravar e eo navegator
+    Habilita NOVO,ALTERAR,APAGAR
+    e a aba pesquisa abre
+
+3 -   
+    
+    
+             

@@ -21,6 +21,8 @@ object frmTelaHeranca: TfrmTelaHeranca
     ActivePage = tabListagem
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 916
+    ExplicitHeight = 519
     object tabListagem: TTabSheet
       Caption = 'Listagem'
       object pnlListagemTopo: TPanel
@@ -30,6 +32,7 @@ object frmTelaHeranca: TfrmTelaHeranca
         Height = 65
         Align = alTop
         TabOrder = 0
+        ExplicitWidth = 908
         object mskPesquisar: TMaskEdit
           Left = 17
           Top = 22
@@ -75,6 +78,7 @@ object frmTelaHeranca: TfrmTelaHeranca
     Height = 48
     Align = alBottom
     TabOrder = 1
+    ExplicitTop = 504
     object btnNovo: TBitBtn
       Left = 4
       Top = 6
@@ -82,7 +86,6 @@ object frmTelaHeranca: TfrmTelaHeranca
       Height = 25
       Caption = '&Novo'
       TabOrder = 0
-      OnClick = btnNovoClick
     end
     object btnAlterar: TBitBtn
       Left = 85
@@ -91,7 +94,6 @@ object frmTelaHeranca: TfrmTelaHeranca
       Height = 25
       Caption = '&Alterar'
       TabOrder = 1
-      OnClick = btnAlterarClick
     end
     object btnCancelar: TBitBtn
       Left = 166
@@ -100,7 +102,6 @@ object frmTelaHeranca: TfrmTelaHeranca
       Height = 25
       Caption = '&Cancelar'
       TabOrder = 2
-      OnClick = btnCancelarClick
     end
     object btnGravar: TBitBtn
       Left = 247
@@ -109,16 +110,14 @@ object frmTelaHeranca: TfrmTelaHeranca
       Height = 25
       Caption = '&Gravar'
       TabOrder = 3
-      OnClick = btnGravarClick
     end
-    object btnApagar: TBitBtn
+    object BitBtn5: TBitBtn
       Left = 328
       Top = 6
       Width = 75
       Height = 25
       Caption = 'Apaga&r'
       TabOrder = 4
-      OnClick = btnApagarClick
     end
     object btnFechar: TBitBtn
       Left = 909

@@ -29,7 +29,6 @@ type
     procedure btnCancelarClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnApagarClick(Sender: TObject);
-    procedure btnAlterarClick(Sender: TObject);
   private
     procedure ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,
                           btnApagar:TBitBtn;btnNavigator:TDBNavigator;
@@ -79,14 +78,9 @@ procedure TfrmTelaHeranca.ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGrav
 
 
 
-procedure TfrmTelaHeranca.btnAlterarClick(Sender: TObject);
-begin
-     ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,False);
-end;
-
 procedure TfrmTelaHeranca.btnApagarClick(Sender: TObject);
 begin
-    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,False);
 end;
 
 procedure TfrmTelaHeranca.btnCancelarClick(Sender: TObject);
