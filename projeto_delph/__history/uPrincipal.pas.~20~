@@ -1,0 +1,79 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus,Enter;
+
+type
+  TfrmPrincipal = class(TForm)
+    MainMenu1: TMainMenu;
+    CADASTRO1: TMenuItem;
+    MOVIMENTAO1: TMenuItem;
+    RELATORIO1: TMenuItem;
+    CLIENTE1: TMenuItem;
+    CATEGORIA1: TMenuItem;
+    PRODUTO1: TMenuItem;
+    VENDAS1: TMenuItem;
+    CLIENTE2: TMenuItem;
+    PRODUTO2: TMenuItem;
+    VENDAPORDATA1: TMenuItem;
+    mnFechar: TMenuItem;
+    procedure mnFecharClick(Sender: TObject);
+    procedure CATEGORIA1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+
+    //criando uma instancia
+    TeclaEnter: TMREnter;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadCategorias, uDtmDados;
+
+procedure TfrmPrincipal.CATEGORIA1Click(Sender: TObject);
+begin
+   //criando na memoria
+   frmCadCategoria := TfrmCadCategoria.Create(Self);
+
+   //mostrando a tela
+   frmCadCategoria.ShowModal();
+
+   //liberando a memoria
+   frmCadCategoria.Release;
+
+end;
+
+procedure TfrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FreeAndNil(TeclaEnter);
+end;
+
+procedure TfrmPrincipal.FormCreate(Sender: TObject);
+begin
+
+
+    //lib enter
+    TeclaEnter := TMREnter.Create(Self);
+    TeclaEnter.FocusEnabled := True;
+    TeclaEnter.FocusColor := clInfoBk;
+end;
+
+procedure TfrmPrincipal.mnFecharClick(Sender: TObject);
+begin
+  Close;
+end;
+
+end.

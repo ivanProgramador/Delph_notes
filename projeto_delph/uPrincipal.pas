@@ -41,7 +41,7 @@ implementation
 
 {$R *.dfm}
 
-uses uCadCategorias;
+uses uCadCategorias, uDtmDados;
 
 procedure TfrmPrincipal.CATEGORIA1Click(Sender: TObject);
 begin
@@ -63,6 +63,10 @@ end;
 
 procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
+     if not Assigned(dtmDados) then
+      dtmDados := TdtmDados.Create(Application);
+
+    //lib enter
     TeclaEnter := TMREnter.Create(Self);
     TeclaEnter.FocusEnabled := True;
     TeclaEnter.FocusColor := clInfoBk;

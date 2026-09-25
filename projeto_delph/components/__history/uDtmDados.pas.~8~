@@ -1,0 +1,30 @@
+unit uDtmDados;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.DB, Data.Win.ADODB;
+
+type
+  TdtmDados = class(TDataModule)
+    conexao: TADOConnection;
+    qrySelectCategorias: TADOQuery;
+    dsCategorias: TDataSource;
+    qrySelectCategoriascategoriaId: TAutoIncField;
+    qrySelectCategoriasdescricao: TStringField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dtmDados: TdtmDados;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.

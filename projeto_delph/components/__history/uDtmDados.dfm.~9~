@@ -1,0 +1,29 @@
+object dtmDados: TdtmDados
+  Height = 396
+  Width = 640
+  object conexao: TADOConnection
+    Connected = True
+    ConnectionString = 
+      'Provider=SQLOLEDB.1;Password=Aa123456;Persist Security Info=True' +
+      ';User ID=sa;Initial Catalog=vendas;Data Source=127.0.0.1'
+    LoginPrompt = False
+    Provider = 'SQLOLEDB.1'
+    Left = 48
+    Top = 24
+  end
+  object qrySelectCategorias: TADOQuery
+    Active = True
+    Connection = conexao
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'SELECT  * FROM dbo.Categorias;')
+    Left = 136
+    Top = 24
+  end
+  object dsCategorias: TDataSource
+    DataSet = qrySelectCategorias
+    Left = 232
+    Top = 24
+  end
+end

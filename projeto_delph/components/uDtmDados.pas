@@ -3,13 +3,12 @@ unit uDtmDados;
 interface
 
 uses
-  System.SysUtils, System.Classes, Data.DB, Data.Win.ADODB;
+  System.SysUtils, System.Classes, Data.DB, Data.Win.ADODB, ZAbstractConnection,
+  ZConnection;
 
 type
   TdtmDados = class(TDataModule)
-    conexao: TADOConnection;
-    qrySelectCategorias: TADOQuery;
-    dsCategorias: TDataSource;
+    conexao: TZConnection;
   private
     { Private declarations }
   public

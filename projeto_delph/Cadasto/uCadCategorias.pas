@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHeranca, Data.DB, Vcl.Buttons,
   Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
-  Vcl.ComCtrls;
+  Vcl.ComCtrls, ZAbstractRODataset, ZAbstractDataset, ZDataset;
 
 type
   {
@@ -27,5 +27,7 @@ var
 implementation
 
 {$R *.dfm}
+
+uses uDtmDados;
 
 end.

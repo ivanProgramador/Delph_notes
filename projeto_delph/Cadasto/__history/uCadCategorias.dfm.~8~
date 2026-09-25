@@ -1,0 +1,69 @@
+inherited frmCadCategoria: TfrmCadCategoria
+  Caption = 'Cadastro de categorias '
+  ClientHeight = 521
+  ClientWidth = 971
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 987
+  ExplicitHeight = 560
+  TextHeight = 15
+  inherited pgcPrincipal: TPageControl
+    Width = 971
+    Height = 473
+    inherited tabListagem: TTabSheet
+      ExplicitWidth = 963
+      ExplicitHeight = 443
+      inherited pnlListagemTopo: TPanel
+        Width = 963
+        StyleElements = [seFont, seClient, seBorder]
+        inherited lblIndice: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited mskPesquisar: TMaskEdit
+          StyleElements = [seFont, seClient, seBorder]
+        end
+      end
+      inherited grdListagem: TDBGrid
+        Width = 963
+        Height = 354
+        DataSource = nil
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'categoriaId'
+            Title.Caption = 'Codigo'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'descricao'
+            Title.Caption = 'Descri'#231#227'o'
+            Visible = True
+          end>
+      end
+    end
+    inherited tabManutencao: TTabSheet
+      ExplicitWidth = 963
+      ExplicitHeight = 443
+    end
+  end
+  inherited pnlRodape: TPanel
+    Top = 473
+    Width = 971
+    StyleElements = [seFont, seClient, seBorder]
+    inherited btnFechar: TBitBtn
+      Left = 883
+    end
+    inherited btnNavigator: TDBNavigator
+      Hints.Strings = ()
+      StyleElements = [seFont, seClient, seBorder]
+    end
+  end
+  inherited qryListagem: TZQuery
+    Left = 828
+    Top = 42
+  end
+  inherited dtsListagem: TDataSource
+    Left = 912
+    Top = 24
+  end
+end
