@@ -55,6 +55,12 @@ type
     { essa varivel vai ser publica pra ficar acessivel as telas filhas }
 
     IndiceAtual:string;
+
+    //metodos virtuais
+
+    function Excluir:Boolean;Virtual;
+    function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean;Virtual;
+
   end;
 
 var
@@ -109,6 +115,23 @@ procedure TfrmTelaHeranca.FormShow(Sender: TObject);
     ControlarIndiceTab(pgcPrincipal,0);
 
   end;
+
+
+
+
+function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+  begin
+      if (EstadoDoCadastro = ecInserir) then
+         begin
+            ShowMessage('inserir');
+         end
+      else if(EstadoDoCadastro = ecAlterar) then
+         begin
+            ShowMessage('inserir');
+            Result := True;
+         end;
+  end;
+
 
 
 procedure TfrmTelaHeranca.grdListagemTitleClick(Column: TColumn);
@@ -168,6 +191,16 @@ begin
 end;
 
 
+function TfrmTelaHeranca.Excluir: Boolean;
+    begin
+      ShowMessage('Excluido');
+    end;
+
+
+
+
+
+
 procedure TfrmTelaHeranca.ExibirLabelIndice(Campo:String; aLabel:TLabel);
  begin
    aLabel.Caption := RetornarCampoTraduzido(Campo);
@@ -206,9 +239,12 @@ end;
 
 procedure TfrmTelaHeranca.btnApagarClick(Sender: TObject);
 begin
-    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
-    ControlarIndiceTab(pgcPrincipal,0);
-    EstadoDoCadastro := ecNenhum;
+   if Excluir then
+     begin
+        ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+        ControlarIndiceTab(pgcPrincipal,0);
+        EstadoDoCadastro := ecNenhum;
+     end;
 end;
 
 procedure TfrmTelaHeranca.btnCancelarClick(Sender: TObject);
@@ -225,26 +261,26 @@ end;
 
 procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
   begin
-     try
-       ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
-       ControlarIndiceTab(pgcPrincipal,0);
+         try
+           if Gravar(EstadoDoCadastro) then
+             begin
+                 ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+                 ControlarIndiceTab(pgcPrincipal,0);
 
-       if(EstadoDoCadastro=ecInserir)then
-         begin
-           showMessage('Inserir');
-         end
-       else if (EstadoDoCadastro=ecInserir) then
-         begin
-           showMessage('Alterado');
-         end
-       else
-       showMessage('Nada conteceu');
-
-
-
-     finally
-        EstadoDoCadastro := ecNenhum;
-     end;
+                 if(EstadoDoCadastro=ecInserir)then
+                   begin
+                     showMessage('Inserir');
+                   end
+                 else if (EstadoDoCadastro=ecInserir) then
+                   begin
+                     showMessage('Alterado');
+                   end
+                 else
+                 showMessage('Nada conteceu');
+                 end;
+           finally
+             EstadoDoCadastro := ecNenhum;
+           end;
   end;
 
 end.

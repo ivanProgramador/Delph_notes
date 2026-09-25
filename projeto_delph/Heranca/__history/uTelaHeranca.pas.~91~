@@ -55,6 +55,12 @@ type
     { essa varivel vai ser publica pra ficar acessivel as telas filhas }
 
     IndiceAtual:string;
+
+    //metodos virtuais
+
+    function Excluir:Boolean;Virtual;
+    function Gravar:Boolean;Virtual;
+
   end;
 
 var
@@ -89,7 +95,8 @@ procedure TfrmTelaHeranca.FormCreate(Sender: TObject);
 begin
    qryListagem.Connection := dtmDados.conexao;
    dtsListagem.DataSet := qryListagem;
-   grdListagem := [dgTitles,dgIndicator,dgColumnResize,dgColLines,dgRowLines,dgTabs,dgRowSelect,dgAlwaysShowSelection,dgCancelOnExit,dgTitleClick,dgTitleHotTrack];
+   //Garantindo que a config da minha grid não vai mudar
+   grdListagem.Options := [dgTitles,dgIndicator,dgColumnResize,dgColLines,dgRowLines,dgTabs,dgRowSelect,dgAlwaysShowSelection,dgCancelOnExit,dgTitleClick,dgTitleHotTrack];
 end;
 
 procedure TfrmTelaHeranca.FormShow(Sender: TObject);
@@ -102,8 +109,18 @@ procedure TfrmTelaHeranca.FormShow(Sender: TObject);
          qryListagem.Open;
       end;
 
+      //linhas de correção
+
+    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+    ControlarIndiceTab(pgcPrincipal,0);
+
   end;
 
+
+function TfrmTelaHeranca.Gravar: Boolean;
+begin
+    ShowMessage('Gravado com sucesso');
+end;
 
 procedure TfrmTelaHeranca.grdListagemTitleClick(Column: TColumn);
 
@@ -153,13 +170,23 @@ begin
 
      begin
 
-         if qryListagem.Fields[i].FieldName = Campo then
+         if lowercase(qryListagem.Fields[i].FieldName) = lowercase(Campo) then
            begin
              Result := qryListagem.Fields[i].DisplayLabel;
              Break;
            end;
      end;
 end;
+
+
+function TfrmTelaHeranca.Excluir: Boolean;
+    begin
+      ShowMessage('Excluido');
+    end;
+
+
+
+
 
 
 procedure TfrmTelaHeranca.ExibirLabelIndice(Campo:String; aLabel:TLabel);
@@ -200,9 +227,12 @@ end;
 
 procedure TfrmTelaHeranca.btnApagarClick(Sender: TObject);
 begin
-    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
-    ControlarIndiceTab(pgcPrincipal,0);
-    EstadoDoCadastro := ecNenhum;
+   if Excluir then
+     begin
+        ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+        ControlarIndiceTab(pgcPrincipal,0);
+        EstadoDoCadastro := ecNenhum;
+     end;
 end;
 
 procedure TfrmTelaHeranca.btnCancelarClick(Sender: TObject);
@@ -219,26 +249,27 @@ end;
 
 procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
   begin
-     try
-       ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
-       ControlarIndiceTab(pgcPrincipal,0);
+    if Gravar then
+      begin
+         try
+           ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+           ControlarIndiceTab(pgcPrincipal,0);
 
-       if(EstadoDoCadastro=ecInserir)then
-         begin
-           showMessage('Inserir');
-         end
-       else if (EstadoDoCadastro=ecInserir) then
-         begin
-           showMessage('Alterado');
-         end
-       else
-       showMessage('Nada conteceu');
+           if(EstadoDoCadastro=ecInserir)then
+             begin
+               showMessage('Inserir');
+             end
+           else if (EstadoDoCadastro=ecInserir) then
+             begin
+               showMessage('Alterado');
+             end
+           else
+           showMessage('Nada conteceu');
 
-
-
-     finally
-        EstadoDoCadastro := ecNenhum;
-     end;
+           finally
+             EstadoDoCadastro := ecNenhum;
+           end;
+      end;
   end;
 
 end.

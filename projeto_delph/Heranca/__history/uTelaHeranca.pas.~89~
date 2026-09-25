@@ -55,6 +55,12 @@ type
     { essa varivel vai ser publica pra ficar acessivel as telas filhas }
 
     IndiceAtual:string;
+
+    //metodos virtuais
+
+    function Excluir:Boolean;Virtual;
+    function Gravar:Boolean;Virtual;
+
   end;
 
 var
@@ -102,6 +108,11 @@ procedure TfrmTelaHeranca.FormShow(Sender: TObject);
          exibirLabelIndice(IndiceAtual,lblIndice);
          qryListagem.Open;
       end;
+
+      //linhas de correção
+
+    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+    ControlarIndiceTab(pgcPrincipal,0);
 
   end;
 
@@ -154,13 +165,23 @@ begin
 
      begin
 
-         if qryListagem.Fields[i].FieldName = Campo then
+         if lowercase(qryListagem.Fields[i].FieldName) = lowercase(Campo) then
            begin
              Result := qryListagem.Fields[i].DisplayLabel;
              Break;
            end;
      end;
 end;
+
+
+function TfrmTelaHeranca.Excluir: Boolean;
+    begin
+      ShowMessage('Excluido');
+    end;
+
+
+
+
 
 
 procedure TfrmTelaHeranca.ExibirLabelIndice(Campo:String; aLabel:TLabel);
@@ -201,9 +222,12 @@ end;
 
 procedure TfrmTelaHeranca.btnApagarClick(Sender: TObject);
 begin
-    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
-    ControlarIndiceTab(pgcPrincipal,0);
-    EstadoDoCadastro := ecNenhum;
+   if Excluir then
+     begin
+        ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+        ControlarIndiceTab(pgcPrincipal,0);
+        EstadoDoCadastro := ecNenhum;
+     end;
 end;
 
 procedure TfrmTelaHeranca.btnCancelarClick(Sender: TObject);
