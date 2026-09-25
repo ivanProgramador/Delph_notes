@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Data.DB,
-  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls,uEnum;
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls,uEnum,
+  ZAbstractRODataset, ZAbstractDataset, ZDataset;
 
 type
   TfrmTelaHeranca = class(TForm)
@@ -25,12 +26,18 @@ type
     btnFechar: TBitBtn;
     btnNavigator: TDBNavigator;
     lblIndice: TLabel;
+    qryListagem: TZQuery;
+    dtsListagem: TDataSource;
     procedure btnFecharClick(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnApagarClick(Sender: TObject);
     procedure btnAlterarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure grdListagemTitleClick(Column: TColumn);
   private
 
     EstadoDoCadastro: TEstadoDoCadastro;
@@ -42,7 +49,9 @@ type
     procedure ControlarIndiceTab(pgcPrincipal: TPageControl; indice: integer);
 
   public
-    { Public declarations }
+    { essa varivel vai ser publica pra ficar acessivel as telas filhas }
+
+    IndiceAtual:string;
   end;
 
 var
@@ -67,6 +76,44 @@ procedure TfrmTelaHeranca.ControlarIndiceTab(pgcPrincipal:TPageControl;Indice:in
      end;
 
   end;
+
+procedure TfrmTelaHeranca.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   qryListagem.Close;
+end;
+
+procedure TfrmTelaHeranca.FormCreate(Sender: TObject);
+begin
+   qryListagem.Connection := dtmDados.conexao;
+   dtsListagem.DataSet := qryListagem;
+end;
+
+procedure TfrmTelaHeranca.FormShow(Sender: TObject);
+  begin
+
+    if (qryListagem.SQL.Text <> EmptyStr) then
+      begin
+         qryListagem.Open;
+      end;
+
+  end;
+
+procedure TfrmTelaHeranca.grdListagemTitleClick(Column: TColumn);
+
+begin
+
+   // Pegando o nome do indice da coluna
+   IndiceAtual := Column.FieldName;
+
+   //passando ele para a qry
+   //a função "IndexFieldNames" serve pra ordenar com base no valor od indice recebido
+
+   qryListagem.IndexFieldNames := IndiceAtual;
+
+end;
+
+
+
 
 {
   Essa procedure vai receber um valor atraves da Flag que pode ser true

@@ -35,6 +35,9 @@ type
     procedure btnApagarClick(Sender: TObject);
     procedure btnAlterarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure grdListagemTitleClick(Column: TColumn);
   private
 
     EstadoDoCadastro: TEstadoDoCadastro;
@@ -46,7 +49,9 @@ type
     procedure ControlarIndiceTab(pgcPrincipal: TPageControl; indice: integer);
 
   public
-    { Public declarations }
+    { essa varivel vai ser publica pra ficar acessivel as telas filhas }
+
+    IndiceAtual:string;
   end;
 
 var
@@ -72,9 +77,30 @@ procedure TfrmTelaHeranca.ControlarIndiceTab(pgcPrincipal:TPageControl;Indice:in
 
   end;
 
+procedure TfrmTelaHeranca.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   qryListagem.Close;
+end;
+
 procedure TfrmTelaHeranca.FormCreate(Sender: TObject);
 begin
    qryListagem.Connection := dtmDados.conexao;
+   dtsListagem.DataSet := qryListagem;
+end;
+
+procedure TfrmTelaHeranca.FormShow(Sender: TObject);
+  begin
+
+    if (qryListagem.SQL.Text <> EmptyStr) then
+      begin
+         qryListagem.Open;
+      end;
+
+  end;
+
+procedure TfrmTelaHeranca.grdListagemTitleClick(Column: TColumn);
+begin
+  ShowMessage(Column.FieldName);
 end;
 
 {

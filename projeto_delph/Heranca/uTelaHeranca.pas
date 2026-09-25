@@ -47,9 +47,12 @@ type
                           pgcPrincipal:TPageControl;Flag:Boolean);
 
     procedure ControlarIndiceTab(pgcPrincipal: TPageControl; indice: integer);
+    function retornarCampoTraduzido(Campo:string):string;
 
   public
-    { Public declarations }
+    { essa varivel vai ser publica pra ficar acessivel as telas filhas }
+
+    IndiceAtual:string;
   end;
 
 var
@@ -97,8 +100,35 @@ procedure TfrmTelaHeranca.FormShow(Sender: TObject);
   end;
 
 procedure TfrmTelaHeranca.grdListagemTitleClick(Column: TColumn);
+
 begin
-  ShowMessage(Column.FieldName);
+
+   // Pegando o nome do indice da coluna
+   IndiceAtual := Column.FieldName;
+
+   //passando ele para a qry
+   //a função "IndexFieldNames" serve pra ordenar com base no valor od indice recebido
+
+   qryListagem.IndexFieldNames := IndiceAtual;
+   lblIndice.Caption := retornarCampoTraduzido(IndiceAtual);
+
+end;
+
+
+
+
+function TfrmTelaHeranca.retornarCampoTraduzido(Campo: string): string;
+var
+  i:integer;
+begin
+  for I := 0 to qryListagem.Fields.Count -1 do
+     begin
+         if qryListagem.Fields[i].FieldName = Campo then
+           begin
+             Result := qryListagem.Fields[i].DisplayLabel;
+             Break;
+           end;
+     end;
 end;
 
 {
