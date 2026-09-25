@@ -74,6 +74,11 @@ object frmTelaHeranca: TfrmTelaHeranca
         TitleFont.Name = 'Segoe UI'
         TitleFont.Style = []
         OnTitleClick = grdListagemTitleClick
+        Columns = <
+          item
+            Expanded = False
+            Visible = True
+          end>
       end
     end
     object tabManutencao: TTabSheet

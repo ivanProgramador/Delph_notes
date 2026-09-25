@@ -38,6 +38,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure grdListagemTitleClick(Column: TColumn);
+    procedure mskPesquisarChange(Sender: TObject);
   private
 
     EstadoDoCadastro: TEstadoDoCadastro;
@@ -88,6 +89,8 @@ procedure TfrmTelaHeranca.FormCreate(Sender: TObject);
 begin
    qryListagem.Connection := dtmDados.conexao;
    dtsListagem.DataSet := qryListagem;
+   //Garantindo que a config da minha grid não vai mudar
+   grdListagem.Options := [dgTitles,dgIndicator,dgColumnResize,dgColLines,dgRowLines,dgTabs,dgRowSelect,dgAlwaysShowSelection,dgCancelOnExit,dgTitleClick,dgTitleHotTrack];
 end;
 
 procedure TfrmTelaHeranca.FormShow(Sender: TObject);
@@ -96,6 +99,7 @@ procedure TfrmTelaHeranca.FormShow(Sender: TObject);
     if (qryListagem.SQL.Text <> EmptyStr) then
       begin
          qryListagem.IndexFieldNames := IndiceAtual;
+         exibirLabelIndice(IndiceAtual,lblIndice);
          qryListagem.Open;
       end;
 
@@ -120,6 +124,18 @@ end;
 
 
 
+
+procedure TfrmTelaHeranca.mskPesquisarChange(Sender: TObject);
+begin
+  //A função locate recebe 3 prametros
+  // 1- base de pesquisa pelo oque ela esta pesquisando "Indice ataual"
+  // 2- quem esta chamndo essa pesquisa eu colquei por classe porque esse campo
+  //    é o unico "TmaskEdit" da tela então ele vai chamar pelo OnChange e passar o texto
+  // 3 - [loPartialKey] serve pra eu pesquisar pedaços de infomação
+  //é melhor usdar a classe porque se o componete mudar de nome futuramente o codigo quebra
+
+  qryListagem.Locate(IndiceAtual,TmaskEdit(Sender).Text,[loPartialKey]);
+end;
 
 function TfrmTelaHeranca.retornarCampoTraduzido(Campo: string): string;
 var

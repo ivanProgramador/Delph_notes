@@ -103,6 +103,11 @@ procedure TfrmTelaHeranca.FormShow(Sender: TObject);
          qryListagem.Open;
       end;
 
+      //linhas de correção
+
+    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+    ControlarIndiceTab(pgcPrincipal,0);
+
   end;
 
 
@@ -154,7 +159,7 @@ begin
 
      begin
 
-         if qryListagem.Fields[i].FieldName = Campo then
+         if lowercase(qryListagem.Fields[i].FieldName) = lowercase(Campo) then
            begin
              Result := qryListagem.Fields[i].DisplayLabel;
              Break;

@@ -12,6 +12,9 @@ object frmTelaHeranca: TfrmTelaHeranca
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
   TextHeight = 15
   object pgcPrincipal: TPageControl
     Left = 0
@@ -45,6 +48,7 @@ object frmTelaHeranca: TfrmTelaHeranca
           TabOrder = 0
           Text = ''
           TextHint = 'Digite sua pesquisa'
+          OnChange = mskPesquisarChange
         end
         object btnPesquisar: TBitBtn
           Left = 672
@@ -61,12 +65,15 @@ object frmTelaHeranca: TfrmTelaHeranca
         Width = 993
         Height = 393
         Align = alClient
+        DataSource = dtsListagem
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -12
         TitleFont.Name = 'Segoe UI'
         TitleFont.Style = []
+        OnTitleClick = grdListagemTitleClick
       end
     end
     object tabManutencao: TTabSheet
@@ -149,12 +156,14 @@ object frmTelaHeranca: TfrmTelaHeranca
     end
   end
   object qryListagem: TZQuery
+    Connection = dtmDados.conexao
     Params = <>
     Left = 820
     Top = 50
   end
   object dtsListagem: TDataSource
-    Left = 872
-    Top = 48
+    DataSet = qryListagem
+    Left = 880
+    Top = 32
   end
 end
