@@ -38,6 +38,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure grdListagemTitleClick(Column: TColumn);
+    procedure mskPesquisarChange(Sender: TObject);
   private
 
     EstadoDoCadastro: TEstadoDoCadastro;
@@ -48,6 +49,7 @@ type
 
     procedure ControlarIndiceTab(pgcPrincipal: TPageControl; indice: integer);
     function retornarCampoTraduzido(Campo:string):string;
+    procedure ExibirLabelIndice(Campo: String; aLabel: TLabel);
 
   public
     { essa varivel vai ser publica pra ficar acessivel as telas filhas }
@@ -87,6 +89,8 @@ procedure TfrmTelaHeranca.FormCreate(Sender: TObject);
 begin
    qryListagem.Connection := dtmDados.conexao;
    dtsListagem.DataSet := qryListagem;
+   //Garantindo que a config da minha grid não vai mudar
+   grdListagem.Options := [dgTitles,dgIndicator,dgColumnResize,dgColLines,dgRowLines,dgTabs,dgRowSelect,dgAlwaysShowSelection,dgCancelOnExit,dgTitleClick,dgTitleHotTrack];
 end;
 
 procedure TfrmTelaHeranca.FormShow(Sender: TObject);
@@ -94,10 +98,13 @@ procedure TfrmTelaHeranca.FormShow(Sender: TObject);
 
     if (qryListagem.SQL.Text <> EmptyStr) then
       begin
+         qryListagem.IndexFieldNames := IndiceAtual;
+         exibirLabelIndice(IndiceAtual,lblIndice);
          qryListagem.Open;
       end;
 
   end;
+
 
 procedure TfrmTelaHeranca.grdListagemTitleClick(Column: TColumn);
 
@@ -110,19 +117,43 @@ begin
    //a função "IndexFieldNames" serve pra ordenar com base no valor od indice recebido
 
    qryListagem.IndexFieldNames := IndiceAtual;
-   lblIndice.Caption := retornarCampoTraduzido(IndiceAtual);
+
+   ExibirLabelIndice(IndiceAtual,lblIndice);
 
 end;
 
 
 
 
+procedure TfrmTelaHeranca.mskPesquisarChange(Sender: TObject);
+begin
+  //A função locate recebe 3 prametros
+  // 1- base de pesquisa pelo oque ela esta pesquisando "Indice ataual"
+  // 2- quem esta chamndo essa pesquisa eu colquei por classe porque esse campo
+  //    é o unico "TmaskEdit" da tela então ele vai chamar pelo OnChange e passar o texto
+  // 3 - [loPartialKey] serve pra eu pesquisar pedaços de infomação
+  //é melhor usdar a classe porque se o componete mudar de nome futuramente o codigo quebra
+
+  qryListagem.Locate(IndiceAtual,TmaskEdit(Sender).Text,[loPartialKey]);
+end;
+
 function TfrmTelaHeranca.retornarCampoTraduzido(Campo: string): string;
 var
   i:integer;
+
 begin
-  for I := 0 to qryListagem.Fields.Count -1 do
+   //ao ser clicado o titulo da coluna retorna o valor do campo
+   //eu tenho 2 titulos categriaId e Descrição
+  //esse for vai precorrer todos os campos da querie
+  // encontrar o valor do campo clicado
+  //pegando ese valor eu possa usar como eu precisar
+
+
+
+  for i := 0 to qryListagem.Fields.Count -1 do
+
      begin
+
          if qryListagem.Fields[i].FieldName = Campo then
            begin
              Result := qryListagem.Fields[i].DisplayLabel;
@@ -130,6 +161,12 @@ begin
            end;
      end;
 end;
+
+
+procedure TfrmTelaHeranca.ExibirLabelIndice(Campo:String; aLabel:TLabel);
+ begin
+   aLabel.Caption := RetornarCampoTraduzido(Campo);
+ end;
 
 {
   Essa procedure vai receber um valor atraves da Flag que pode ser true

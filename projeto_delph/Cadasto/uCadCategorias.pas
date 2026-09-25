@@ -15,6 +15,7 @@ type
   }
 
   TfrmCadCategoria = class(TfrmTelaHeranca)
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -29,5 +30,11 @@ implementation
 {$R *.dfm}
 
 uses uDtmDados;
+
+procedure TfrmCadCategoria.FormCreate(Sender: TObject);
+begin
+  inherited;
+  IndiceAtual := 'descricao';
+end;
 
 end.

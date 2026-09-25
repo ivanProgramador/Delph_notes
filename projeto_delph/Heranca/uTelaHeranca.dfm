@@ -48,6 +48,7 @@ object frmTelaHeranca: TfrmTelaHeranca
           TabOrder = 0
           Text = ''
           TextHint = 'Digite sua pesquisa'
+          OnChange = mskPesquisarChange
         end
         object btnPesquisar: TBitBtn
           Left = 672
@@ -65,6 +66,7 @@ object frmTelaHeranca: TfrmTelaHeranca
         Height = 393
         Align = alClient
         DataSource = dtsListagem
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
