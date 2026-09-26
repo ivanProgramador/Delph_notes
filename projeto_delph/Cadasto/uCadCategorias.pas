@@ -15,7 +15,10 @@ type
   }
 
   TfrmCadCategoria = class(TfrmTelaHeranca)
+    edtCategoriaId: TLabeledEdit;
+    edtDescricao: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -30,6 +33,19 @@ implementation
 {$R *.dfm}
 
 uses uDtmDados;
+
+procedure TfrmCadCategoria.btnGravarClick(Sender: TObject);
+begin
+  inherited;
+   if edtDescricao.Text = EmptyStr then
+     begin
+       showMessage('a descrição é obrigatória');
+       edtDescricao.SetFocus;
+       abort;
+     end;
+
+
+end;
 
 procedure TfrmCadCategoria.FormCreate(Sender: TObject);
 begin
