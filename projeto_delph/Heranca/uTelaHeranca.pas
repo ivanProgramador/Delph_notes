@@ -39,6 +39,8 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure grdListagemTitleClick(Column: TColumn);
     procedure mskPesquisarChange(Sender: TObject);
+    procedure grdListagemDblClick(Sender: TObject);
+
   private
 
     EstadoDoCadastro: TEstadoDoCadastro;
@@ -51,6 +53,8 @@ type
     function retornarCampoTraduzido(Campo:string):string;
     procedure ExibirLabelIndice(Campo: String; aLabel: TLabel);
     function ExisteCampoObrigatorio: Boolean;
+    procedure DesabiltaEditPK;
+
 
   public
     { essa varivel vai ser publica pra ficar acessivel as telas filhas }
@@ -111,11 +115,16 @@ procedure TfrmTelaHeranca.FormShow(Sender: TObject);
       end;
 
       //linhas de correção
-
-    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
     ControlarIndiceTab(pgcPrincipal,0);
+    DesabiltaEditPK;
+    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+
+
 
   end;
+
+
+
 
 
 
@@ -134,6 +143,12 @@ function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
   end;
 
 
+
+procedure TfrmTelaHeranca.grdListagemDblClick(Sender: TObject);
+begin
+  //serve pra cionar a edição quando o usuario clicar duas vezes sobre um item da lista
+  btnAlterar.Click;
+end;
 
 procedure TfrmTelaHeranca.grdListagemTitleClick(Column: TColumn);
 
@@ -232,8 +247,8 @@ procedure TfrmTelaHeranca.ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGrav
     da tela
     primeiro ela encontra os componetes do tipo "TLabeledEdit " usando o for e monta um array
     todos os componetees que ela achar desse tipo ela buscar pelo atributo "tag" todos os
-    "TLabeledEdit" que eu colocar o numero 1 na tag deles vão ser campos obrigatórios
-    se tiver 1 na tag o loop testa se o Texto desses campos está vazio se tiver eu boto
+    "TLabeledEdit" que eu colocar o numero 2 na tag deles vão ser campos obrigatórios
+    se tiver 2 na tag o loop testa se o Texto desses campos está vazio se tiver eu boto
     um aviso dentro do caption 'é um campo Obrigatório' e depois eu dou um break pra porar o loop
     e retorno true, se não o cadastro segue normal.
 }
@@ -251,7 +266,7 @@ function TfrmTelaHeranca.ExisteCampoObrigatorio:Boolean;
           if(Components[i] is TLabeledEdit) then
 
             begin
-              if (TLabeledEdit(Components[i]).Tag = 1) and
+              if (TLabeledEdit(Components[i]).Tag = 2) and
 
                  (TLabeledEdit(Components[i]).Text = EmptyStr) then
 
@@ -263,6 +278,34 @@ function TfrmTelaHeranca.ExisteCampoObrigatorio:Boolean;
                      Result := True;
                      Break;
                    end;
+            end;
+        end;
+ end;
+
+{
+  Essa procedure vai buscar todos os  TLabeledEdit que tivverem com o numero 1
+  na tag se tiver e porque o campo é uma chave primaria então ela desabilita a edição
+  do campo.
+}
+procedure TfrmTelaHeranca.DesabiltaEditPK;
+
+ var
+   i:integer;
+
+ begin
+     for i := 0 to ComponentCount -1 do
+
+        begin
+
+          if(Components[i] is TLabeledEdit) then
+
+            begin
+              if (TLabeledEdit(Components[i]).Tag = 1) then
+                 begin
+                   TLabeledEdit(Components[i]).Enabled := false;
+                   break;
+                 end;
+
             end;
         end;
  end;
@@ -285,12 +328,23 @@ end;
 
 procedure TfrmTelaHeranca.btnApagarClick(Sender: TObject);
 begin
-   if Excluir then
-     begin
-        ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
-        ControlarIndiceTab(pgcPrincipal,0);
-        EstadoDoCadastro := ecNenhum;
-     end;
+
+   try
+       if (Excluir) then
+         begin
+            ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+            ControlarIndiceTab(pgcPrincipal,0);
+
+         end
+       else
+         begin
+           MessageDlg('Erro na exclusão' , mtWarning, [mbok],0);
+         end;
+   finally
+       EstadoDoCadastro := ecNenhum;
+   end;
+
+
 end;
 
 procedure TfrmTelaHeranca.btnCancelarClick(Sender: TObject);
@@ -316,20 +370,15 @@ procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
              begin
                  ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
                  ControlarIndiceTab(pgcPrincipal,0);
+                  EstadoDoCadastro := ecNenhum;
+             end
+           else
+             begin
+                MessageDlg('Erro na agravação' , mtWarning, [mbok],0);
+             end;
 
-                 if(EstadoDoCadastro=ecInserir)then
-                   begin
-                     showMessage('Inserir');
-                   end
-                 else if (EstadoDoCadastro=ecInserir) then
-                   begin
-                     showMessage('Alterado');
-                   end
-                 else
-                 showMessage('Nada conteceu');
-                 end;
            finally
-             EstadoDoCadastro := ecNenhum;
+
            end;
   end;
 

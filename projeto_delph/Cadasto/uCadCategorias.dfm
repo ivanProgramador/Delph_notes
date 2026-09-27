@@ -62,7 +62,7 @@ inherited frmCadCategoria: TfrmCadCategoria
         Text = ''
       end
       object edtDescricao: TLabeledEdit
-        Tag = 1
+        Tag = 2
         Left = 16
         Top = 88
         Width = 383

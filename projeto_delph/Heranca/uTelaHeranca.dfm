@@ -100,6 +100,7 @@ object frmTelaHeranca: TfrmTelaHeranca
         TitleFont.Height = -12
         TitleFont.Name = 'Segoe UI'
         TitleFont.Style = []
+        OnDblClick = grdListagemDblClick
         OnTitleClick = grdListagemTitleClick
         Columns = <
           item
