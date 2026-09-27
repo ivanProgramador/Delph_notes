@@ -54,6 +54,7 @@ type
     procedure ExibirLabelIndice(Campo: String; aLabel: TLabel);
     function ExisteCampoObrigatorio: Boolean;
     procedure DesabiltaEditPK;
+    procedure LimparEdts;
 
 
   public
@@ -122,10 +123,6 @@ procedure TfrmTelaHeranca.FormShow(Sender: TObject);
 
 
   end;
-
-
-
-
 
 
 
@@ -311,6 +308,31 @@ procedure TfrmTelaHeranca.DesabiltaEditPK;
  end;
 
 
+ procedure TfrmTelaHeranca.LimparEdts;
+
+ var
+   i:integer;
+
+ begin
+     for i := 0 to ComponentCount -1 do
+
+        begin
+
+          if(Components[i] is TLabeledEdit) then
+
+              begin
+                     TLabeledEdit(Components[i]).Text := EmptyStr;
+              end
+
+          else if (Components[i] is TEdit) then
+
+              begin
+                  TEdit(Components[i]).Text := '';
+              end;
+        end;
+ end;
+
+
 
 
 procedure TfrmTelaHeranca.btnNovoClick(Sender: TObject);
@@ -318,6 +340,7 @@ begin
    //usando a procedure pra controlar o estado dos outros botões
    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,false);
    EstadoDoCadastro := ecInserir;
+   LimparEdts;
 end;
 
 procedure TfrmTelaHeranca.btnAlterarClick(Sender: TObject);
@@ -334,11 +357,13 @@ begin
          begin
             ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
             ControlarIndiceTab(pgcPrincipal,0);
+            LimparEdts;
 
          end
        else
          begin
            MessageDlg('Erro na exclusão' , mtWarning, [mbok],0);
+           LimparEdts;
          end;
    finally
        EstadoDoCadastro := ecNenhum;
@@ -352,6 +377,7 @@ begin
      ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
      ControlarIndiceTab(pgcPrincipal,0);
      EstadoDoCadastro := ecNenhum;
+     LimparEdts;
 end;
 
 procedure TfrmTelaHeranca.btnFecharClick(Sender: TObject);
@@ -370,11 +396,13 @@ procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
              begin
                  ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
                  ControlarIndiceTab(pgcPrincipal,0);
-                  EstadoDoCadastro := ecNenhum;
+                 EstadoDoCadastro := ecNenhum;
+                 LimparEdts;
              end
            else
              begin
                 MessageDlg('Erro na agravação' , mtWarning, [mbok],0);
+                LimparEdts;
              end;
 
            finally

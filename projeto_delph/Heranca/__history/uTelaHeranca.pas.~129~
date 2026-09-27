@@ -39,6 +39,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure grdListagemTitleClick(Column: TColumn);
     procedure mskPesquisarChange(Sender: TObject);
+    procedure grdListagemDblClick(Sender: TObject);
 
   private
 
@@ -53,6 +54,7 @@ type
     procedure ExibirLabelIndice(Campo: String; aLabel: TLabel);
     function ExisteCampoObrigatorio: Boolean;
     procedure DesabiltaEditPK;
+    procedure LimparEdts;
 
 
   public
@@ -124,10 +126,6 @@ procedure TfrmTelaHeranca.FormShow(Sender: TObject);
 
 
 
-
-
-
-
 function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
   begin
       if (EstadoDoCadastro = ecInserir) then
@@ -142,6 +140,12 @@ function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
   end;
 
 
+
+procedure TfrmTelaHeranca.grdListagemDblClick(Sender: TObject);
+begin
+  //serve pra cionar a edição quando o usuario clicar duas vezes sobre um item da lista
+  btnAlterar.Click;
+end;
 
 procedure TfrmTelaHeranca.grdListagemTitleClick(Column: TColumn);
 
@@ -300,6 +304,32 @@ procedure TfrmTelaHeranca.DesabiltaEditPK;
                  end;
 
             end;
+        end;
+ end;
+
+
+ procedure TfrmTelaHeranca.LimparEdts;
+
+ var
+   i:integer;
+
+ begin
+     for i := 0 to ComponentCount -1 do
+
+        begin
+
+          if(Components[i] is TLabeledEdit) then
+
+              begin
+                     TLabeledEdit(Components[i]).Text := EmptyStr;
+              end
+
+          else if (Components[i] is TEdit) then
+
+              begin
+                  TEdit(Components[i]).Text := '';
+              end;
+
         end;
  end;
 

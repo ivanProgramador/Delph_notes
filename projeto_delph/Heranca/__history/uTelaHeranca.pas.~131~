@@ -40,7 +40,7 @@ type
     procedure grdListagemTitleClick(Column: TColumn);
     procedure mskPesquisarChange(Sender: TObject);
     procedure grdListagemDblClick(Sender: TObject);
-    procedure grdListagemCellClick(Column: TColumn);
+
   private
 
     EstadoDoCadastro: TEstadoDoCadastro;
@@ -54,6 +54,7 @@ type
     procedure ExibirLabelIndice(Campo: String; aLabel: TLabel);
     function ExisteCampoObrigatorio: Boolean;
     procedure DesabiltaEditPK;
+    procedure LimparEdts;
 
 
   public
@@ -125,10 +126,6 @@ procedure TfrmTelaHeranca.FormShow(Sender: TObject);
 
 
 
-
-
-
-
 function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
   begin
       if (EstadoDoCadastro = ecInserir) then
@@ -143,6 +140,12 @@ function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
   end;
 
 
+
+procedure TfrmTelaHeranca.grdListagemDblClick(Sender: TObject);
+begin
+  //serve pra cionar a edição quando o usuario clicar duas vezes sobre um item da lista
+  btnAlterar.Click;
+end;
 
 procedure TfrmTelaHeranca.grdListagemTitleClick(Column: TColumn);
 
@@ -305,6 +308,31 @@ procedure TfrmTelaHeranca.DesabiltaEditPK;
  end;
 
 
+ procedure TfrmTelaHeranca.LimparEdts;
+
+ var
+   i:integer;
+
+ begin
+     for i := 0 to ComponentCount -1 do
+
+        begin
+
+          if(Components[i] is TLabeledEdit) then
+
+              begin
+                     TLabeledEdit(Components[i]).Text := EmptyStr;
+              end
+
+          else if (Components[i] is TEdit) then
+
+              begin
+                  TEdit(Components[i]).Text := '';
+              end;
+        end;
+ end;
+
+
 
 
 procedure TfrmTelaHeranca.btnNovoClick(Sender: TObject);
@@ -322,12 +350,23 @@ end;
 
 procedure TfrmTelaHeranca.btnApagarClick(Sender: TObject);
 begin
-   if Excluir then
-     begin
-        ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
-        ControlarIndiceTab(pgcPrincipal,0);
-        EstadoDoCadastro := ecNenhum;
-     end;
+
+   try
+       if (Excluir) then
+         begin
+            ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+            ControlarIndiceTab(pgcPrincipal,0);
+
+         end
+       else
+         begin
+           MessageDlg('Erro na exclusão' , mtWarning, [mbok],0);
+         end;
+   finally
+       EstadoDoCadastro := ecNenhum;
+   end;
+
+
 end;
 
 procedure TfrmTelaHeranca.btnCancelarClick(Sender: TObject);
@@ -353,20 +392,16 @@ procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
              begin
                  ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
                  ControlarIndiceTab(pgcPrincipal,0);
+                 EstadoDoCadastro := ecNenhum;
+                 limparEdits;
+             end
+           else
+             begin
+                MessageDlg('Erro na agravação' , mtWarning, [mbok],0);
+             end;
 
-                 if(EstadoDoCadastro=ecInserir)then
-                   begin
-                     showMessage('Inserir');
-                   end
-                 else if (EstadoDoCadastro=ecInserir) then
-                   begin
-                     showMessage('Alterado');
-                   end
-                 else
-                 showMessage('Nada conteceu');
-                 end;
            finally
-             EstadoDoCadastro := ecNenhum;
+
            end;
   end;
 
