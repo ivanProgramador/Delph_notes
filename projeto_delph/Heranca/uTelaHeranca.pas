@@ -50,6 +50,7 @@ type
     procedure ControlarIndiceTab(pgcPrincipal: TPageControl; indice: integer);
     function retornarCampoTraduzido(Campo:string):string;
     procedure ExibirLabelIndice(Campo: String; aLabel: TLabel);
+    function ExisteCampoObrigatorio: Boolean;
 
   public
     { essa varivel vai ser publica pra ficar acessivel as telas filhas }
@@ -224,6 +225,51 @@ procedure TfrmTelaHeranca.ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGrav
         btnAlterar.Enabled := Flag;
    end;
 
+
+
+{
+    Essa função faz uma bsca por todos os componentes
+    da tela
+    primeiro ela encontra os componetes do tipo "TLabeledEdit " usando o for e monta um array
+    todos os componetees que ela achar desse tipo ela buscar pelo atributo "tag" todos os
+    "TLabeledEdit" que eu colocar o numero 1 na tag deles vão ser campos obrigatórios
+    se tiver 1 na tag o loop testa se o Texto desses campos está vazio se tiver eu boto
+    um aviso dentro do caption 'é um campo Obrigatório' e depois eu dou um break pra porar o loop
+    e retorno true, se não o cadastro segue normal.
+}
+
+function TfrmTelaHeranca.ExisteCampoObrigatorio:Boolean;
+ var
+  i:integer;
+ begin
+   Result := False;
+
+     for i := 0 to ComponentCount -1 do
+
+        begin
+
+          if(Components[i] is TLabeledEdit) then
+
+            begin
+              if (TLabeledEdit(Components[i]).Tag = 1) and
+
+                 (TLabeledEdit(Components[i]).Text = EmptyStr) then
+
+                   begin
+
+                     MessageDlg(TLabeledEdit(Components[i]).EditLabel.Caption +
+                               ' é um campo Obrigatório', mtInformation,[mbok],0 );
+                     TLabeledEdit(Components[i]).SetFocus;
+                     Result := True;
+                     Break;
+                   end;
+            end;
+        end;
+ end;
+
+
+
+
 procedure TfrmTelaHeranca.btnNovoClick(Sender: TObject);
 begin
    //usando a procedure pra controlar o estado dos outros botões
@@ -261,6 +307,10 @@ end;
 
 procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
   begin
+
+      if(ExisteCampoObrigatorio) then
+       abort;  //se for falso eu paro a execução aqui mesmo
+
          try
            if Gravar(EstadoDoCadastro) then
              begin

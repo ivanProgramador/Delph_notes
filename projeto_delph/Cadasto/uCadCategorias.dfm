@@ -48,6 +48,7 @@ inherited frmCadCategoria: TfrmCadCategoria
       ExplicitWidth = 963
       ExplicitHeight = 443
       object edtCategoriaId: TLabeledEdit
+        Tag = 1
         Left = 16
         Top = 32
         Width = 121
@@ -61,6 +62,7 @@ inherited frmCadCategoria: TfrmCadCategoria
         Text = ''
       end
       object edtDescricao: TLabeledEdit
+        Tag = 1
         Left = 16
         Top = 88
         Width = 383

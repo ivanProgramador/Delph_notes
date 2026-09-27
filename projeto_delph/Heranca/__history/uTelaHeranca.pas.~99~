@@ -1,0 +1,331 @@
+unit uTelaHeranca;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls,uEnum,
+  ZAbstractRODataset, ZAbstractDataset, ZDataset;
+
+type
+  TfrmTelaHeranca = class(TForm)
+    pgcPrincipal: TPageControl;
+    pnlRodape: TPanel;
+    tabListagem: TTabSheet;
+    tabManutencao: TTabSheet;
+    pnlListagemTopo: TPanel;
+    mskPesquisar: TMaskEdit;
+    btnPesquisar: TBitBtn;
+    grdListagem: TDBGrid;
+    btnNovo: TBitBtn;
+    btnAlterar: TBitBtn;
+    btnCancelar: TBitBtn;
+    btnGravar: TBitBtn;
+    btnApagar: TBitBtn;
+    btnFechar: TBitBtn;
+    btnNavigator: TDBNavigator;
+    lblIndice: TLabel;
+    qryListagem: TZQuery;
+    dtsListagem: TDataSource;
+    procedure btnFecharClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure btnApagarClick(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure grdListagemTitleClick(Column: TColumn);
+    procedure mskPesquisarChange(Sender: TObject);
+  private
+
+    EstadoDoCadastro: TEstadoDoCadastro;
+
+    procedure ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,
+                          btnApagar:TBitBtn;btnNavigator:TDBNavigator;
+                          pgcPrincipal:TPageControl;Flag:Boolean);
+
+    procedure ControlarIndiceTab(pgcPrincipal: TPageControl; indice: integer);
+    function retornarCampoTraduzido(Campo:string):string;
+    procedure ExibirLabelIndice(Campo: String; aLabel: TLabel);
+    function ExisteCampoObrigatorio: Boolean;
+
+  public
+    { essa varivel vai ser publica pra ficar acessivel as telas filhas }
+
+    IndiceAtual:string;
+
+    //metodos virtuais
+
+    function Excluir:Boolean;Virtual;
+    function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean;Virtual;
+
+  end;
+
+var
+  frmTelaHeranca: TfrmTelaHeranca;
+
+implementation
+
+{$R *.dfm}
+
+uses uDtmDados;
+
+
+//procedimentos de controle de tela
+
+
+
+procedure TfrmTelaHeranca.ControlarIndiceTab(pgcPrincipal:TPageControl;Indice:integer);
+  begin
+    if (pgcPrincipal.Pages[Indice].TabVisible) then
+     begin
+         pgcPrincipal.TabIndex := Indice;
+     end;
+
+  end;
+
+procedure TfrmTelaHeranca.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   qryListagem.Close;
+end;
+
+procedure TfrmTelaHeranca.FormCreate(Sender: TObject);
+begin
+   qryListagem.Connection := dtmDados.conexao;
+   dtsListagem.DataSet := qryListagem;
+   //Garantindo que a config da minha grid não vai mudar
+   grdListagem.Options := [dgTitles,dgIndicator,dgColumnResize,dgColLines,dgRowLines,dgTabs,dgRowSelect,dgAlwaysShowSelection,dgCancelOnExit,dgTitleClick,dgTitleHotTrack];
+end;
+
+procedure TfrmTelaHeranca.FormShow(Sender: TObject);
+  begin
+
+    if (qryListagem.SQL.Text <> EmptyStr) then
+      begin
+         qryListagem.IndexFieldNames := IndiceAtual;
+         exibirLabelIndice(IndiceAtual,lblIndice);
+         qryListagem.Open;
+      end;
+
+      //linhas de correção
+
+    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+    ControlarIndiceTab(pgcPrincipal,0);
+
+  end;
+
+
+
+
+function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+  begin
+      if (EstadoDoCadastro = ecInserir) then
+         begin
+            ShowMessage('inserir');
+         end
+      else if(EstadoDoCadastro = ecAlterar) then
+         begin
+            ShowMessage('inserir');
+            Result := True;
+         end;
+  end;
+
+
+
+procedure TfrmTelaHeranca.grdListagemTitleClick(Column: TColumn);
+
+begin
+
+   // Pegando o nome do indice da coluna
+   IndiceAtual := Column.FieldName;
+
+   //passando ele para a qry
+   //a função "IndexFieldNames" serve pra ordenar com base no valor od indice recebido
+
+   qryListagem.IndexFieldNames := IndiceAtual;
+
+   ExibirLabelIndice(IndiceAtual,lblIndice);
+
+end;
+
+
+
+
+procedure TfrmTelaHeranca.mskPesquisarChange(Sender: TObject);
+begin
+  //A função locate recebe 3 prametros
+  // 1- base de pesquisa pelo oque ela esta pesquisando "Indice ataual"
+  // 2- quem esta chamndo essa pesquisa eu colquei por classe porque esse campo
+  //    é o unico "TmaskEdit" da tela então ele vai chamar pelo OnChange e passar o texto
+  // 3 - [loPartialKey] serve pra eu pesquisar pedaços de infomação
+  //é melhor usdar a classe porque se o componete mudar de nome futuramente o codigo quebra
+
+  qryListagem.Locate(IndiceAtual,TmaskEdit(Sender).Text,[loPartialKey]);
+end;
+
+function TfrmTelaHeranca.retornarCampoTraduzido(Campo: string): string;
+var
+  i:integer;
+
+begin
+   //ao ser clicado o titulo da coluna retorna o valor do campo
+   //eu tenho 2 titulos categriaId e Descrição
+  //esse for vai precorrer todos os campos da querie
+  // encontrar o valor do campo clicado
+  //pegando ese valor eu possa usar como eu precisar
+
+
+
+  for i := 0 to qryListagem.Fields.Count -1 do
+
+     begin
+
+         if lowercase(qryListagem.Fields[i].FieldName) = lowercase(Campo) then
+           begin
+             Result := qryListagem.Fields[i].DisplayLabel;
+             Break;
+           end;
+     end;
+end;
+
+
+function TfrmTelaHeranca.Excluir: Boolean;
+    begin
+      ShowMessage('Excluido');
+    end;
+
+
+
+
+
+
+procedure TfrmTelaHeranca.ExibirLabelIndice(Campo:String; aLabel:TLabel);
+ begin
+   aLabel.Caption := RetornarCampoTraduzido(Campo);
+ end;
+
+{
+  Essa procedure vai receber um valor atraves da Flag que pode ser true
+  ou pode ser false e abseado nisso ela vai inativar ou ativar os botões
+}
+procedure TfrmTelaHeranca.ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,
+                          btnApagar:TBitBtn;btnNavigator:TDBNavigator;
+                          pgcPrincipal:TPageControl;Flag:Boolean);
+   begin
+
+        btnNovo.Enabled := Flag;
+        btnApagar.Enabled := Flag;
+        btnNavigator.Enabled := Flag;
+        pgcPrincipal.Pages[0].TabVisible := Flag;
+        btnCancelar.Enabled := not(Flag);
+        btnGravar.Enabled := not(Flag);
+        btnAlterar.Enabled := Flag;
+   end;
+
+
+
+{
+    Essa função faz uma bsca por todos os componentes
+    da tela
+    primeiro ela encontra os componetes do tipo "TLabeledEdit " usando o for e monta um array
+    todos os componetees que ela achar desse tipo ela buscar pelo atributo "tag" todos os
+    "TLabeledEdit" que eu colocar o numero 1 na tag deles vão ser campos obrigatórios
+    se tiver 1 na tag o loop testa se o Texto desses campos está vazio se tiver eu boto
+    um aviso dentro do caption 'é um campo Obrigatório' e depois eu dou um break pra porar o loop
+    e retorno true, se não o cadastro segue normal.
+}
+
+function TfrmTelaHeranca.ExisteCampoObrigatorio:Boolean;
+ var
+  i:integer;
+ begin
+   Result := False;
+
+     for i := 0 to ComponentCount -1 do
+
+        begin
+
+          if(Components[i] is TLabeledEdit) then
+
+            begin
+              if (TLabeledEdit(Components[i]).Tag = 1) and
+
+                 (TLabeledEdit(Components[i]).Text = EmptyStr) then
+
+                   begin
+
+                     MessageDlg(TLabeledEdit(Components[i]).EditLabel.Caption +
+                               'é um campo Obrigatório', mtInformation,[mbok],0 );
+                     Result := True;
+                     Break;
+                   end;
+            end;
+        end;
+ end;
+
+
+
+
+procedure TfrmTelaHeranca.btnNovoClick(Sender: TObject);
+begin
+   //usando a procedure pra controlar o estado dos outros botões
+   ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,false);
+   EstadoDoCadastro := ecInserir;
+end;
+
+procedure TfrmTelaHeranca.btnAlterarClick(Sender: TObject);
+begin
+     ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,False);
+     EstadoDoCadastro := ecAlterar;
+end;
+
+procedure TfrmTelaHeranca.btnApagarClick(Sender: TObject);
+begin
+   if Excluir then
+     begin
+        ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+        ControlarIndiceTab(pgcPrincipal,0);
+        EstadoDoCadastro := ecNenhum;
+     end;
+end;
+
+procedure TfrmTelaHeranca.btnCancelarClick(Sender: TObject);
+begin
+     ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+     ControlarIndiceTab(pgcPrincipal,0);
+     EstadoDoCadastro := ecNenhum;
+end;
+
+procedure TfrmTelaHeranca.btnFecharClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
+  begin
+         try
+           if Gravar(EstadoDoCadastro) then
+             begin
+                 ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
+                 ControlarIndiceTab(pgcPrincipal,0);
+
+                 if(EstadoDoCadastro=ecInserir)then
+                   begin
+                     showMessage('Inserir');
+                   end
+                 else if (EstadoDoCadastro=ecInserir) then
+                   begin
+                     showMessage('Alterado');
+                   end
+                 else
+                 showMessage('Nada conteceu');
+                 end;
+           finally
+             EstadoDoCadastro := ecNenhum;
+           end;
+  end;
+
+end.
