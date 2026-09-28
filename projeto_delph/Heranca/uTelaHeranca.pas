@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Data.DB,
   Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls,uEnum,
-  ZAbstractRODataset, ZAbstractDataset, ZDataset;
+  ZAbstractRODataset, ZAbstractDataset, ZDataset,cCadCategoria;
 
 type
   TfrmTelaHeranca = class(TForm)
@@ -42,7 +42,7 @@ type
     procedure grdListagemDblClick(Sender: TObject);
 
   private
-
+    oCategoria: TCategoria;
     EstadoDoCadastro: TEstadoDoCadastro;
 
     procedure ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,
@@ -55,6 +55,7 @@ type
     function ExisteCampoObrigatorio: Boolean;
     procedure DesabiltaEditPK;
     procedure LimparEdts;
+
 
 
   public

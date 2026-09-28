@@ -18,8 +18,10 @@ type
     edtCategoriaId: TLabeledEdit;
     edtDescricao: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
   private
     { Private declarations }
+
   public
     { Public declarations }
   end;
@@ -31,12 +33,24 @@ implementation
 
 {$R *.dfm}
 
-uses uDtmDados;
+uses uDtmDados, cCadCategoria;
 
-procedure TfrmCadCategoria.FormCreate(Sender: TObject);
+procedure TfrmCadCategoria.btnFecharClick(Sender: TObject);
+var
+ oCategoria: Tcategoria;
 begin
   inherited;
+
+end;
+
+procedure TfrmCadCategoria.FormCreate(Sender: TObject);
+var
+ oCategoria: Tcategoria;
+begin
+  inherited;
+  oCategoria := Tcategoria.Create;
   IndiceAtual := 'descricao';
+
 end;
 
 end.

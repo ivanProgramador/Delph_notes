@@ -1,0 +1,56 @@
+unit uCadCategorias;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHeranca, Data.DB, Vcl.Buttons,
+  Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
+  Vcl.ComCtrls, ZAbstractRODataset, ZAbstractDataset, ZDataset;
+
+type
+  {
+    Esse formulario é uma extenção do formulario de heranção então ele pode usar
+    todos os metodos disponiveis na tela de herança
+  }
+
+  TfrmCadCategoria = class(TfrmTelaHeranca)
+    edtCategoriaId: TLabeledEdit;
+    edtDescricao: TLabeledEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
+  private
+    { Private declarations }
+    oCategoria: TCategoria;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadCategoria: TfrmCadCategoria;
+
+implementation
+
+{$R *.dfm}
+
+uses uDtmDados, cCadCategoria;
+
+procedure TfrmCadCategoria.btnFecharClick(Sender: TObject);
+var
+ oCategoria: Tcategoria;
+begin
+  inherited;
+  oCategoria := Tcategoria.Destroy;
+end;
+
+procedure TfrmCadCategoria.FormCreate(Sender: TObject);
+var
+ oCategoria: Tcategoria;
+begin
+  inherited;
+  oCategoria := Tcategoria.Create;
+  IndiceAtual := 'descricao';
+
+end;
+
+end.
