@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Data.DB,
   Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls,uEnum,
-  ZAbstractRODataset, ZAbstractDataset, ZDataset;
+  ZAbstractRODataset, ZAbstractDataset, ZDataset,cCadCategoria;
 
 type
   TfrmTelaHeranca = class(TForm)
@@ -42,7 +42,7 @@ type
     procedure grdListagemDblClick(Sender: TObject);
 
   private
-
+    oCategoria: TCategoria;
     EstadoDoCadastro: TEstadoDoCadastro;
 
     procedure ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,
@@ -55,6 +55,7 @@ type
     function ExisteCampoObrigatorio: Boolean;
     procedure DesabiltaEditPK;
     procedure LimparEdts;
+
 
 
   public
@@ -340,6 +341,7 @@ begin
    //usando a procedure pra controlar o estado dos outros botões
    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,false);
    EstadoDoCadastro := ecInserir;
+   LimparEdts;
 end;
 
 procedure TfrmTelaHeranca.btnAlterarClick(Sender: TObject);
@@ -356,11 +358,13 @@ begin
          begin
             ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
             ControlarIndiceTab(pgcPrincipal,0);
+            LimparEdts;
 
          end
        else
          begin
            MessageDlg('Erro na exclusão' , mtWarning, [mbok],0);
+           LimparEdts;
          end;
    finally
        EstadoDoCadastro := ecNenhum;
@@ -374,6 +378,7 @@ begin
      ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
      ControlarIndiceTab(pgcPrincipal,0);
      EstadoDoCadastro := ecNenhum;
+     LimparEdts;
 end;
 
 procedure TfrmTelaHeranca.btnFecharClick(Sender: TObject);
@@ -393,11 +398,12 @@ procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
                  ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
                  ControlarIndiceTab(pgcPrincipal,0);
                  EstadoDoCadastro := ecNenhum;
-                 limparEdits;
+                 LimparEdts;
              end
            else
              begin
                 MessageDlg('Erro na agravação' , mtWarning, [mbok],0);
+                LimparEdts;
              end;
 
            finally

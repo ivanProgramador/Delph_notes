@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHeranca, Data.DB, Vcl.Buttons,
   Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
-  Vcl.ComCtrls, ZAbstractRODataset, ZAbstractDataset, ZDataset;
+  Vcl.ComCtrls, ZAbstractRODataset, ZAbstractDataset, ZDataset,cCadCategoria;
 
 type
   {
@@ -18,9 +18,10 @@ type
     edtCategoriaId: TLabeledEdit;
     edtDescricao: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
-    procedure btnFecharClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
+    oCategoria :TCategoria;
 
   public
     { Public declarations }
@@ -33,19 +34,22 @@ implementation
 
 {$R *.dfm}
 
-uses uDtmDados, cCadCategoria;
+uses uDtmDados;
 
-procedure TfrmCadCategoria.btnFecharClick(Sender: TObject);
-var
- oCategoria: Tcategoria;
+procedure TfrmCadCategoria.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
-
+  if Assigned(oCategoria) then
+   begin
+       FreeAndNil(oCategoria);
+   end;
 end;
 
+
+
+
 procedure TfrmCadCategoria.FormCreate(Sender: TObject);
-var
- oCategoria: Tcategoria;
+
 begin
   inherited;
   oCategoria := Tcategoria.Create;

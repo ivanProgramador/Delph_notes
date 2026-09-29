@@ -42,7 +42,7 @@ type
     procedure grdListagemDblClick(Sender: TObject);
 
   private
-    oCategoria: TCategoria;
+
     EstadoDoCadastro: TEstadoDoCadastro;
 
     procedure ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,
