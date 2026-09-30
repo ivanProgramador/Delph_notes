@@ -1,0 +1,6 @@
+pra implementar o uso de classes proprias primeiro 
+eu testei os metodos basicos de contrução e eliminação da classe 
+a primeira classe que será criada vai ser a classe de categorias.
+
+
+  

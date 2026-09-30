@@ -65,7 +65,7 @@ type
 
     //metodos virtuais
 
-    function Excluir:Boolean;Virtual;
+    function Apagar:Boolean;Virtual;
     function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean;Virtual;
 
   end;
@@ -127,18 +127,7 @@ procedure TfrmTelaHeranca.FormShow(Sender: TObject);
 
 
 
-function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
-  begin
-      if (EstadoDoCadastro = ecInserir) then
-         begin
-            ShowMessage('inserir');
-         end
-      else if(EstadoDoCadastro = ecAlterar) then
-         begin
-            ShowMessage('inserir');
-            Result := True;
-         end;
-  end;
+
 
 
 
@@ -205,10 +194,23 @@ begin
 end;
 
 
-function TfrmTelaHeranca.Excluir: Boolean;
+function TfrmTelaHeranca.Apagar: Boolean;
     begin
       ShowMessage('Excluido');
     end;
+
+function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+  begin
+      if (EstadoDoCadastro = ecInserir) then
+         begin
+            ShowMessage('inserir');
+         end
+      else if(EstadoDoCadastro = ecAlterar) then
+         begin
+            ShowMessage('inserir');
+            Result := True;
+         end;
+  end;
 
 
 
@@ -354,7 +356,7 @@ procedure TfrmTelaHeranca.btnApagarClick(Sender: TObject);
 begin
 
    try
-       if (Excluir) then
+       if (Apagar) then
          begin
             ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
             ControlarIndiceTab(pgcPrincipal,0);

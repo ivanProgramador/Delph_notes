@@ -6,7 +6,9 @@ uses
   System.Classes,
   Vcl.Controls,
   Vcl.ExtCtrls,
-  Vcl.Dialogs;
+  Vcl.Dialogs,
+  ZAbstractConnection,
+  ZConnection;
 
 
 type
@@ -14,23 +16,88 @@ type
 
   private
 
+    conexao : TZConnection;
+    {
+      aqui estou criando 2 prrpridades proivadas basedas na tabela de categorias
+      a letra F significa Field entãoa diretiva qua estou usando é "F_nomedocampo"
+      vou assumir esse padrão, os tipos também são iguais.
+    }
+
+    F_categoriaId: integer;
+    F_descricao:string;
+    function getCodigo: Integer;
+    function getDescricao: String;
+    procedure setCodigo(const Value: Integer);
+    procedure setgetDescricao(const Value: String);
+
   public
-    constructor  Create;
+    //injetando a conexão no construtor da classe
+    constructor  Create(aConexao:TZConnection);
     destructor Destroy; override;
+    function Gravar: Boolean;
+    function Atualizar: Boolean;
+    function Apagar: Boolean;
+    function Selecionar: Boolean;
+
 
   published
+    {
+      As "property" são uma forma publica de acessar os atributos da classe
+      o atributo  "F_categoriaId" esta sendo representado de forma publica como
+      " codigo " então a "property" me fornece 2 metodos de encpsuamento pra manipular
+      ele
 
+      1 - read = getCodigo
+      2 - write =  setCodigo
+
+      então se eu precisar manipular esses dados ue preciso usar esses metodos
+      isso mantem a estrutura da classe segura
+
+
+    }
+      property codigo:Integer read getCodigo write setCodigo;
+      property descricao:String read getDescricao write setgetDescricao;
 
   end;
 
 
 implementation
 
-{ TCategoria }
+{ $region 'CRUD' }
 
-constructor TCategoria.Create;
+function TCategoria.Apagar: Boolean;
+  begin
+
+  end;
+
+function TCategoria.Atualizar: Boolean;
+  begin
+
+  end;
+
+function TCategoria.Gravar: Boolean;
+  begin
+
+  end;
+
+function TCategoria.Selecionar: Boolean;
+  begin
+
+  end;
+
+{ $endregion }
+
+
+
+
+
+
+
+//injetando a conexão no metodo inplmenetado de criação
+
+constructor TCategoria.Create(aConexao:TZConnection);
 begin
-    ShowMessage('Fui Criado');
+   conexao := aConexao;
 end;
 
 destructor TCategoria.Destroy;
@@ -38,5 +105,45 @@ begin
   ShowMessage('Fui Eliminado');
   inherited;
 end;
+
+
+
+{ metodos de encapsulamento }
+
+//leitura
+function TCategoria.getCodigo: Integer;
+   begin
+      //retornando o id pelo result
+      result := Self.F_categoriaId;
+   end;
+
+function TCategoria.getDescricao: String;
+   begin
+      result := Self.F_descricao;
+   end;
+
+
+
+
+//escrita
+
+
+//essa procedure vai receber um valor inteiro que seria um valor comapivel com o
+//atributo  id
+
+procedure TCategoria.setCodigo(const Value: Integer);
+   begin
+      //como é uma funcção de escrita eu associo um valor ao atributo
+      Self.F_categoriaId := Value;
+   end;
+
+
+ //essa procedure vai receber um valor string que seria um valor compativel com o
+//atributo  descrição
+
+procedure TCategoria.setgetDescricao(const Value: String);
+   begin
+      Self.F_descricao := Value;
+   end;
 
 end.
