@@ -67,22 +67,25 @@ implementation
 
 function TCategoria.Apagar: Boolean;
   begin
-
+      showMessage('Apagado');
+      Result := true;
   end;
 
 function TCategoria.Atualizar: Boolean;
   begin
-
+       showMessage('Atualizado');
+       Result := true;
   end;
 
 function TCategoria.Gravar: Boolean;
   begin
-
+     showMessage('Gravado');
+      Result := true;
   end;
 
 function TCategoria.Selecionar: Boolean;
   begin
-
+     Result := true;
   end;
 
 { $endregion }

@@ -19,6 +19,7 @@ type
     edtDescricao: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnGravarClick(Sender: TObject);
   private
     { Private declarations }
     oCategoria :TCategoria;
@@ -47,7 +48,7 @@ uses uDtmDados;
 {$region 'Override'}
 function TfrmCadCategoria.Apagar: Boolean;
   begin
-     Result := oCategoria.Apagar;
+
   end;
 
 
@@ -56,10 +57,6 @@ function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
      if(EstadoDoCadastro = ecInserir) then
       begin
         Result := oCategoria.Gravar;
-      end
-     else if (EstadoDoCadastro = ecAlterar) then
-      begin
-         Result := oCategoria.Atualizar;
       end;
   end;
 
@@ -68,6 +65,16 @@ function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
 
 
 
+
+procedure TfrmCadCategoria.btnGravarClick(Sender: TObject);
+begin
+   oCategoria.codigo := 100;
+   oCategoria.descricao :='Teste';
+
+   showMessage(oCategoria.descricao);
+
+  inherited;
+end;
 
 procedure TfrmCadCategoria.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -86,7 +93,7 @@ procedure TfrmCadCategoria.FormCreate(Sender: TObject);
 begin
   inherited;
   oCategoria := Tcategoria.Create(dtmDados.conexao);
-
+  IndiceAtual := 'descricao';
 
 end;
 

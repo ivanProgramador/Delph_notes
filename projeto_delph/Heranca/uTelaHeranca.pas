@@ -43,7 +43,7 @@ type
 
   private
 
-    EstadoDoCadastro: TEstadoDoCadastro;
+
 
     procedure ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,
                           btnApagar:TBitBtn;btnNavigator:TDBNavigator;
@@ -59,6 +59,7 @@ type
 
 
   public
+    EstadoDoCadastro: TEstadoDoCadastro;
     { essa varivel vai ser publica pra ficar acessivel as telas filhas }
 
     IndiceAtual:string;

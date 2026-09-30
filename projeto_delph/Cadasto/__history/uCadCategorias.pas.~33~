@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHeranca, Data.DB, Vcl.Buttons,
   Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
-  Vcl.ComCtrls, ZAbstractRODataset, ZAbstractDataset, ZDataset;
+  Vcl.ComCtrls, ZAbstractRODataset, ZAbstractDataset, ZDataset,cCadCategoria,uEnum;
 
 type
   {
@@ -18,10 +18,19 @@ type
     edtCategoriaId: TLabeledEdit;
     edtDescricao: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
-    procedure btnFecharClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnGravarClick(Sender: TObject);
   private
     { Private declarations }
+    oCategoria :TCategoria;
+    {
+       Esses metodos ja existem na tela de herança
+       mas para que possa usar eles nessa tela eu
+       preciso declarar como override para que ele possa
+       ser sobrescrito por essa tela pra atndeer as necessidades dela
+     }
+    function Apagar:Boolean; override;
+    function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; override;
 
   public
     { Public declarations }
@@ -34,14 +43,34 @@ implementation
 
 {$R *.dfm}
 
-uses uDtmDados, cCadCategoria;
+uses uDtmDados;
 
-procedure TfrmCadCategoria.btnFecharClick(Sender: TObject);
-var
- oCategoria: Tcategoria;
+{$region 'Override'}
+function TfrmCadCategoria.Apagar: Boolean;
+  begin
+
+  end;
+
+
+function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+  begin
+
+  end;
+
+
+{$endregion}
+
+
+
+
+procedure TfrmCadCategoria.btnGravarClick(Sender: TObject);
 begin
-  inherited;
+   oCategoria.codigo := 100;
+   oCategoria.descricao :='Teste';
 
+   showMessage(oCategoria.descricao);
+
+  inherited;
 end;
 
 procedure TfrmCadCategoria.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -51,22 +80,20 @@ begin
    begin
        FreeAndNil(oCategoria);
    end;
-
-
-
 end;
 
 
 
 
 procedure TfrmCadCategoria.FormCreate(Sender: TObject);
-var
- oCategoria: Tcategoria;
+
 begin
   inherited;
-  oCategoria := Tcategoria.Create;
+  oCategoria := Tcategoria.Create(dtmDados.conexao);
   IndiceAtual := 'descricao';
 
 end;
+
+
 
 end.
