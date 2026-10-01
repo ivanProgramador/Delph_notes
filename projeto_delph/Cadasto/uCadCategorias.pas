@@ -45,6 +45,8 @@ implementation
 uses uDtmDados;
 
 {$region 'Override'}
+
+
 function TfrmCadCategoria.Apagar: Boolean;
   begin
      Result := oCategoria.Apagar;
@@ -64,10 +66,11 @@ function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
   end;
 
 
+
 {$endregion}
 
 
-
+{$region 'contole de formulario'}
 
 procedure TfrmCadCategoria.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -89,6 +92,8 @@ begin
 
 
 end;
+
+{$endregion}
 
 
 
