@@ -8,7 +8,11 @@ uses
   Vcl.ExtCtrls,
   Vcl.Dialogs,
   ZAbstractConnection,
-  ZConnection;
+  ZConnection,
+  ZAbstractRODataset,
+  ZAbstractDataset,
+  ZDataset,
+  System.SysUtils;
 
 
 type
@@ -34,7 +38,7 @@ type
     //injetando a conexão no construtor da classe
     constructor  Create(aConexao:TZConnection);
     destructor Destroy; override;
-    function Gravar: Boolean;
+    function Inserir: Boolean;
     function Atualizar: Boolean;
     function Apagar: Boolean;
     function Selecionar: Boolean;
@@ -67,25 +71,41 @@ implementation
 
 function TCategoria.Apagar: Boolean;
   begin
-
+      showMessage('Apagado');
+      Result := true;
   end;
 
 function TCategoria.Atualizar: Boolean;
   begin
-
+       showMessage('Atualizado');
+       Result := true;
   end;
 
-function TCategoria.Gravar: Boolean;
+function TCategoria.Inserir: Boolean;
+  var
+    QryGravar: TZQuery;
+
   begin
+     try
+        QryGravar := TZQuery.Create(nil);
+        QryGravar.Connection := conexao;
+
+       finally
+        if Assigned(QryGravar) then
+          begin
+            FreeAndNew(QryGravar);
+          end;
+
+     end;
 
   end;
 
 function TCategoria.Selecionar: Boolean;
   begin
-
+     Result := true;
   end;
 
-{ $region }
+{ $endregion }
 
 
 

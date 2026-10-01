@@ -2,5 +2,121 @@ pra implementar o uso de classes proprias primeiro
 eu testei os metodos basicos de contrução e eliminação da classe 
 a primeira classe que será criada vai ser a classe de categorias.
 
+A classe categoria possui os metodos CRUD, que vão presistir os dados 
+no banco e controlar esses dados, a tela de herança.
+
+A classe categoria tem 2 atributos internos privados que so podem ser acessados pela propria
+classe, a letra "F_" na frente de cada nome significa Field:
+  
+    F_categoriaId: integer;
+    F_descricao:string;
+
+Como esses atributos são internos privados o acesso deles precisa ser feito atraves de metodos
+get/set, pra isso eu gerei duas  property cada uma com uma representção publica de cada atributo 
+a represntação publica do atributo"F_categoriaId" é o codigo e a respentação publica do "F_descricao"
+seria o "descricao" 
+
+
+   property codigo:Integer read getCodigo write setCodigo;
+   property descricao:String read getDescricao write setgetDescricao;
+
+Cada um desses atributos possui 2 metodos 
+
+   getCodigo -> faz a leitura do atributo parar retornar ele quando for preciso 
+   setCodigo -> faz a leitura parara caprturar ele e gravar na base
+
+e assim acontece também com a descrição.
+
+Fazendo a cadCategoria acessar os metodos
+
+primeiro o arquivo da classe "cCadCategoria" deve ser incluido dentro da unit da tela 
+para que os meotdos fiquem acessiveis
+
+Na sessão private deve ser criado um objeto que repesernte uma instancia dessa classe 
+ 
+ oCategoria :TCategoria; 
+
+Na classe Mãe dessa tela tem 2 metodos virtuais esses metodos devem ser colocados dentro da sessão 
+"public" da tela  "cadCategoria" eles serão os resposnaveis por acionar os metodos da classe
+  
+  function Apagar:Boolean;Virtual;
+  function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean;Virtual;
+
+No caso como são metodos herdados da classe de herança eles vaõ precisar ser sobrescritos
+porque o codigo muda cconforme oque a tela vai manipular então ao inves de colocar no public
+
+   function Apagar:Boolean;Virtual;
+   function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean;Virtual;
+
+eu vou colocar
+  
+   function Apagar:Boolean; override;
+   function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; override;
+
+A diretiva " override " permite que eu possa sobrescrever um metódo Herdado da classe mãe 
+no caso da tela "cadCategoria" eu vou sobrescrever pra esses metodos Apagar ou Gravar categorias 
+nas outras telas eu vou sobrescrever pora cadastrar produtos,usuarios e assim por diante.
+
+para comparação
+
+Metodo Gravar dentro da tela Herança(Classe Mãe)
+ - não mensiona a classe categorias
+ 
+-------------------------------------------------------------------------------------   
+
+function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+  begin
+      if (EstadoDoCadastro = ecInserir) then
+         begin
+            ShowMessage('inserir');
+         end
+      else if(EstadoDoCadastro = ecAlterar) then
+         begin
+            ShowMessage('inserir');
+            Result := True;
+         end;
+  end;
+-----------------------------------------------------------------------------------------
+
+Metodo Gravar dentro da classe TfrmCadCategoria(Classe filha )
+- Mensiona a classe categorias e ainda chama o metodo gravar da classe 
+
+------------------------------------------------------------------------------------------ 
+function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+  begin
+     //testando se os campos foram preenchidos
+     if edtCategoriaId.Text <> EmptyStr then
+        begin
+          oCategoria.codigo := StrToInt(edtCategoriaId.Text);
+        end
+     else
+        oCategoria.codigo := 0;
+        oCategoria.descricao := edtDescricao.Text;
+
+
+
+     if(EstadoDoCadastro = ecInserir) then
+      begin
+        Result := oCategoria.Inserir;
+      end
+     else if (EstadoDoCadastro = ecAlterar) then
+      begin
+         Result := oCategoria.Atualizar;
+      end;
+  end;
+----------------------------------------------------------------------------------------------
+
+
+       
+
+ 
+
+
+
+   
+ 
+
+     
+
 
   

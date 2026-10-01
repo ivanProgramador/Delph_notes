@@ -55,9 +55,22 @@ function TfrmCadCategoria.Apagar: Boolean;
 
 function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
   begin
+     //testando se os campos foram preenchidos
+     if edtCategoriaId.Text <> EmptyStr then
+       begin
+         oCategoria.codigo := StrToInt(edtCategoriaId.Text);
+       end
+     else
+       begin
+         oCategoria.codigo := 0;
+       end;
+
+         oCategoria.descricao := edtDescricao.Text;
+
+
      if(EstadoDoCadastro = ecInserir) then
       begin
-        Result := oCategoria.Gravar;
+        Result := oCategoria.Inserir;
       end
      else if (EstadoDoCadastro = ecAlterar) then
       begin

@@ -19,7 +19,6 @@ type
     edtDescricao: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure btnGravarClick(Sender: TObject);
   private
     { Private declarations }
     oCategoria :TCategoria;
@@ -45,15 +44,43 @@ implementation
 
 uses uDtmDados;
 
-procedure TfrmCadCategoria.btnGravarClick(Sender: TObject);
-begin
-   oCategoria.codigo := 100;
-   oCategoria.descricao :='Teste';
+{$region 'Override'}
 
-   showMessage(oCategoria.descricao);
 
-  inherited;
-end;
+function TfrmCadCategoria.Apagar: Boolean;
+  begin
+     Result := oCategoria.Apagar;
+  end;
+
+
+function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+  begin
+     //testando se os campos foram preenchidos
+     if edtCategoriaId.Text <> EmptyStr then
+        begin
+          oCategoria.codigo := StrToInt(edtCategoriaId.Text);
+        end
+     else
+        oCategoria.codigo := 0;
+
+
+
+     if(EstadoDoCadastro = ecInserir) then
+      begin
+        Result := oCategoria.Inserir;
+      end
+     else if (EstadoDoCadastro = ecAlterar) then
+      begin
+         Result := oCategoria.Atualizar;
+      end;
+  end;
+
+
+
+{$endregion}
+
+
+{$region 'contole de formulario'}
 
 procedure TfrmCadCategoria.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -72,8 +99,12 @@ procedure TfrmCadCategoria.FormCreate(Sender: TObject);
 begin
   inherited;
   oCategoria := Tcategoria.Create(dtmDados.conexao);
-  IndiceAtual := 'descricao';
+
 
 end;
+
+{$endregion}
+
+
 
 end.

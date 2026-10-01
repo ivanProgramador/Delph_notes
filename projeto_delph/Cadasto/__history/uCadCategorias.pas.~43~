@@ -45,6 +45,8 @@ implementation
 uses uDtmDados;
 
 {$region 'Override'}
+
+
 function TfrmCadCategoria.Apagar: Boolean;
   begin
      Result := oCategoria.Apagar;
@@ -53,9 +55,19 @@ function TfrmCadCategoria.Apagar: Boolean;
 
 function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
   begin
+     //testando se os campos foram preenchidos
+     if edtCategoriaId.Text <> EmptyStr then
+        begin
+          oCategoria.codigo := StrToInt(edtCategoriaId.Text);
+        end
+     else
+       
+
+
+
      if(EstadoDoCadastro = ecInserir) then
       begin
-        Result := oCategoria.Gravar;
+        Result := oCategoria.Inserir;
       end
      else if (EstadoDoCadastro = ecAlterar) then
       begin
@@ -64,10 +76,11 @@ function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
   end;
 
 
+
 {$endregion}
 
 
-
+{$region 'contole de formulario'}
 
 procedure TfrmCadCategoria.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -89,6 +102,8 @@ begin
 
 
 end;
+
+{$endregion}
 
 
 

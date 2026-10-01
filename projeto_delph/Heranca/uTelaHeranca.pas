@@ -345,6 +345,7 @@ begin
    ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,false);
    EstadoDoCadastro := ecInserir;
    LimparEdts;
+
 end;
 
 procedure TfrmTelaHeranca.btnAlterarClick(Sender: TObject);
@@ -362,12 +363,14 @@ begin
             ControlarBotoes(btnNovo,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavigator,pgcPrincipal,True);
             ControlarIndiceTab(pgcPrincipal,0);
             LimparEdts;
+            qryListagem.Refresh;
 
          end
        else
          begin
            MessageDlg('Erro na exclusão' , mtWarning, [mbok],0);
            LimparEdts;
+
          end;
    finally
        EstadoDoCadastro := ecNenhum;
@@ -402,6 +405,7 @@ procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
                  ControlarIndiceTab(pgcPrincipal,0);
                  EstadoDoCadastro := ecNenhum;
                  LimparEdts;
+                 qryListagem.Refresh;
              end
            else
              begin

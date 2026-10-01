@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHeranca, Data.DB, Vcl.Buttons,
   Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
-  Vcl.ComCtrls, ZAbstractRODataset, ZAbstractDataset, ZDataset,cCadCategoria;
+  Vcl.ComCtrls, ZAbstractRODataset, ZAbstractDataset, ZDataset,cCadCategoria,uEnum;
 
 type
   {
@@ -19,7 +19,6 @@ type
     edtDescricao: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure btnGravarClick(Sender: TObject);
   private
     { Private declarations }
     oCategoria :TCategoria;
@@ -43,17 +42,44 @@ implementation
 
 {$R *.dfm}
 
-uses uDtmDados, uEnum;
+uses uDtmDados;
 
-procedure TfrmCadCategoria.btnGravarClick(Sender: TObject);
-begin
-   oCategoria.codigo := 100;
-   oCategoria.descricao :='Teste';
+{$region 'Override'}
 
-   showMessage(oCategoria.descricao);
 
-  inherited;
-end;
+function TfrmCadCategoria.Apagar: Boolean;
+  begin
+     Result := oCategoria.Apagar;
+  end;
+
+
+function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+  begin
+     //testando se os campos foram preenchidos
+     if edtCategoriaId.Text <> EmptyStr then
+
+          oCategoria.codigo := StrToInt(edtCategoriaId.Text);
+     else
+         oCategoria.codigo := 0;
+         oCategoria.descricao := edtDescricao.Text;
+
+
+     if(EstadoDoCadastro = ecInserir) then
+      begin
+        Result := oCategoria.Inserir;
+      end
+     else if (EstadoDoCadastro = ecAlterar) then
+      begin
+         Result := oCategoria.Atualizar;
+      end;
+  end;
+
+
+
+{$endregion}
+
+
+{$region 'contole de formulario'}
 
 procedure TfrmCadCategoria.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -72,8 +98,12 @@ procedure TfrmCadCategoria.FormCreate(Sender: TObject);
 begin
   inherited;
   oCategoria := Tcategoria.Create(dtmDados.conexao);
-  IndiceAtual := 'descricao';
+
 
 end;
+
+{$endregion}
+
+
 
 end.

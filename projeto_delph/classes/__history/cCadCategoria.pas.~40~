@@ -8,7 +8,11 @@ uses
   Vcl.ExtCtrls,
   Vcl.Dialogs,
   ZAbstractConnection,
-  ZConnection;
+  ZConnection,
+  ZAbstractRODataset,
+  ZAbstractDataset,
+  ZDataset,
+  System.SysUtils;
 
 
 type
@@ -31,8 +35,14 @@ type
     procedure setgetDescricao(const Value: String);
 
   public
-    constructor  Create;
+    //injetando a conexão no construtor da classe
+    constructor  Create(aConexao:TZConnection);
     destructor Destroy; override;
+    function Inserir: Boolean;
+    function Atualizar: Boolean;
+    function Apagar: Boolean;
+    function Selecionar: Boolean;
+
 
   published
     {
@@ -57,11 +67,68 @@ type
 
 implementation
 
-{ TCategoria }
+{ $region 'CRUD' }
 
-constructor TCategoria.Create;
+function TCategoria.Apagar: Boolean;
+  begin
+      showMessage('Apagado');
+      Result := true;
+  end;
+
+function TCategoria.Atualizar: Boolean;
+  begin
+       showMessage('Atualizado');
+       Result := true;
+  end;
+
+function TCategoria.Inserir: Boolean;
+  var
+    QryGravar: TZQuery;
+
+  begin
+     try
+        Result := True;
+        QryGravar := TZQuery.Create(nil);
+        QryGravar.Connection := conexao;
+        QryGravar.SQL.Clear;
+        QryGravar.SQL.Add('INSERT INTO dbo.Categorias VALUES (:descricao)');
+        QryGravar.ParamByName('descricao').Value := Self.F_descricao;
+
+        try
+          QryGravar.ExecSQL;
+         Except
+           Result := False;
+        end;
+        
+
+       finally
+        if Assigned(QryGravar) then
+          begin
+            FreeAndNil(QryGravar);
+          end;
+
+     end;
+
+  end;
+
+function TCategoria.Selecionar: Boolean;
+  begin
+     Result := true;
+  end;
+
+{ $endregion }
+
+
+
+
+
+
+
+//injetando a conexão no metodo inplmenetado de criação
+
+constructor TCategoria.Create(aConexao:TZConnection);
 begin
-    ShowMessage('Fui Criado');
+   conexao := aConexao;
 end;
 
 destructor TCategoria.Destroy;
@@ -85,6 +152,8 @@ function TCategoria.getDescricao: String;
    begin
       result := Self.F_descricao;
    end;
+
+
 
 
 //escrita
