@@ -3,3 +3,27 @@ pra tela abrir maximizada e deixando abarra de tarefas disponivel
   1 - object spector 
   2 - window state 
   3 - wsMaximaized 
+
+SQL profiler serve pra identificar oque a aplicação esta fazendo no sql 
+pra acessar 
+  Tools / SQL profiler
+  run
+Existem 5 colunas que me interessam nessa aplicação 
+
+1 - TextData(traz a sinbtexe sql que foi executada pela aplicação )
+    exemplo de log de um delete que aplicação executou
+    Eu estou usando a lib Zeos então essa sintaxe esta vindo dela 
+     ----------------------------------------------------------------------
+      declare @p1 int
+      set @p1=2
+      exec sp_prepexec @p1 output,N'@P1 int',N'DELETE FROM dbo.categorias WHERE categoriaId = @P1',14
+      select @p1
+     ----------------------------------------------------------------------
+
+2 - ApplicationName Mostra no me da aplicação que fez a consulta 
+3 - LogiName qual foi o usuario sqll usado na consulta
+4 - startTime data/hora do inicio da consulta 
+5 - endTime   data/hora do final da cosulta(ajauda a identificar se existe alguma lentidão nas consultas)
+  
+    
+  

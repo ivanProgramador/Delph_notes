@@ -200,6 +200,9 @@ function TfrmTelaHeranca.Apagar: Boolean;
       ShowMessage('Excluido');
     end;
 
+
+
+
 function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
   begin
       if (EstadoDoCadastro = ecInserir) then

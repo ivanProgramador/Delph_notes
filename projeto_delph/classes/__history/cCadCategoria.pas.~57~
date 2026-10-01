@@ -40,8 +40,8 @@ type
     destructor Destroy; override;
     function Inserir: Boolean;
     function Atualizar: Boolean;
-    function Apagar: Boolean;
-    function Selecionar: Boolean;
+    function Apagar:Boolean;
+    function Selecionar(id:Integer): Boolean;
 
 
   published
@@ -70,39 +70,143 @@ implementation
 { $region 'CRUD' }
 
 function TCategoria.Apagar: Boolean;
+  var
+    Qry: TZQuery;
+
   begin
-      showMessage('Apagado');
-      Result := true;
+      if MessageDlg('Apagar o registro ' + #13+#13 +
+                    'Código: ' + intToStr(F_categoriaId) + #13
+                    +'Descrição : ' + F_descricao,mtConfirmation,[mbYes,mbNo],0)=mrNo then
+         begin
+           Result := False;
+           abort;
+         end;
+      try
+         Result := True;
+         Qry := TZQuery.Create(nil);
+         Qry.Connection := conexao;
+         Qry.SQL.Clear;
+         Qry.SQL.Add('DELETE FROM dbo.categorias ' +
+                    'WHERE categoriaId := :categoriaId ');
+         Qry.ParamByName('categoriaId').AsInteger := Self.F_categoriaId;
+
+         try
+            Qry.ExecSQL;
+           Except
+            Result := False;
+         end;
+
+      finally
+         if Assigned(Qry) then
+          begin
+            FreeAndNil(Qry);
+          end;
+      end;
+
   end;
 
+
+
+
 function TCategoria.Atualizar: Boolean;
+ var
+    Qry: TZQuery;
+
   begin
-       showMessage('Atualizado');
-       Result := true;
-  end;
+    try
+         Result := True;
+         Qry := TZQuery.Create(nil);
+         Qry.Connection := conexao;
+         Qry.SQL.Clear;
+         Qry.SQL.Add(' UPDATE dbo.categorias '+
+                     ' SET descricao = :descricao '+
+                     ' WHERE categoriaId = :categoriaId ');
+         Qry.ParamByName('categoriaId').AsInteger := Self.F_categoriaId;
+         Qry.ParamByName('descricao').AsString := Self.F_descricao;
+
+       try
+         Qry.ExecSQL;
+          Except
+         Result := False;
+       end;
+
+    finally
+       if Assigned(Qry) then
+          begin
+            FreeAndNil(Qry);
+          end;
+
+    end;
+
+end;
+
+
 
 function TCategoria.Inserir: Boolean;
   var
-    QryGravar: TZQuery;
+    Qry: TZQuery;
 
   begin
      try
-        QryGravar := TZQuery.Create(nil);
-        QryGravar.Connection := conexao;
+        Result := True;
+        Qry := TZQuery.Create(nil);
+        Qry.Connection := conexao;
+        Qry.SQL.Clear;
+        Qry.SQL.Add('INSERT INTO dbo.Categorias (descricao) VALUES (:descricao)');
+        Qry.ParamByName('descricao').Value := Self.F_descricao;
+
+        try
+          Qry.ExecSQL;
+         Except
+           Result := False;
+        end;
+
 
        finally
-        if Assigned(QryGravar) then
+        if Assigned(Qry) then
           begin
-            FreeAndNew(QryGravar);
+            FreeAndNil(Qry);
           end;
 
      end;
 
   end;
 
-function TCategoria.Selecionar: Boolean;
+function TCategoria.Selecionar(id:Integer): Boolean;
+
+ var
+   Qry:TZQuery;
+
   begin
-     Result := true;
+     try
+        Result := True;
+        Qry := TZQuery.Create(nil);
+        Qry.Connection := conexao;
+        Qry.SQL.Clear;
+        Qry.SQL.Add('SELECT categoriaId,' +
+                    ' descricao  '        +
+                    ' FROM dbo.categorias '+
+                    ' WHERE categoriaId = :categoriaId');
+        Qry.ParamByName('categoriaId').Value := id;
+
+        try
+          Qry.Open;
+          Self.F_categoriaId := Qry.FieldByName('categoriaId').AsInteger;
+          Self.F_descricao := Qry.FieldByName('descricao').AsString;
+
+         Except
+           Result := False;
+        end;
+
+     finally
+        if Assigned(Qry) then
+          begin
+            FreeAndNil(Qry);
+          end;
+     end;
+
+
+
   end;
 
 { $endregion }
