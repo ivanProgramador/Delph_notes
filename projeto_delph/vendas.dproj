@@ -145,6 +145,10 @@
         <DCCReference Include="terceiros\Enter.pas"/>
         <DCCReference Include="Heranca\uEnum.pas"/>
         <DCCReference Include="classes\cCadCategoria.pas"/>
+        <DCCReference Include="Cadasto\uCadCliente.pas">
+            <Form>frmTelaHeranca1</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

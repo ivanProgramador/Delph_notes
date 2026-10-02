@@ -3,4 +3,19 @@ use vendas;
 create table Categorias(
   categoriaId int identity,
   descricao varchar(70)  
+);
+
+CREATE TABLE clientes(
+  clienteId int IDENTITY(1,1) not null,
+  nome     varchar(60) null,
+  endereco varchar(60) null,
+  cidade   varchar(50) null,
+  bairro   varchar(40) null,
+  estado   varchar(2)  null,
+  cep      varchar(15) null,
+  telefone varchar(15) null,
+  email    varchar(100) null,
+  dataNascimento datetime null,
+  PRIMARY KEY (clienteId),
 ); 
+
