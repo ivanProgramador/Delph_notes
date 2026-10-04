@@ -22,6 +22,7 @@ object frmPrincipal: TfrmPrincipal
       Caption = 'CADASTRO'
       object CLIENTE1: TMenuItem
         Caption = 'CLIENTE'
+        OnClick = CLIENTE1Click
       end
       object CATEGORIA1: TMenuItem
         Caption = 'CATEGORIA'

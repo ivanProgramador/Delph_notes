@@ -23,6 +23,7 @@ type
     procedure mnFecharClick(Sender: TObject);
     procedure CATEGORIA1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
 
@@ -40,7 +41,7 @@ implementation
 
 {$R *.dfm}
 
-uses uCadCategorias;
+uses uCadCategorias, uDtmDados;
 
 procedure TfrmPrincipal.CATEGORIA1Click(Sender: TObject);
 begin
@@ -55,9 +56,20 @@ begin
 
 end;
 
+procedure TfrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FreeAndNil(TeclaEnter);
+end;
+
 procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
+     if not Assigned(dtmDados) then
+      dtmDados := TdtmDados.Create(Application);
+
+    //lib enter
     TeclaEnter := TMREnter.Create(Self);
+    TeclaEnter.FocusEnabled := True;
+    TeclaEnter.FocusColor := clInfoBk;
 end;
 
 procedure TfrmPrincipal.mnFecharClick(Sender: TObject);

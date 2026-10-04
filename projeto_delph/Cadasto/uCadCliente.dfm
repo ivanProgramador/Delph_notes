@@ -1,9 +1,8 @@
-inherited frmTelaHeranca1: TfrmTelaHeranca1
+inherited frmCadCliente: TfrmCadCliente
   Caption = 'Cadastro de clientes'
   StyleElements = [seFont, seClient, seBorder]
   TextHeight = 15
   inherited pgcPrincipal: TPageControl
-    ActivePage = tabManutencao
     inherited tabListagem: TTabSheet
       inherited pnlListagemTopo: TPanel
         StyleElements = [seFont, seClient, seBorder]
@@ -13,6 +12,71 @@ inherited frmTelaHeranca1: TfrmTelaHeranca1
         inherited mskPesquisar: TMaskEdit
           StyleElements = [seFont, seClient, seBorder]
         end
+      end
+      inherited grdListagem: TDBGrid
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'clienteId'
+            Title.Caption = 'Codigo'
+            Width = 30
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'nome'
+            Width = 80
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'endereco'
+            Width = 80
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cidade'
+            Width = 80
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'bairro'
+            Width = 80
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'estado'
+            Width = 30
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cep'
+            Width = 70
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'telefone'
+            Width = 89
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'email'
+            Width = 150
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'dataNascimento'
+            Title.Caption = 'Data de Nasc'
+            Width = 199
+            Visible = True
+          end>
       end
     end
     inherited tabManutencao: TTabSheet
@@ -152,6 +216,20 @@ inherited frmTelaHeranca1: TfrmTelaHeranca1
         CalendarStyle = csDialog
         TabOrder = 8
       end
+      object edtEstado: TLabeledEdit
+        Tag = 2
+        Left = 440
+        Top = 248
+        Width = 203
+        Height = 23
+        Constraints.MaxHeight = 40
+        EditLabel.Width = 35
+        EditLabel.Height = 15
+        EditLabel.Caption = 'Estado'
+        MaxLength = 100
+        TabOrder = 9
+        Text = ''
+      end
     end
   end
   inherited pnlRodape: TPanel
@@ -162,6 +240,23 @@ inherited frmTelaHeranca1: TfrmTelaHeranca1
     end
   end
   inherited qryListagem: TZQuery
+    Active = True
+    SQL.Strings = (
+      'SELECT '
+      '   clienteId,'
+      '   nome,'
+      '   endereco,'
+      '   cidade,'
+      '   bairro,'
+      '   estado,'
+      '   cep,'
+      '   telefone,'
+      '   email,'
+      '   dataNascimento'
+      'FROM'
+      '  dbo.clientes'
+      ''
+      '')
     Left = 812
     Top = 34
   end

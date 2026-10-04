@@ -24,6 +24,7 @@ type
     procedure CATEGORIA1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure CLIENTE1Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -41,7 +42,7 @@ implementation
 
 {$R *.dfm}
 
-uses uCadCategorias, uDtmDados;
+uses uCadCategorias, uDtmDados, cCadCliente, uCadCliente;
 
 procedure TfrmPrincipal.CATEGORIA1Click(Sender: TObject);
 begin
@@ -53,6 +54,15 @@ begin
 
    //liberando a memoria
    frmCadCategoria.Release;
+
+end;
+
+procedure TfrmPrincipal.CLIENTE1Click(Sender: TObject);
+begin
+
+   frmCadCliente := TfrmCadCliente.Create(Self);
+   frmCadCliente.ShowModal;
+   frmCadCliente.Release;
 
 end;
 

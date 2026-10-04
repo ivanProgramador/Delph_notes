@@ -22,9 +22,15 @@ type
     mnFechar: TMenuItem;
     procedure mnFecharClick(Sender: TObject);
     procedure CATEGORIA1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure CLIENTE1Click(Sender: TObject);
   private
     { Private declarations }
+
+    //criando uma instancia
     TeclaEnter: TMREnter;
+
   public
     { Public declarations }
   end;
@@ -36,7 +42,7 @@ implementation
 
 {$R *.dfm}
 
-uses uCadCategorias;
+uses uCadCategorias, uDtmDados, cCadCliente, uCadCliente;
 
 procedure TfrmPrincipal.CATEGORIA1Click(Sender: TObject);
 begin
@@ -49,6 +55,31 @@ begin
    //liberando a memoria
    frmCadCategoria.Release;
 
+end;
+
+procedure TfrmPrincipal.CLIENTE1Click(Sender: TObject);
+begin
+   frmCadCliente := TfrmCadCliente.Create(Self);
+   frmCadCliente.ShowModal;
+   frmCadCliente.Release;
+
+
+end;
+
+procedure TfrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FreeAndNil(TeclaEnter);
+end;
+
+procedure TfrmPrincipal.FormCreate(Sender: TObject);
+begin
+     if not Assigned(dtmDados) then
+      dtmDados := TdtmDados.Create(Application);
+
+    //lib enter
+    TeclaEnter := TMREnter.Create(Self);
+    TeclaEnter.FocusEnabled := True;
+    TeclaEnter.FocusColor := clInfoBk;
 end;
 
 procedure TfrmPrincipal.mnFecharClick(Sender: TObject);
