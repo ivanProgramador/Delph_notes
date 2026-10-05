@@ -141,7 +141,7 @@ function TCliente.Atualizar: Boolean;
            try
                  Qry.ExecSQL;
              finally
-                  Result := False;
+                  Result := true;
            end;
 
        finally

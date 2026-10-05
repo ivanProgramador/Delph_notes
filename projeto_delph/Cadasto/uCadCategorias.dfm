@@ -3,7 +3,6 @@ inherited frmCadCategoria: TfrmCadCategoria
   ClientHeight = 521
   ClientWidth = 971
   StyleElements = [seFont, seClient, seBorder]
-  ExplicitTop = 2
   ExplicitWidth = 987
   ExplicitHeight = 560
   TextHeight = 15

@@ -40,7 +40,7 @@ type
     destructor Destroy; override;
     function Inserir: Boolean;
     function Atualizar: Boolean;
-    function Apagar: Boolean;
+    function Apagar:Boolean;
     function Selecionar(id:Integer): Boolean;
 
 
@@ -70,10 +70,43 @@ implementation
 { $region 'CRUD' }
 
 function TCategoria.Apagar: Boolean;
+  var
+    Qry: TZQuery;
+
   begin
-      showMessage('Apagado');
-      Result := true;
+      if MessageDlg('Apagar o registro ' + #13+#13 +
+                    'Código: ' + intToStr(F_categoriaId) + #13
+                    +'Descrição : ' + F_descricao,mtConfirmation,[mbYes,mbNo],0)=mrNo then
+         begin
+           Result := False;
+           abort;
+         end;
+      try
+         Result := True;
+         Qry := TZQuery.Create(nil);
+         Qry.Connection := conexao;
+         Qry.SQL.Clear;
+         Qry.SQL.Add('DELETE FROM dbo.categorias ' +
+                    'WHERE categoriaId = :categoriaId ');
+         Qry.ParamByName('categoriaId').AsInteger := Self.F_categoriaId;
+
+         try
+            Qry.ExecSQL;
+           Except
+            Result := False;
+         end;
+
+      finally
+         if Assigned(Qry) then
+          begin
+            FreeAndNil(Qry);
+          end;
+      end;
+
   end;
+
+
+
 
 function TCategoria.Atualizar: Boolean;
  var
@@ -85,25 +118,25 @@ function TCategoria.Atualizar: Boolean;
          Qry := TZQuery.Create(nil);
          Qry.Connection := conexao;
          Qry.SQL.Clear;
-         Qry.SQL.Add('UPDATE dbo.categorias '+
-                     'SET descricao = :descricao '+
-                     'WHERE categoriaId = :categoriaId');
+         Qry.SQL.Add(' UPDATE dbo.categorias '+
+                     ' SET descricao = :descricao '+
+                     ' WHERE categoriaId = :categoriaId ');
          Qry.ParamByName('categoriaId').AsInteger := Self.F_categoriaId;
-         Qry.ParamByName('categoriaId').AsString := Self.F_descricao;
+         Qry.ParamByName('descricao').AsString := Self.F_descricao;
 
        try
-             Qry.ExecSQL;
-            Except
-             Result := False;
+         Qry.ExecSQL;
+          Except
+         Result := False;
        end;
 
-     finally
+    finally
        if Assigned(Qry) then
           begin
             FreeAndNil(Qry);
           end;
 
-  end;
+    end;
 
 end;
 

@@ -226,7 +226,7 @@ end;
 
 destructor TCategoria.Destroy;
 begin
-  ShowMessage('Fui Eliminado');
+
   inherited;
 end;
 

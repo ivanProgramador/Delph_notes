@@ -3,13 +3,13 @@ inherited frmCadCategoria: TfrmCadCategoria
   ClientHeight = 521
   ClientWidth = 971
   StyleElements = [seFont, seClient, seBorder]
+  ExplicitTop = 2
   ExplicitWidth = 987
   ExplicitHeight = 560
   TextHeight = 15
   inherited pgcPrincipal: TPageControl
     Width = 971
     Height = 473
-    ActivePage = tabManutencao
     ExplicitWidth = 971
     ExplicitHeight = 473
     inherited tabListagem: TTabSheet
@@ -48,7 +48,7 @@ inherited frmCadCategoria: TfrmCadCategoria
       ExplicitWidth = 963
       ExplicitHeight = 443
       object edtCategoriaId: TLabeledEdit
-        Tag = 2
+        Tag = 1
         Left = 16
         Top = 32
         Width = 121

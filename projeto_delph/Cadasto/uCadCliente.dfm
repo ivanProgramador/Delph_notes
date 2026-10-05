@@ -133,12 +133,10 @@ inherited frmCadCliente: TfrmCadCliente
       object edtCep: TMaskEdit
         Left = 440
         Top = 88
-        Width = 206
+        Width = 204
         Height = 23
-        EditMask = '99.999-999;1;_'
-        MaxLength = 10
         TabOrder = 2
-        Text = '  .   -   '
+        Text = ''
       end
       object edtEndereco: TLabeledEdit
         Tag = 2
@@ -187,10 +185,8 @@ inherited frmCadCliente: TfrmCadCliente
         Top = 192
         Width = 203
         Height = 23
-        EditMask = '(99)99999-9999;1;_'
-        MaxLength = 14
         TabOrder = 6
-        Text = '(  )     -    '
+        Text = ''
       end
       object edtEmail: TLabeledEdit
         Tag = 2

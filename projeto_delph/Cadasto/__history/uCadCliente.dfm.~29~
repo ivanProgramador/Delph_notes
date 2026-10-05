@@ -3,6 +3,7 @@ inherited frmCadCliente: TfrmCadCliente
   StyleElements = [seFont, seClient, seBorder]
   TextHeight = 15
   inherited pgcPrincipal: TPageControl
+    ActivePage = tabManutencao
     inherited tabListagem: TTabSheet
       inherited pnlListagemTopo: TPanel
         StyleElements = [seFont, seClient, seBorder]
@@ -19,7 +20,7 @@ inherited frmCadCliente: TfrmCadCliente
             Expanded = False
             FieldName = 'clienteId'
             Title.Caption = 'Codigo'
-            Width = 30
+            Width = 68
             Visible = True
           end
           item
@@ -132,12 +133,10 @@ inherited frmCadCliente: TfrmCadCliente
       object edtCep: TMaskEdit
         Left = 440
         Top = 88
-        Width = 206
+        Width = 204
         Height = 23
-        EditMask = '99.999-999;1;_'
-        MaxLength = 10
         TabOrder = 2
-        Text = '  .   -   '
+        Text = ''
       end
       object edtEndereco: TLabeledEdit
         Tag = 2
@@ -240,7 +239,6 @@ inherited frmCadCliente: TfrmCadCliente
     end
   end
   inherited qryListagem: TZQuery
-    Active = True
     SQL.Strings = (
       'SELECT '
       '   clienteId,'

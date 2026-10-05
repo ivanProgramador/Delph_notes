@@ -42,21 +42,15 @@ implementation
 {$R *.dfm}
 
 procedure TfrmCadCliente.btnAlterarClick(Sender: TObject);
-var
-  vId: Integer;
+
 begin
    inherited;
-   // 1. Pega o valor do campo no DataSet
-  vId := QryListagem.FieldByName('clienteId').AsInteger;
-
-  // 2. Exibe o valor na tela para teste
-  ShowMessage('ID do cliente selecionado: ' + IntToStr(vId));
-
    if(oCliente.Selecionar(QryListagem.FieldByName('clienteId').AsInteger)) then
      begin
        edtClienteId.Text := IntToStr(oCliente.codigo);
        edtNome.Text      := oCliente.nome;
        edtCep.Text       := oCliente.cep;
+       edtEstado.Text    := oCliente.estado;
        edtEndereco.Text  := oCliente.endereco;
        edtBairro.Text    := oCliente.bairro;
        edtCidade.Text    := oCliente.cidade;
@@ -115,13 +109,17 @@ function TfrmCadCliente.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
        oCliente.DataNascimento := edtDataNascimento.Date;
 
 
-     if(EstadoDoCadastro = ecInserir) then
-      begin
-        Result := oCliente.Inserir;
-      end
+     if (EstadoDoCadastro = ecInserir) then
+        begin
+          Result := oCliente.Inserir;
+        end
      else if (EstadoDoCadastro = ecAlterar) then
       begin
-         Result := oCliente.Atualizar;
+        Result := oCliente.Atualizar;
+      end
+     else
+      begin
+        Result := False;
       end;
 
 
