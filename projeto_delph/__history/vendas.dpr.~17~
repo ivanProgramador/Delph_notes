@@ -11,7 +11,7 @@ uses
   cCadCategoria in 'classes\cCadCategoria.pas',
   uCadCliente in 'Cadasto\uCadCliente.pas' {frmCadCliente},
   cCadCliente in 'classes\cCadCliente.pas',
-  uCadProduto in 'Cadasto\uCadProduto.pas' {frmCadProduto};
+  uCadProduto in 'Cadasto\uCadProduto.pas' {frmTelaHeranca1};
 
 {$R *.res}
 
@@ -19,6 +19,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
-  Application.CreateForm(TfrmCadProduto, frmCadProduto);
+  Application.CreateForm(TfrmTelaHeranca1, frmTelaHeranca1);
   Application.Run;
 end.
