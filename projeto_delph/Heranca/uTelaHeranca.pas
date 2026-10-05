@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Data.DB,
   Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls,uEnum,
-  ZAbstractRODataset, ZAbstractDataset, ZDataset,cCadCategoria;
+  ZAbstractRODataset, ZAbstractDataset, ZDataset,cCadCategoria,RxToolEdit;
 
 type
   TfrmTelaHeranca = class(TForm)
@@ -324,17 +324,13 @@ procedure TfrmTelaHeranca.DesabiltaEditPK;
      for i := 0 to ComponentCount -1 do
 
         begin
-
-          if(Components[i] is TLabeledEdit) then
-
+          if Components[i] is TCustomEdit then
               begin
-                     TLabeledEdit(Components[i]).Text := EmptyStr;
+                TCustomEdit(Components[i]).Text := EmptyStr;
               end
-
-          else if (Components[i] is TEdit) then
-
+          else if Components[i] is TDateEdit then
               begin
-                  TEdit(Components[i]).Text := '';
+                TDateEdit(Components[i]).Date := 0;
               end;
         end;
  end;

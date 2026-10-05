@@ -25,6 +25,7 @@ type
     Label3: TLabel;
     edtEstado: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
   private
     oCliente :TCliente;
     function Apagar:Boolean; override;
@@ -40,13 +41,41 @@ implementation
 
 {$R *.dfm}
 
+procedure TfrmCadCliente.btnAlterarClick(Sender: TObject);
+
+begin
+   inherited;
+   if(oCliente.Selecionar(QryListagem.FieldByName('clienteId').AsInteger)) then
+     begin
+       edtClienteId.Text := IntToStr(oCliente.codigo);
+       edtNome.Text      := oCliente.nome;
+       edtCep.Text       := oCliente.cep;
+       edtEstado.Text    := oCliente.estado;
+       edtEndereco.Text  := oCliente.endereco;
+       edtBairro.Text    := oCliente.bairro;
+       edtCidade.Text    := oCliente.cidade;
+       edtTelefone.Text  := oCliente.telefone;
+       edtEmail.Text     := oCliente.email;
+       edtDataNascimento.Date := oCliente.dataNascimento;
+     end
+   else
+     begin
+       btnCancelar.Click;
+       Abort;
+     end;
+
+end;
 
 
 
 
+procedure TfrmCadCliente.FormCreate(Sender: TObject);
+begin
+  inherited;
+  oCliente := TCliente.Create(dtmDados.conexao);
+  IndiceAtual :='nome';
+end;
 
-
-{ TfrmTelaHeranca1 }
 
 function TfrmCadCliente.Apagar: Boolean;
     begin
@@ -56,12 +85,7 @@ function TfrmCadCliente.Apagar: Boolean;
       end;
     end;
 
-procedure TfrmCadCliente.FormCreate(Sender: TObject);
-begin
-  inherited;
-  oCliente := TCliente.Create(dtmDados.conexao);
-  IndiceAtual :='nome';
-end;
+
 
 function TfrmCadCliente.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
     begin
@@ -85,13 +109,17 @@ function TfrmCadCliente.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
        oCliente.DataNascimento := edtDataNascimento.Date;
 
 
-     if(EstadoDoCadastro = ecInserir) then
-      begin
-        Result := oCliente.Inserir;
-      end
+     if (EstadoDoCadastro = ecInserir) then
+        begin
+          Result := oCliente.Inserir;
+        end
      else if (EstadoDoCadastro = ecAlterar) then
       begin
-         Result := oCliente.Atualizar;
+        Result := oCliente.Atualizar;
+      end
+     else
+      begin
+        Result := False;
       end;
 
 

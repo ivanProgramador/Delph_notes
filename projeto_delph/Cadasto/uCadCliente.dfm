@@ -3,6 +3,7 @@ inherited frmCadCliente: TfrmCadCliente
   StyleElements = [seFont, seClient, seBorder]
   TextHeight = 15
   inherited pgcPrincipal: TPageControl
+    ActivePage = tabManutencao
     inherited tabListagem: TTabSheet
       inherited pnlListagemTopo: TPanel
         StyleElements = [seFont, seClient, seBorder]
@@ -19,7 +20,7 @@ inherited frmCadCliente: TfrmCadCliente
             Expanded = False
             FieldName = 'clienteId'
             Title.Caption = 'Codigo'
-            Width = 30
+            Width = 68
             Visible = True
           end
           item
@@ -240,7 +241,6 @@ inherited frmCadCliente: TfrmCadCliente
     end
   end
   inherited qryListagem: TZQuery
-    Active = True
     SQL.Strings = (
       'SELECT '
       '   clienteId,'

@@ -119,11 +119,11 @@ function TCliente.Atualizar: Boolean;
                       ' SET nome =  :nome,      '+
                       ' endereco =  :endereco,  '+
                       ' cidade   =  :cidade,    '+
-                      ' bairro   =  :bairro     '+
-                      ' estado   =  :estado      '+
-                      ' cep      =  :cep         '+
-                      ' telefone =  :telefone   '+
-                      ' email    =  :email      '+
+                      ' bairro   =  :bairro,     '+
+                      ' estado   =  :estado,      '+
+                      ' cep      =  :cep,         '+
+                      ' telefone =  :telefone,   '+
+                      ' email    =  :email,      '+
                       ' dataNascimento = :dataNascimento ' +
                       ' WHERE clienteId = :clienteId'
                       );
@@ -133,6 +133,7 @@ function TCliente.Atualizar: Boolean;
           Qry.ParamByName('cidade').AsString := Self.F_cidade;
           Qry.ParamByName('bairro').AsString := Self.F_bairro;
           Qry.ParamByName('estado').AsString := Self.F_estado;
+          Qry.ParamByName('cep').AsString := Self.F_cep;
           Qry.ParamByName('telefone').AsString := Self.F_telefone;
           Qry.ParamByName('email').AsString := Self.F_email;
           Qry.ParamByName('dataNascimento').AsDateTime := Self.F_dataNascimento;
@@ -228,24 +229,39 @@ function TCliente.Atualizar: Boolean;
          Qry := TZQuery.Create(nil);
          Qry.Connection := conexao;
          Qry.SQL.Clear;
-         Qry.SQL.Add('SELECT clienteId'+
-                     ' nome, ' +
-                      'endereco, '+
-                      'cidade,'+
-                      'bairro,'+
-                      'estado,'+
-                      'cep,'+
-                      'telefone,'+
-                      'email,'+
-                      'dataNascimento,'+
-                      'FROM dbo.clientes WHERE clienteId = :clienteId');
-        Qry.ParamByName('clienteId').AsInteger := Self.F_clienteId;
+         Qry.SQL.Add('SELECT clienteId,     '+
+                      '      nome,          '+
+                      '      endereco,      '+
+                      '      cidade,        '+
+                      '      bairro,        '+
+                      '      estado,        '+
+                      '      cep,           '+
+                      '      telefone,      '+
+                      '      email,         '+
+                      '      dataNascimento '+
+                      'FROM                 '+
+                      '      dbo.clientes   '+
+                      'WHERE '+
+                      '      clienteId = :clienteId');
 
-
+        Qry.ParamByName('clienteId').AsInteger := id;
 
          try
-             Qry.ExecSQL;
-         finally
+             Qry.Open;
+             Self.F_clienteId := Qry.FieldByName('clienteId').AsInteger;
+             Self.F_nome      := Qry.FieldByName('nome').AsString;
+             Self.F_endereco  := Qry.FieldByName('endereco').AsString;
+             Self.F_cidade    := Qry.FieldByName('cidade').AsString;
+             Self.F_bairro    := Qry.FieldByName('bairro').AsString;
+             Self.F_estado    := Qry.FieldByName('estado').AsString;
+             Self.F_cep       := Qry.FieldByName('cep').AsString;
+             Self.F_telefone  := Qry.FieldByName('telefone').AsString;
+             Self.F_email     := Qry.FieldByName('email').AsString;
+             Self.F_dataNascimento := Qry.FieldByName('dataNascimento').AsDateTime;
+
+
+
+         except
              Result := False;
          end;
 
