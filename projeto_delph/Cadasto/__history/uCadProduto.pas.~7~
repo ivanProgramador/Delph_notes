@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHeranca, Data.DB,
   ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.Buttons, Vcl.DBCtrls,
   Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.ComCtrls,
-  RxToolEdit, RxCurrEdit,uEnum,cCadProduto,uDtmDados;
+  RxToolEdit, RxCurrEdit,uEnum;
 
 type
   TfrmCadProduto = class(TfrmTelaHeranca)
@@ -25,7 +25,6 @@ type
     QryCategoriacategoriaId: TZIntegerField;
     QryCategoriadescricao: TZUnicodeStringField;
   private
-     oProduto:TProduto;
      function Apagar:Boolean; override;
      function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; override;
   public
@@ -38,12 +37,5 @@ var
 implementation
 
 {$R *.dfm}
-{$region 'Override'}
-
-
-{$endregion}
-
-
-
 
 end.

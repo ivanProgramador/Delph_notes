@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHeranca, Data.DB,
   ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.Buttons, Vcl.DBCtrls,
   Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.ComCtrls,
-  RxToolEdit, RxCurrEdit,uEnum,cCadProduto,uDtmDados;
+  RxToolEdit, RxCurrEdit,uEnum,cCadProduto;
 
 type
   TfrmCadProduto = class(TfrmTelaHeranca)
@@ -38,11 +38,6 @@ var
 implementation
 
 {$R *.dfm}
-{$region 'Override'}
-
-
-{$endregion}
-
 
 
 

@@ -11,8 +11,7 @@ uses
   cCadCategoria in 'classes\cCadCategoria.pas',
   uCadCliente in 'Cadasto\uCadCliente.pas' {frmCadCliente},
   cCadCliente in 'classes\cCadCliente.pas',
-  uCadProduto in 'Cadasto\uCadProduto.pas' {frmCadProduto},
-  cCadProduto in 'classes\cCadProduto.pas';
+  uCadProduto in 'Cadasto\uCadProduto.pas' {frmCadProduto};
 
 {$R *.res}
 
