@@ -32,7 +32,7 @@ interface
         function Inserir:Boolean;
         function Atualizar:Boolean;
         function Apagar:Boolean;
-        function Selecrionar(id:Integer):Boolean;
+        function Selecionar(id:Integer):Boolean;
 
    published
 
@@ -151,12 +151,14 @@ function TProduto.Inserir: Boolean;
                     '           valor,          ' +
                     '           quantidade,     ' +
                     '           categoriaId)    ' +
-                    'VALUES (   nome = :nome,   ' +
-                    '           descricao = :descricao, '+
-                    '           valor=:valor,   ' +
-                    '           quantidade = :quantidade'+
-                    '           categoriaId = :categoriaId)'
+                    'VALUES (   :nome,   ' +
+                    '           :descricao, '+
+                    '           :valor,   ' +
+                    '           :quantidade,'+
+                    '           :categoriaId)'
                     );
+
+      
 
         Qry.ParamByName('nome').AsString           := Self.F_nome;
         Qry.ParamByName('descricao').AsString      := Self.F_descricao;
@@ -178,7 +180,7 @@ function TProduto.Inserir: Boolean;
    end;
  end;
 
- function TProduto.Selecrionar(id: Integer): Boolean;
+ function TProduto.Selecionar(id: Integer): Boolean;
   var
    Qry : TZQuery;
 

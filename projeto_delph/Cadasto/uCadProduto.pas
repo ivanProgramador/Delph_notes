@@ -24,6 +24,12 @@ type
     dtsCategoria: TDataSource;
     QryCategoriacategoriaId: TZIntegerField;
     QryCategoriadescricao: TZUnicodeStringField;
+    Label4: TLabel;
+    procedure btnAlterarClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
      oProduto:TProduto;
      function Apagar:Boolean; override;
@@ -40,6 +46,104 @@ implementation
 {$R *.dfm}
 {$region 'Override'}
 
+function TfrmCadProduto.Apagar: Boolean;
+  begin
+    if oProduto.Selecionar(QryListagem.FieldByName('produtoId').AsInteger) then
+       begin
+           Result := oProduto.Apagar;
+       end;
+
+  end;
+
+
+
+
+procedure TfrmCadProduto.btnAlterarClick(Sender: TObject);
+begin
+  if oProduto.Selecionar(QryListagem.FieldByName('produtoId').AsInteger) then
+     begin
+
+        edtProdutoId.Text      := IntToStr(oProduto.codigo);
+        edtNome.Text           := oProduto.nome;
+        edtDescricao.Text      := oProduto.descricao;
+        lkpCategorias.KeyValue := oProduto.catergoriaId;
+        edtValor.Value         := oProduto.valor;
+        edtQuantidade.Value    := oProduto.quantidade;
+
+     end
+  else
+     begin
+       btnCancelar.Click;
+       abort;
+     end;
+
+  inherited;
+
+end;
+
+procedure TfrmCadProduto.btnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtNome.SetFocus;
+end;
+
+
+
+procedure TfrmCadProduto.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+
+  inherited;
+
+  QryCategoria.Close;
+
+  if Assigned(oProduto) then
+    begin
+      FreeAndNil(oProduto);
+    end;
+
+end;
+
+procedure TfrmCadProduto.FormCreate(Sender: TObject);
+begin
+
+  inherited;
+
+    oProduto := TProduto.Create(dtmDados.conexao);
+    IndiceAtual := 'nome';
+
+end;
+
+procedure TfrmCadProduto.FormShow(Sender: TObject);
+begin
+  inherited;
+  QryCategoria.Open;
+end;
+
+function TfrmCadProduto.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+   begin
+     if edtProdutoId.Text <> EmptyStr then
+        begin
+          oProduto.codigo := StrToInt(edtProdutoId.Text);
+        end
+     else
+
+       oProduto.codigo := 0;
+
+       oProduto.nome         := edtNome.Text;
+       oProduto.descricao    := edtDescricao.Text;
+       oProduto.catergoriaId := lkpCategorias.KeyValue;
+       oProduto.valor        := edtValor.Value;
+       oProduto.quantidade   := edtQuantidade.Value;
+
+     if (EstadoDoCadastro = ecInserir) then
+       begin
+          Result := oProduto.Inserir;
+       end
+     else if (EstadoDoCadastro = ecAlterar) then
+       begin
+          Result := oProduto.Atualizar;
+       end;
+  end;
 
 {$endregion}
 

@@ -24,6 +24,12 @@ Existem 5 colunas que me interessam nessa aplicação
 3 - LogiName qual foi o usuario sqll usado na consulta
 4 - startTime data/hora do inicio da consulta 
 5 - endTime   data/hora do final da cosulta(ajauda a identificar se existe alguma lentidão nas consultas)
+-----------------------------------------------------------------------------------------------------------------------
+sobre listagem de registro em comboBox
+eu usei o componente "TDBLookupComboBox"
+usei o dtsCategoria e o QryCategoria 
+quando se faz a associação ele lista os ids e as descrições sem precisar fazer um for 
+pra gerar a lista de categorias 
   
     
   

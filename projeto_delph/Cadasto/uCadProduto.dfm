@@ -1,8 +1,10 @@
 inherited frmCadProduto: TfrmCadProduto
   Caption = 'Cadastro de produtos'
   StyleElements = [seFont, seClient, seBorder]
+  ExplicitTop = -81
   TextHeight = 15
   inherited pgcPrincipal: TPageControl
+    ActivePage = tabManutencao
     inherited tabListagem: TTabSheet
       inherited pnlListagemTopo: TPanel
         StyleElements = [seFont, seClient, seBorder]
@@ -87,6 +89,13 @@ inherited frmCadProduto: TfrmCadProduto
         Height = 15
         Caption = 'Quantidade'
       end
+      object Label4: TLabel
+        Left = 544
+        Top = 131
+        Width = 51
+        Height = 15
+        Caption = 'Categoria'
+      end
       object edtProdutoId: TLabeledEdit
         Tag = 1
         Left = 16
@@ -110,8 +119,7 @@ inherited frmCadProduto: TfrmCadProduto
         EditLabel.Width = 33
         EditLabel.Height = 15
         EditLabel.Caption = 'Nome'
-        MaxLength = 10
-        NumbersOnly = True
+        MaxLength = 50
         TabOrder = 0
         Text = ''
       end
@@ -121,7 +129,7 @@ inherited frmCadProduto: TfrmCadProduto
         Width = 966
         Height = 143
         Lines.Strings = (
-          'edtDescricao')
+          '')
         MaxLength = 255
         TabOrder = 3
       end
@@ -129,7 +137,7 @@ inherited frmCadProduto: TfrmCadProduto
         Left = 16
         Top = 400
         Width = 51
-        Height = 20
+        Height = 23
         TabOrder = 4
       end
       object edtQuantidade: TCurrencyEdit
