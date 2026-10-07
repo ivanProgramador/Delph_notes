@@ -1,0 +1,32 @@
+unit uDtmDados;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.DB, Data.Win.ADODB, ZAbstractConnection,
+  ZConnection, ZAbstractRODataset, ZAbstractDataset, ZDataset;
+
+type
+  TdtmDados = class(TDataModule)
+    conexao: TZConnection;
+    QryScriptCategorias: TZQuery;
+    QryScriptClientes: TZQuery;
+    QryScriptProdutos: TZQuery;
+    QryScriptVendas: TZQuery;
+    QryScriptVendasProdutos: TZQuery;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dtmDados: TdtmDados;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.

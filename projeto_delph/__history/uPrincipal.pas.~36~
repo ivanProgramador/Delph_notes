@@ -1,0 +1,148 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus,Enter,uFrmAtualizaDB;
+
+type
+  TfrmPrincipal = class(TForm)
+    MainMenu1: TMainMenu;
+    CADASTRO1: TMenuItem;
+    MOVIMENTAO1: TMenuItem;
+    RELATORIO1: TMenuItem;
+    CLIENTE1: TMenuItem;
+    CATEGORIA1: TMenuItem;
+    PRODUTO1: TMenuItem;
+    VENDAS1: TMenuItem;
+    CLIENTE2: TMenuItem;
+    PRODUTO2: TMenuItem;
+    VENDAPORDATA1: TMenuItem;
+    mnFechar: TMenuItem;
+    procedure mnFecharClick(Sender: TObject);
+    procedure CATEGORIA1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure CLIENTE1Click(Sender: TObject);
+    procedure PRODUTO1Click(Sender: TObject);
+  private
+    { Private declarations }
+
+    //criando uma instancia
+    TeclaEnter: TMREnter;
+    procedure AtualizacaoBancoDados(aForm:TfrmAtualizaDB);
+
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadCategorias, uDtmDados, cCadCliente, uCadCliente, uCadProduto;
+
+
+
+procedure TfrmPrincipal.AtualizacaoBancoDados(aForm: TfrmAtualizaDB);
+begin
+
+   aForm.chkConexao.Checked := true;
+   aForm.Refresh;
+   Sleep(1000);
+
+   dtmDados.QryScriptCategorias.ExecSQL;
+   aForm.chkCategoria.Checked := true;
+   aForm.Refresh;
+   Sleep(1000);
+
+   dtmDados.QryScriptClientes.ExecSQL;
+   aForm.chkCliente.Checked := true;
+   aForm.Refresh;
+   Sleep(1000);
+
+   dtmDados.QryScriptProdutos.ExecSQL;
+   aForm.chkProduto.Checked := true;
+   aForm.Refresh;
+   Sleep(1000);
+
+   dtmDados.QryScriptVendas.ExecSQL;
+   aForm.chkVendas.Checked := true;
+   aForm.Refresh;
+   Sleep(1000);
+
+   dtmDados.QryScriptItensVendas.ExecSQL;
+   aForm.chkItensVendas.Checked := true;
+   aForm.Refresh;
+   Sleep(1000);
+
+
+
+
+
+end;
+
+procedure TfrmPrincipal.CATEGORIA1Click(Sender: TObject);
+begin
+   //criando na memoria
+   frmCadCategoria := TfrmCadCategoria.Create(Self);
+
+   //mostrando a tela
+   frmCadCategoria.ShowModal();
+
+   //liberando a memoria
+   frmCadCategoria.Release;
+
+end;
+
+procedure TfrmPrincipal.CLIENTE1Click(Sender: TObject);
+begin
+
+   frmCadCliente := TfrmCadCliente.Create(Self);
+   frmCadCliente.ShowModal;
+   frmCadCliente.Release;
+
+end;
+
+procedure TfrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FreeAndNil(TeclaEnter);
+end;
+
+procedure TfrmPrincipal.FormCreate(Sender: TObject);
+begin
+     frmAtualizaDB := TfrmAtualizaDB.Create(Self);
+     frmAtualizaDB.Show;
+     frmAtualizaDB.Refresh;
+
+     if not Assigned(dtmDados) then
+      dtmDados := TdtmDados.Create(Application);
+
+    //lib enter
+    TeclaEnter := TMREnter.Create(Self);
+    TeclaEnter.FocusEnabled := True;
+    TeclaEnter.FocusColor := clInfoBk;
+    frmAtualizaDB.Free;
+
+end;
+
+
+procedure TfrmPrincipal.mnFecharClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmPrincipal.PRODUTO1Click(Sender: TObject);
+begin
+   frmCadProduto := TfrmCadProduto.Create(Self);
+   frmCadProduto.ShowModal;
+   frmCadProduto.Release;
+end;
+
+
+
+end.

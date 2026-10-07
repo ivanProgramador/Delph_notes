@@ -4,11 +4,16 @@ interface
 
 uses
   System.SysUtils, System.Classes, Data.DB, Data.Win.ADODB, ZAbstractConnection,
-  ZConnection;
+  ZConnection, ZAbstractRODataset, ZAbstractDataset, ZDataset;
 
 type
   TdtmDados = class(TDataModule)
     conexao: TZConnection;
+    QryScriptCategorias: TZQuery;
+    QryScriptClientes: TZQuery;
+    QryScriptProdutos: TZQuery;
+    QryScriptVendas: TZQuery;
+    QryScriptItensVendas: TZQuery;
   private
     { Private declarations }
   public
