@@ -1,0 +1,27 @@
+unit uDtmVenda;
+
+interface
+
+uses
+  System.SysUtils, System.Classes;
+
+type
+  TdtmVenda = class(TDataModule)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dtmVenda: TdtmVenda;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+uses uDtmDados;
+
+{$R *.dfm}
+
+end.

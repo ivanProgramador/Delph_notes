@@ -1,0 +1,57 @@
+object dtmVenda: TdtmVenda
+  Height = 480
+  Width = 640
+  object QryClientes: TZQuery
+    Connection = dtmDados.conexao
+    SQL.Strings = (
+      'SELECT '
+      '   clienteId,nome'
+      'FROM '
+      '  dbo.clientes')
+    Params = <>
+    Left = 40
+    Top = 24
+    object QryClientesclienteId: TZIntegerField
+      DisplayLabel = 'codigo'
+      FieldName = 'clienteId'
+      ReadOnly = True
+    end
+    object QryClientesnome: TZUnicodeStringField
+      FieldName = 'nome'
+      Size = 100
+    end
+  end
+  object QryProdutos: TZQuery
+    Connection = dtmDados.conexao
+    Active = True
+    SQL.Strings = (
+      'SELECT '
+      '      produtoId,'
+      '       nome,'
+      '       valor,'
+      '       quantidade'
+      'FROM '
+      '  dbo.produtos')
+    Params = <>
+    Left = 136
+    Top = 24
+    object QryProdutosprodutoId: TZIntegerField
+      FieldName = 'produtoId'
+      ReadOnly = True
+    end
+    object QryProdutosnome: TZUnicodeStringField
+      FieldName = 'nome'
+      Size = 60
+    end
+    object QryProdutosvalor: TZFMTBCDField
+      FieldName = 'valor'
+      Precision = 18
+      Size = 5
+    end
+    object QryProdutosquantidade: TZFMTBCDField
+      FieldName = 'quantidade'
+      Precision = 18
+      Size = 5
+    end
+  end
+end

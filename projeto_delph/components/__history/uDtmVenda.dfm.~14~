@@ -1,0 +1,22 @@
+object dtmVenda: TdtmVenda
+  Height = 480
+  Width = 640
+  object QryCliente: TZQuery
+    Connection = dtmDados.conexao
+    Active = True
+    SQL.Strings = (
+      'SELECT clienteId,nome'
+      'FROM clientes')
+    Params = <>
+    Left = 40
+    Top = 32
+    object QryClienteclienteId: TZIntegerField
+      FieldName = 'clienteId'
+      ReadOnly = True
+    end
+    object QryClientenome: TZUnicodeStringField
+      FieldName = 'nome'
+      Size = 100
+    end
+  end
+end

@@ -12,19 +12,19 @@
     <Transaction>2026/09/20 13:43:40.000.357,C:\Delph_notes\projeto_delph\components\uDtmDados.dfm=C:\Delph_notes\projeto_delph\Unit1.dfm</Transaction>
     <Transaction>2026/09/20 13:43:40.000.357,C:\Delph_notes\projeto_delph\components\uDtmDados.pas=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
     <Transaction>2026/09/20 19:53:36.000.349,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
-    <Transaction>2026/09/20 19:54:34.000.841,C:\Delph_notes\projeto_delph\Heranca\uTelaHeranca.dfm=C:\Delph_notes\projeto_delph\Unit1.dfm</Transaction>
     <Transaction>2026/09/20 19:54:34.000.841,C:\Delph_notes\projeto_delph\Heranca\uTelaHeranca.pas=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
+    <Transaction>2026/09/20 19:54:34.000.841,C:\Delph_notes\projeto_delph\Heranca\uTelaHeranca.dfm=C:\Delph_notes\projeto_delph\Unit1.dfm</Transaction>
     <Transaction>2026/09/20 21:38:44.000.473,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
-    <Transaction>2026/09/20 21:43:07.000.408,C:\Delph_notes\projeto_delph\Cadasto\uCadCategorias.dfm=C:\Delph_notes\projeto_delph\Unit1.dfm</Transaction>
     <Transaction>2026/09/20 21:43:07.000.408,C:\Delph_notes\projeto_delph\Cadasto\uCadCategorias.pas=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
+    <Transaction>2026/09/20 21:43:07.000.408,C:\Delph_notes\projeto_delph\Cadasto\uCadCategorias.dfm=C:\Delph_notes\projeto_delph\Unit1.dfm</Transaction>
     <Transaction>2026/09/20 22:10:34.000.268,=C:\Delph_notes\projeto_delph\terceiros\Enter.pas</Transaction>
     <Transaction>2026/09/22 13:54:40.000.841,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
     <Transaction>2026/09/22 13:55:11.000.073,C:\Delph_notes\projeto_delph\Heranca\uEnum.pas=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
     <Transaction>2026/09/27 20:59:34.000.970,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
     <Transaction>2026/09/27 21:00:50.000.262,C:\Delph_notes\projeto_delph\Unit1.pas=C:\Delph_notes\projeto_delph\classes\cCadCategoria.pas</Transaction>
     <Transaction>2026/10/01 21:11:52.000.981,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
-    <Transaction>2026/10/01 21:12:34.000.918,C:\Delph_notes\projeto_delph\Unit1.dfm=C:\Delph_notes\projeto_delph\Cadasto\uCadCliente.dfm</Transaction>
     <Transaction>2026/10/01 21:12:34.000.918,C:\Delph_notes\projeto_delph\Unit1.pas=C:\Delph_notes\projeto_delph\Cadasto\uCadCliente.pas</Transaction>
+    <Transaction>2026/10/01 21:12:34.000.918,C:\Delph_notes\projeto_delph\Unit1.dfm=C:\Delph_notes\projeto_delph\Cadasto\uCadCliente.dfm</Transaction>
     <Transaction>2026/10/03 08:04:51.000.278,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
     <Transaction>2026/10/03 08:05:10.000.917,C:\Delph_notes\projeto_delph\classes\cCadCliente.pas=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
     <Transaction>2026/10/05 16:00:41.000.159,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
@@ -33,7 +33,22 @@
     <Transaction>2026/10/05 21:49:56.000.894,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
     <Transaction>2026/10/05 21:50:34.000.794,C:\Delph_notes\projeto_delph\Unit1.pas=C:\Delph_notes\projeto_delph\classes\cCadProduto.pas</Transaction>
     <Transaction>2026/10/06 18:25:14.000.795,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
-    <Transaction>2026/10/06 18:25:49.000.821,C:\Delph_notes\projeto_delph\Unit1.dfm=C:\Delph_notes\projeto_delph\components\uFrmAtualizaDB.dfm</Transaction>
     <Transaction>2026/10/06 18:25:49.000.821,C:\Delph_notes\projeto_delph\Unit1.pas=C:\Delph_notes\projeto_delph\components\uFrmAtualizaDB.pas</Transaction>
+    <Transaction>2026/10/06 18:25:49.000.821,C:\Delph_notes\projeto_delph\Unit1.dfm=C:\Delph_notes\projeto_delph\components\uFrmAtualizaDB.dfm</Transaction>
+    <Transaction>2026/10/08 12:23:39.000.912,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
+    <Transaction>2026/10/08 12:24:04.000.914,C:\Delph_notes\projeto_delph\Unit1.dfm=C:\Delph_notes\projeto_delph\components\uDtmVenda.dfm</Transaction>
+    <Transaction>2026/10/08 12:24:04.000.914,C:\Delph_notes\projeto_delph\Unit1.pas=C:\Delph_notes\projeto_delph\components\uDtmVenda.pas</Transaction>
+    <Transaction>2026/10/08 12:26:35.307,C:\Delph_notes\projeto_delph\components\uDtmVenda.dfm=</Transaction>
+    <Transaction>2026/10/08 12:26:43.484,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
+    <Transaction>2026/10/08 12:27:14.857,C:\Delph_notes\projeto_delph\components\uDtmVenda.dfm=C:\Delph_notes\projeto_delph\Unit1.dfm</Transaction>
+    <Transaction>2026/10/08 12:27:14.857,C:\Delph_notes\projeto_delph\components\uDtmVenda.pas=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
+    <Transaction>2026/10/08 20:08:48.067,C:\Delph_notes\projeto_delph\components\uDtmVenda.dfm=</Transaction>
+    <Transaction>2026/10/08 20:10:02.639,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
+    <Transaction>2026/10/08 20:10:25.695,C:\Delph_notes\projeto_delph\components\uDtmDadosVenda.dfm=C:\Delph_notes\projeto_delph\Unit1.dfm</Transaction>
+    <Transaction>2026/10/08 20:10:25.695,C:\Delph_notes\projeto_delph\components\uDtmDadosVenda.pas=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
+    <Transaction>2026/10/08 20:14:24.394,C:\Delph_notes\projeto_delph\components\uDtmDadosVenda.dfm=</Transaction>
+    <Transaction>2026/10/08 20:15:38.041,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
+    <Transaction>2026/10/08 20:16:25.647,C:\Delph_notes\projeto_delph\components\uDtmVenda.dfm=C:\Delph_notes\projeto_delph\Unit1.dfm</Transaction>
+    <Transaction>2026/10/08 20:16:25.647,C:\Delph_notes\projeto_delph\components\uDtmVenda.pas=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

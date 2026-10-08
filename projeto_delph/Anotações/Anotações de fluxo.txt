@@ -1,0 +1,21 @@
+1  - quando uma tela é chamada
+     - conexão é definida 
+     - clientes são listados
+
+2 - quando um botão é acionado
+
+     - sobrescreve o meotodo pre-definido na classe de herança
+     - ele define o estado do cadastro atráves do enum
+     - ele aciona o metodo do objeto em questão
+     - e repassa os dados para a classe manipular
+     - e espera o retrno da função qua foi acionada dentro da classe 
+     - retorno true " Sucesso na execução " retorno false "erro na execução" 
+----------------------------------------------------------------------------------
+Venda 
+A vendas vai ser composta por 
+- cliente
+- produto
+Então dentro do dtmVendas eu coloquei 2 TZQuerie 
+Eu tambem tenho o "ClientDataset" pra mostrar esse dados na tela 
+cada um desses vai precisar de um dataSource      
+

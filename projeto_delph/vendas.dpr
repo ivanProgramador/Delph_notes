@@ -13,7 +13,8 @@ uses
   cCadCliente in 'classes\cCadCliente.pas',
   uCadProduto in 'Cadasto\uCadProduto.pas' {frmCadProduto},
   cCadProduto in 'classes\cCadProduto.pas',
-  uFrmAtualizaDB in 'components\uFrmAtualizaDB.pas' {frmAtualizaDB};
+  uFrmAtualizaDB in 'components\uFrmAtualizaDB.pas' {frmAtualizaDB},
+  uDtmVenda in 'components\uDtmVenda.pas' {dtmVenda: TDataModule};
 
 {$R *.res}
 
@@ -22,5 +23,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TdtmDados, dtmDados);
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TdtmVenda, dtmVenda);
   Application.Run;
 end.
