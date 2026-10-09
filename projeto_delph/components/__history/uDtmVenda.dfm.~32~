@@ -71,32 +71,15 @@ object dtmVenda: TdtmVenda
     Top = 104
   end
   object cdsItensVenda: TClientDataSet
+    PersistDataPacket.Data = {
+      8F0000009619E0BD0100000018000000050000000000030000008F000970726F
+      6475746F496404000100000000000B4E6F6D6550726F6475746F010049000000
+      0100055749445448020002003C000A7175616E74696461646508000400000000
+      000D56616C6F72556E69746172696F08000400000000001156616C6F72546F74
+      616C50726F6475746F08000400000000000000}
+    Active = True
     Aggregates = <>
-    FieldDefs = <
-      item
-        Name = 'produtoId'
-        DataType = ftInteger
-      end
-      item
-        Name = 'NomeProduto'
-        DataType = ftString
-        Size = 60
-      end
-      item
-        Name = 'quantidade'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ValorUnitario'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ValorTotalProduto'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
     Params = <>
-    StoreDefs = True
     Left = 256
     Top = 24
     object cdsItensVendaprodutoId: TIntegerField

@@ -72,53 +72,8 @@ object dtmVenda: TdtmVenda
   end
   object cdsItensVenda: TClientDataSet
     Aggregates = <>
-    FieldDefs = <
-      item
-        Name = 'produtoId'
-        DataType = ftInteger
-      end
-      item
-        Name = 'NomeProduto'
-        DataType = ftString
-        Size = 60
-      end
-      item
-        Name = 'quantidade'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ValorUnitario'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ValorTotalProduto'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
     Params = <>
-    StoreDefs = True
     Left = 256
     Top = 24
-    object cdsItensVendaprodutoId: TIntegerField
-      FieldName = 'produtoId'
-    end
-    object cdsItensVendaNomeProduto: TStringField
-      FieldName = 'NomeProduto'
-      Size = 60
-    end
-    object cdsItensVendaquantidade: TFloatField
-      FieldName = 'quantidade'
-    end
-    object cdsItensVendaValorUnitario: TFloatField
-      FieldName = 'ValorUnitario'
-    end
-    object cdsItensVendaValorTotalProduto: TFloatField
-      FieldName = 'ValorTotalProduto'
-    end
-    object cdsItensVendaValorTotalVenda: TAggregateField
-      FieldName = 'ValorTotalVenda'
-      DisplayName = ''
-      Expression = 'SUM(ValorTotalProduto)'
-    end
   end
 end

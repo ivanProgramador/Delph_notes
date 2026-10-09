@@ -20,12 +20,6 @@ type
     dtsProdutos: TDataSource;
     dtsItensVenda: TDataSource;
     cdsItensVenda: TClientDataSet;
-    cdsItensVendaprodutoId: TIntegerField;
-    cdsItensVendaNomeProduto: TStringField;
-    cdsItensVendaquantidade: TFloatField;
-    cdsItensVendaValorUnitario: TFloatField;
-    cdsItensVendaValorTotalProduto: TFloatField;
-    cdsItensVendaValorTotalVenda: TAggregateField;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private

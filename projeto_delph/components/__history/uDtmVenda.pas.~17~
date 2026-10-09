@@ -20,12 +20,6 @@ type
     dtsProdutos: TDataSource;
     dtsItensVenda: TDataSource;
     cdsItensVenda: TClientDataSet;
-    cdsItensVendaprodutoId: TIntegerField;
-    cdsItensVendaNomeProduto: TStringField;
-    cdsItensVendaquantidade: TFloatField;
-    cdsItensVendaValorUnitario: TFloatField;
-    cdsItensVendaValorTotalProduto: TFloatField;
-    cdsItensVendaValorTotalVenda: TAggregateField;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
@@ -48,14 +42,8 @@ implementation
 procedure TdtmVenda.DataModuleCreate(Sender: TObject);
 begin
 
- //o componente CDS cliente dataset serever pra criar uma tabela virtual na memoria em runtime
-     cdsItensVenda.CreateDataSet;
 
-
-
-
-
-
+  cdsItensVenda.CreateDataSet;  //o componente CDS cliente dataset serever pra criar uma tabela virtual na memoria em runtime
 
   //estou abrindo as querys aqui pra que tudo seja ataualizadoa quando dtm for chamado
   QryClientes.Open;

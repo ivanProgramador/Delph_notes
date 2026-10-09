@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, Data.DB, ZAbstractRODataset,
-  ZAbstractDataset, ZDataset,uDtmDados, Datasnap.DBClient;
+  ZAbstractDataset, ZDataset,uDtmDados;
 
 type
   TdtmVenda = class(TDataModule)
@@ -18,16 +18,9 @@ type
     QryProdutosquantidade: TZFMTBCDField;
     dtsCliente: TDataSource;
     dtsProdutos: TDataSource;
+    cdsItensVenda: TDataSource;
     dtsItensVenda: TDataSource;
-    cdsItensVenda: TClientDataSet;
-    cdsItensVendaprodutoId: TIntegerField;
-    cdsItensVendaNomeProduto: TStringField;
-    cdsItensVendaquantidade: TFloatField;
-    cdsItensVendaValorUnitario: TFloatField;
-    cdsItensVendaValorTotalProduto: TFloatField;
-    cdsItensVendaValorTotalVenda: TAggregateField;
     procedure DataModuleCreate(Sender: TObject);
-    procedure DataModuleDestroy(Sender: TObject);
   private
     { Private declarations }
   public
@@ -47,30 +40,11 @@ implementation
 
 procedure TdtmVenda.DataModuleCreate(Sender: TObject);
 begin
+   //grantindo que sempre que dtm for accionado os dados vão estar atualizados
 
- //o componente CDS cliente dataset serever pra criar uma tabela virtual na memoria em runtime
-     cdsItensVenda.CreateDataSet;
-
-
-
-
-
-
-
-  //estou abrindo as querys aqui pra que tudo seja ataualizadoa quando dtm for chamado
+  cdsItensVenda.CreateDataSet;
   QryClientes.Open;
   QryProdutos.Open;
-end;
-
-procedure TdtmVenda.DataModuleDestroy(Sender: TObject);
-begin
-
-  //liberando a memoria
-
-  cdsItensVenda.Close;
-  QryClientes.Close;
-  QryProdutos.Close;
-
 end;
 
 end.

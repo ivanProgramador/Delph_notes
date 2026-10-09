@@ -23,7 +23,6 @@ object dtmVenda: TdtmVenda
   end
   object QryProdutos: TZQuery
     Connection = dtmDados.conexao
-    Active = True
     SQL.Strings = (
       'SELECT '
       '      produtoId,'
@@ -36,6 +35,7 @@ object dtmVenda: TdtmVenda
     Left = 136
     Top = 24
     object QryProdutosprodutoId: TZIntegerField
+      DisplayLabel = 'codigo'
       FieldName = 'produtoId'
       ReadOnly = True
     end
@@ -53,5 +53,22 @@ object dtmVenda: TdtmVenda
       Precision = 18
       Size = 5
     end
+  end
+  object dtsCliente: TDataSource
+    DataSet = QryClientes
+    Left = 24
+    Top = 104
+  end
+  object dtsProdutos: TDataSource
+    Left = 128
+    Top = 104
+  end
+  object cdsItensVenda: TDataSource
+    Left = 232
+    Top = 24
+  end
+  object dtsItensVenda: TDataSource
+    Left = 232
+    Top = 104
   end
 end

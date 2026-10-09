@@ -4,11 +4,18 @@ interface
 
 uses
   System.SysUtils, System.Classes, Data.DB, ZAbstractRODataset,
-  ZAbstractDataset, ZDataset;
+  ZAbstractDataset, ZDataset,uDtmDados;
 
 type
   TdtmVenda = class(TDataModule)
     QryClientes: TZQuery;
+    QryClientesclienteId: TZIntegerField;
+    QryClientesnome: TZUnicodeStringField;
+    QryProdutos: TZQuery;
+    QryProdutosprodutoId: TZIntegerField;
+    QryProdutosnome: TZUnicodeStringField;
+    QryProdutosvalor: TZFMTBCDField;
+    QryProdutosquantidade: TZFMTBCDField;
   private
     { Private declarations }
   public
@@ -22,7 +29,7 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses uDtmDados;
+
 
 {$R *.dfm}
 

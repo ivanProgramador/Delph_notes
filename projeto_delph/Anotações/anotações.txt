@@ -29,7 +29,21 @@ sobre listagem de registro em comboBox
 eu usei o componente "TDBLookupComboBox"
 usei o dtsCategoria e o QryCategoria 
 quando se faz a associação ele lista os ids e as descrições sem precisar fazer um for 
-pra gerar a lista de categorias 
+pra gerar a lista de categorias
+------------------------------------------------------------------------------
+TClientDataSet 
+  Esse  componente cria uma tabela virtual em tempo de execução
+Os campos dessa tabela são configuraveis atraves de dataFields 
+
+1 - Fields editor / newField 
+2 - vai aparecer uma menu que permite nomera o campo "Name",definir o tipo "Type", e o tipo de campo  
+3 - um camop diferente que eu criri foi o campo TotalItensVenda qua vai somar o preço dos itens da venda e passar um valor unico
+    esse campo é do tipo "Aggregate" porque o valor dele será baseado na soma de outro campo
+    pra definir o valor eu preciso colocar a operação no atributo "expression" dele eu cccoloquei "SUM(ValorTotalProduto)" 
+    então ele vai somar tudo oque for adiconado no valor produto e se auto preencher com o resultado.
+     
+      
+   
   
     
   

@@ -1,4 +1,5 @@
 object dtmVenda: TdtmVenda
+  OnCreate = DataModuleCreate
   Height = 480
   Width = 640
   object QryClientes: TZQuery
@@ -32,9 +33,10 @@ object dtmVenda: TdtmVenda
       'FROM '
       '  dbo.produtos')
     Params = <>
-    Left = 144
-    Top = 16
+    Left = 136
+    Top = 24
     object QryProdutosprodutoId: TZIntegerField
+      DisplayLabel = 'codigo'
       FieldName = 'produtoId'
       ReadOnly = True
     end
@@ -52,5 +54,25 @@ object dtmVenda: TdtmVenda
       Precision = 18
       Size = 5
     end
+  end
+  object dtsCliente: TDataSource
+    DataSet = QryClientes
+    Left = 24
+    Top = 104
+  end
+  object dtsProdutos: TDataSource
+    Left = 128
+    Top = 104
+  end
+  object dtsItensVenda: TDataSource
+    DataSet = dtmDados.QryScriptItensVendas
+    Left = 232
+    Top = 104
+  end
+  object cdsItensVenda: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 256
+    Top = 24
   end
 end

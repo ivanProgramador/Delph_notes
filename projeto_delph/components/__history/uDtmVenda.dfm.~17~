@@ -1,9 +1,0 @@
-object dtmVenda: TdtmVenda
-  Height = 480
-  Width = 640
-  object QryClientes: TZQuery
-    Params = <>
-    Left = 40
-    Top = 24
-  end
-end
