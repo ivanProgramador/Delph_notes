@@ -62,15 +62,17 @@ object dtmVenda: TdtmVenda
     Top = 104
   end
   object dtsProdutos: TDataSource
+    DataSet = QryProdutos
     Left = 128
     Top = 104
   end
   object dtsItensVenda: TDataSource
-    DataSet = dtmDados.QryScriptItensVendas
+    DataSet = cdsItensVenda
     Left = 232
     Top = 104
   end
   object cdsItensVenda: TClientDataSet
+    Active = True
     Aggregates = <>
     FieldDefs = <
       item
@@ -96,23 +98,29 @@ object dtmVenda: TdtmVenda
       end>
     IndexDefs = <>
     Params = <>
+    ProviderName = 'dtsItensVenda'
     StoreDefs = True
     Left = 256
     Top = 24
     object cdsItensVendaprodutoId: TIntegerField
+      DisplayWidth = 10
       FieldName = 'produtoId'
     end
     object cdsItensVendaNomeProduto: TStringField
+      DisplayWidth = 60
       FieldName = 'NomeProduto'
       Size = 60
     end
     object cdsItensVendaquantidade: TFloatField
+      DisplayWidth = 20
       FieldName = 'quantidade'
     end
     object cdsItensVendaValorUnitario: TFloatField
+      DisplayWidth = 41
       FieldName = 'ValorUnitario'
     end
     object cdsItensVendaValorTotalProduto: TFloatField
+      DisplayWidth = 69
       FieldName = 'ValorTotalProduto'
     end
     object cdsItensVendaValorTotalVenda: TAggregateField

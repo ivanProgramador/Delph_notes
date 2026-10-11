@@ -67,3 +67,25 @@ Create table vendasItens (
         REFERENCES produtos(produtoId)
 )
 END
+
+
+
+----------------------------------------------------------------------------
+
+-- VOU USAR ESSE JOIN PRA TRAZER A RELAÇÃO ENTRE VENDA E CLIENTE 
+-- ISSO TAZER O NOME QUA ESTA RELACIONADO AO ID NA ATBELA CLIENTE
+-- PRA EVITAR QUE O USUARIO PRECISE PESQUISAR O CODIGO
+-- VOU COLOCAR ISSO NA TELA DE LISTAGEM DE VENDAS
+     
+SELECT 
+  vendas.vendaId,
+  vendas.clienteId,
+  clientes.nome,
+  vendas.dataVenda,
+  vendas.totalVenda
+FROM 
+  vendas
+  INNER JOIN
+  clientes 
+ON
+  clientes.clienteId = vendas.clienteId;

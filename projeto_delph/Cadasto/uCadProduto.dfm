@@ -1,7 +1,6 @@
 inherited frmCadProduto: TfrmCadProduto
   Caption = 'Cadastro de produtos'
   StyleElements = [seFont, seClient, seBorder]
-  ExplicitTop = -81
   TextHeight = 15
   inherited pgcPrincipal: TPageControl
     ActivePage = tabManutencao
@@ -142,7 +141,7 @@ inherited frmCadProduto: TfrmCadProduto
       end
       object edtQuantidade: TCurrencyEdit
         Left = 94
-        Top = 397
+        Top = 400
         Width = 62
         Height = 23
         DisplayFormat = ',0.00;-R$ ,0.00'

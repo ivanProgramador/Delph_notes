@@ -13,14 +13,18 @@ uses
   cCadCliente in 'classes\cCadCliente.pas',
   uCadProduto in 'Cadasto\uCadProduto.pas' {frmCadProduto},
   cCadProduto in 'classes\cCadProduto.pas',
-  uFrmAtualizaDB in 'components\uFrmAtualizaDB.pas' {frmAtualizaDB};
+  uFrmAtualizaDB in 'components\uFrmAtualizaDB.pas' {frmAtualizaDB},
+  uDtmVenda in 'components\uDtmVenda.pas' {dtmVenda: TDataModule},
+  uProVenda in 'processo\uProVenda.pas' {frmTelaHeranca1};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TdtmDados, dtmDados);
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
-  Application.CreateForm(TfrmAtualizaDB, frmAtualizaDB);
+  Application.CreateForm(TdtmVenda, dtmVenda);
+  Application.CreateForm(TfrmTelaHeranca1, frmTelaHeranca1);
   Application.Run;
 end.

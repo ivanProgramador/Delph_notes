@@ -1,0 +1,31 @@
+unit uProVenda;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHeranca, Data.DB,
+  ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.Buttons, Vcl.DBCtrls,
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.ComCtrls;
+
+type
+  TfrmProVenda = class(TfrmTelaHeranca)
+    qryListagemvendaId: TZIntegerField;
+    qryListagemclienteId: TZIntegerField;
+    qryListagemnome: TZUnicodeStringField;
+    qryListagemdataVenda: TZDateTimeField;
+    qryListagemtotalVenda: TZFMTBCDField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmProVenda: TfrmProVenda;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,231 @@
+inherited frmProVenda: TfrmProVenda
+  Caption = 'Venda'
+  ClientWidth = 1018
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 1034
+  TextHeight = 15
+  inherited pgcPrincipal: TPageControl
+    Width = 1018
+    ActivePage = tabManutencao
+    inherited tabListagem: TTabSheet
+      ExplicitWidth = 1010
+      inherited pnlListagemTopo: TPanel
+        Width = 1010
+        StyleElements = [seFont, seClient, seBorder]
+        inherited lblIndice: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited mskPesquisar: TMaskEdit
+          StyleElements = [seFont, seClient, seBorder]
+        end
+      end
+      inherited grdListagem: TDBGrid
+        Width = 1010
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'vendaId'
+            Width = 96
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'clienteId'
+            Width = 73
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'nome'
+            Width = 129
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'dataVenda'
+            Width = 474
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'totalVenda'
+            Width = 136
+            Visible = True
+          end>
+      end
+    end
+    inherited tabManutencao: TTabSheet
+      ExplicitWidth = 1010
+      object Label4: TLabel
+        Left = 176
+        Top = 11
+        Width = 37
+        Height = 15
+        Caption = 'Cliente'
+      end
+      object edtVendaId: TLabeledEdit
+        Tag = 1
+        Left = 16
+        Top = 32
+        Width = 140
+        Height = 23
+        EditLabel.Width = 79
+        EditLabel.Height = 15
+        EditLabel.Caption = 'Numero Venda'
+        MaxLength = 10
+        NumbersOnly = True
+        TabOrder = 0
+        Text = ''
+      end
+      object lkpCliente: TDBLookupComboBox
+        Left = 176
+        Top = 32
+        Width = 553
+        Height = 23
+        KeyField = 'clienteId'
+        ListField = 'descricao'
+        ListSource = dtmVenda.dtsCliente
+        TabOrder = 1
+      end
+      object edtDataVenda: TDateEdit
+        Left = 744
+        Top = 32
+        Width = 121
+        Height = 23
+        ClickKey = 114
+        DialogTitle = 'Selecione a data:'
+        NumGlyphs = 2
+        CalendarStyle = csDialog
+        TabOrder = 2
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 80
+        Width = 1010
+        Height = 402
+        Align = alBottom
+        TabOrder = 3
+        ExplicitWidth = 1002
+        object Panel2: TPanel
+          Left = 1
+          Top = 360
+          Width = 1008
+          Height = 41
+          Align = alBottom
+          TabOrder = 0
+          ExplicitLeft = 176
+          ExplicitTop = 216
+          ExplicitWidth = 185
+          object Label1: TLabel
+            AlignWithMargins = True
+            Left = 812
+            Top = 14
+            Width = 104
+            Height = 16
+            Caption = 'Valor da venda: '
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Arial'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object edtValor: TCurrencyEdit
+            Left = 922
+            Top = 6
+            Width = 75
+            Height = 23
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = [fsBold]
+            ParentColor = True
+            ParentFont = False
+            ReadOnly = True
+            TabOrder = 0
+          end
+        end
+        object Panel3: TPanel
+          Left = 1
+          Top = 42
+          Width = 1008
+          Height = 318
+          Align = alClient
+          TabOrder = 1
+          ExplicitLeft = 504
+          ExplicitTop = 120
+          ExplicitWidth = 185
+          ExplicitHeight = 41
+        end
+        object Panel4: TPanel
+          Left = 1
+          Top = 1
+          Width = 1008
+          Height = 41
+          Align = alTop
+          TabOrder = 2
+          ExplicitLeft = 232
+          ExplicitTop = 72
+          ExplicitWidth = 185
+        end
+      end
+    end
+  end
+  inherited pnlRodape: TPanel
+    Width = 1018
+    StyleElements = [seFont, seClient, seBorder]
+    inherited btnFechar: TBitBtn
+      Left = 927
+    end
+    inherited btnNavigator: TDBNavigator
+      Hints.Strings = ()
+      StyleElements = [seFont, seClient, seBorder]
+    end
+  end
+  inherited qryListagem: TZQuery
+    SQL.Strings = (
+      'SELECT '
+      '  vendas.vendaId,'
+      '  vendas.clienteId,'
+      '  clientes.nome,'
+      '  vendas.dataVenda,'
+      '  vendas.totalVenda'
+      'FROM '
+      '  vendas'
+      '  INNER JOIN'
+      '  clientes '
+      'ON'
+      '  clientes.clienteId = vendas.clienteId;')
+    Left = 956
+    Top = 34
+    object qryListagemvendaId: TZIntegerField
+      DisplayLabel = 'Numero venda'
+      FieldName = 'vendaId'
+      ReadOnly = True
+    end
+    object qryListagemclienteId: TZIntegerField
+      DisplayLabel = 'Cod Cliente'
+      FieldName = 'clienteId'
+      Required = True
+    end
+    object qryListagemnome: TZUnicodeStringField
+      DisplayLabel = 'Nome cliente'
+      FieldName = 'nome'
+      Size = 100
+    end
+    object qryListagemdataVenda: TZDateTimeField
+      DisplayLabel = 'Data venda'
+      FieldName = 'dataVenda'
+    end
+    object qryListagemtotalVenda: TZFMTBCDField
+      DisplayLabel = 'Total da venda'
+      FieldName = 'totalVenda'
+      Precision = 18
+      Size = 5
+    end
+  end
+  inherited dtsListagem: TDataSource
+    Left = 896
+  end
+end
