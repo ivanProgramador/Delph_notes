@@ -14,7 +14,6 @@ object dtmVenda: TdtmVenda
     Left = 40
     Top = 24
     object QryClientesclienteId: TZIntegerField
-      DisplayLabel = 'codigo'
       FieldName = 'clienteId'
       ReadOnly = True
     end
@@ -72,7 +71,6 @@ object dtmVenda: TdtmVenda
     Top = 104
   end
   object cdsItensVenda: TClientDataSet
-    Active = True
     Aggregates = <>
     FieldDefs = <
       item

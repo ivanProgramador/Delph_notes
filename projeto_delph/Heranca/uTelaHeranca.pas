@@ -58,6 +58,8 @@ type
 
 
 
+
+
   public
     EstadoDoCadastro: TEstadoDoCadastro;
     { essa varivel vai ser publica pra ficar acessivel as telas filhas }
@@ -68,6 +70,7 @@ type
 
     function Apagar:Boolean;Virtual;
     function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean;Virtual;
+    procedure BloqueiaCTRL_DEL_DBGrid(var key: word; Shift: TShiftState);
 
   end;
 
@@ -416,5 +419,27 @@ procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
 
            end;
   end;
+
+{
+  Se um item da tabela fosse selecionado e um usuario usasse CTRL + DELETE isso ia travar o sistema
+  A função abaixo bloqueia essa possibilidade
+
+  1 eu recebo a chave que foi acionada que é do tipo palavra pode ser qualquer uma vinda do teclado
+  2 eu recebo o status do botão shift pra saber se ele esta pressionado, na verdade estaou monitorando todas as teclas modificadoras(Ctrl, Shift e Alt)
+
+ }
+
+procedure TfrmTelaHeranca.BloqueiaCTRL_DEL_DBGrid(var key: word; Shift:TShiftState);
+ begin
+    //Bloqueando
+    //testando se o CTRL Foi pressionada junto com o shift
+    //e se a tecla 46 (delete ) esta cionada junto com qualquer um deles
+    //se tiver a Key recebe 0 eo comando é anulado
+
+    if(Shift = [ssCtrl]) and (Key = 46) then
+      begin
+        key := 0;
+      end;
+ end;
 
 end.

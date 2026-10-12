@@ -20,6 +20,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnAlterarClick(Sender: TObject);
+    procedure grdListagemKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     oCategoria :TCategoria;
@@ -87,6 +89,13 @@ function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
   end;
 
 
+
+procedure TfrmCadCategoria.grdListagemKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  BloqueiaCTRL_DEL_DBGrid(Key,Shift);
+end;
 
 {$endregion}
 

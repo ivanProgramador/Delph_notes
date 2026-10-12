@@ -25,6 +25,5 @@ begin
   Application.CreateForm(TdtmDados, dtmDados);
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TdtmVenda, dtmVenda);
-  Application.CreateForm(TfrmProVenda, frmProVenda);
   Application.Run;
 end.

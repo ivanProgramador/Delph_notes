@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus,Enter,uFrmAtualizaDB;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus,Enter,uFrmAtualizaDB,uProVenda;
 
 type
   TfrmPrincipal = class(TForm)
@@ -26,6 +26,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure CLIENTE1Click(Sender: TObject);
     procedure PRODUTO1Click(Sender: TObject);
+    procedure VENDAS1Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -162,5 +163,14 @@ begin
 end;
 
 
+
+procedure TfrmPrincipal.VENDAS1Click(Sender: TObject);
+begin
+   frmProVenda := TfrmProVenda.Create(Self);
+   frmProVenda.ShowModal;
+   frmProVenda.Release;
+
+
+end;
 
 end.

@@ -26,6 +26,8 @@ type
     edtEstado: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnAlterarClick(Sender: TObject);
+    procedure grdListagemKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     oCliente :TCliente;
     function Apagar:Boolean; override;
@@ -124,5 +126,12 @@ function TfrmCadCliente.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
 
 
     end;
+
+procedure TfrmCadCliente.grdListagemKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  BloqueiaCTRL_DEL_DBGrid(Key,Shift);
+end;
 
 end.

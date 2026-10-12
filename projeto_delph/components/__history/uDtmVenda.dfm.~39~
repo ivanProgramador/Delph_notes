@@ -1,0 +1,130 @@
+object dtmVenda: TdtmVenda
+  OnCreate = DataModuleCreate
+  OnDestroy = DataModuleDestroy
+  Height = 480
+  Width = 640
+  object QryClientes: TZQuery
+    Connection = dtmDados.conexao
+    SQL.Strings = (
+      'SELECT '
+      '   clienteId,nome'
+      'FROM '
+      '  dbo.clientes')
+    Params = <>
+    Left = 40
+    Top = 24
+    object QryClientesclienteId: TZIntegerField
+      DisplayLabel = 'codigo'
+      FieldName = 'clienteId'
+      ReadOnly = True
+    end
+    object QryClientesnome: TZUnicodeStringField
+      FieldName = 'nome'
+      Size = 100
+    end
+  end
+  object QryProdutos: TZQuery
+    Connection = dtmDados.conexao
+    SQL.Strings = (
+      'SELECT '
+      '      produtoId,'
+      '       nome,'
+      '       valor,'
+      '       quantidade'
+      'FROM '
+      '  dbo.produtos')
+    Params = <>
+    Left = 136
+    Top = 24
+    object QryProdutosprodutoId: TZIntegerField
+      DisplayLabel = 'codigo'
+      FieldName = 'produtoId'
+      ReadOnly = True
+    end
+    object QryProdutosnome: TZUnicodeStringField
+      FieldName = 'nome'
+      Size = 60
+    end
+    object QryProdutosvalor: TZFMTBCDField
+      FieldName = 'valor'
+      Precision = 18
+      Size = 5
+    end
+    object QryProdutosquantidade: TZFMTBCDField
+      FieldName = 'quantidade'
+      Precision = 18
+      Size = 5
+    end
+  end
+  object dtsCliente: TDataSource
+    DataSet = QryClientes
+    Left = 24
+    Top = 104
+  end
+  object dtsProdutos: TDataSource
+    DataSet = QryProdutos
+    Left = 128
+    Top = 104
+  end
+  object dtsItensVenda: TDataSource
+    Left = 232
+    Top = 104
+  end
+  object cdsItensVenda: TClientDataSet
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'produtoId'
+        DataType = ftInteger
+      end
+      item
+        Name = 'NomeProduto'
+        DataType = ftString
+        Size = 60
+      end
+      item
+        Name = 'quantidade'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ValorUnitario'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ValorTotalProduto'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    Params = <>
+    ProviderName = 'dtsItensVenda'
+    StoreDefs = True
+    Left = 256
+    Top = 24
+    object cdsItensVendaprodutoId: TIntegerField
+      DisplayWidth = 10
+      FieldName = 'produtoId'
+    end
+    object cdsItensVendaNomeProduto: TStringField
+      DisplayWidth = 60
+      FieldName = 'NomeProduto'
+      Size = 60
+    end
+    object cdsItensVendaquantidade: TFloatField
+      DisplayWidth = 20
+      FieldName = 'quantidade'
+    end
+    object cdsItensVendaValorUnitario: TFloatField
+      DisplayWidth = 41
+      FieldName = 'ValorUnitario'
+    end
+    object cdsItensVendaValorTotalProduto: TFloatField
+      DisplayWidth = 69
+      FieldName = 'ValorTotalProduto'
+    end
+    object cdsItensVendaValorTotalVenda: TAggregateField
+      FieldName = 'ValorTotalVenda'
+      DisplayName = ''
+      Expression = 'SUM(ValorTotalProduto)'
+    end
+  end
+end

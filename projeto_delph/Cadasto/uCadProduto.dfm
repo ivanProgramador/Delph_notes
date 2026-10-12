@@ -3,7 +3,6 @@ inherited frmCadProduto: TfrmCadProduto
   StyleElements = [seFont, seClient, seBorder]
   TextHeight = 15
   inherited pgcPrincipal: TPageControl
-    ActivePage = tabManutencao
     inherited tabListagem: TTabSheet
       inherited pnlListagemTopo: TPanel
         StyleElements = [seFont, seClient, seBorder]
@@ -15,6 +14,7 @@ inherited frmCadProduto: TfrmCadProduto
         end
       end
       inherited grdListagem: TDBGrid
+        OnKeyDown = grdListagemKeyDown
         Columns = <
           item
             Expanded = False

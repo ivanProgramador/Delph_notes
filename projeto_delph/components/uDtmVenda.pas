@@ -9,8 +9,6 @@ uses
 type
   TdtmVenda = class(TDataModule)
     QryClientes: TZQuery;
-    QryClientesclienteId: TZIntegerField;
-    QryClientesnome: TZUnicodeStringField;
     QryProdutos: TZQuery;
     QryProdutosprodutoId: TZIntegerField;
     QryProdutosnome: TZUnicodeStringField;
@@ -26,6 +24,8 @@ type
     cdsItensVendaValorUnitario: TFloatField;
     cdsItensVendaValorTotalProduto: TFloatField;
     cdsItensVendaValorTotalVenda: TAggregateField;
+    QryClientesclienteId: TZIntegerField;
+    QryClientesnome: TZUnicodeStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private

@@ -30,6 +30,8 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure grdListagemKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
      oProduto:TProduto;
      function Apagar:Boolean; override;
@@ -144,6 +146,13 @@ function TfrmCadProduto.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
           Result := oProduto.Atualizar;
        end;
   end;
+
+procedure TfrmCadProduto.grdListagemKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  BloqueiaCTRL_DEL_DBGrid(Key,Shift);
+end;
 
 {$endregion}
 

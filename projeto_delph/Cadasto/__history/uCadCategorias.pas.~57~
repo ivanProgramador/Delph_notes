@@ -1,0 +1,148 @@
+unit uCadCategorias;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHeranca, Data.DB, Vcl.Buttons,
+  Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
+  Vcl.ComCtrls, ZAbstractRODataset, ZAbstractDataset, ZDataset,cCadCategoria,uEnum;
+
+type
+  {
+    Esse formulario é uma extenção do formulario de heranção então ele pode usar
+    todos os metodos disponiveis na tela de herança
+  }
+
+  TfrmCadCategoria = class(TfrmTelaHeranca)
+    edtCategoriaId: TLabeledEdit;
+    edtDescricao: TLabeledEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnAlterarClick(Sender: TObject);
+  private
+    { Private declarations }
+    oCategoria :TCategoria;
+    {
+       Esses metodos ja existem na tela de herança
+       mas para que possa usar eles nessa tela eu
+       preciso declarar como override para que ele possa
+       ser sobrescrito por essa tela pra atndeer as necessidades dela
+     }
+    function Apagar:Boolean; override;
+    function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; override;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadCategoria: TfrmCadCategoria;
+
+implementation
+
+{$R *.dfm}
+
+uses uDtmDados;
+
+{$region 'Override'}
+
+
+function TfrmCadCategoria.Apagar: Boolean;
+  begin
+
+    if oCategoria.Selecionar(qryListagem.FieldByName('categoriaId').AsInteger) then
+      begin
+       Result := oCategoria.Apagar;
+      end;
+
+
+
+  end;
+
+
+function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+  begin
+     //testando se os campos foram preenchidos
+     if edtCategoriaId.Text <> EmptyStr then
+       begin
+         oCategoria.codigo := StrToInt(edtCategoriaId.Text);
+       end
+     else
+       begin
+         oCategoria.codigo := 0;
+       end;
+
+         oCategoria.descricao := edtDescricao.Text;
+
+
+     if(EstadoDoCadastro = ecInserir) then
+      begin
+        Result := oCategoria.Inserir;
+      end
+     else if (EstadoDoCadastro = ecAlterar) then
+      begin
+         Result := oCategoria.Atualizar;
+      end;
+  end;
+
+
+
+{$endregion}
+
+
+{$region 'contole de formulario'}
+
+procedure TfrmCadCategoria.btnAlterarClick(Sender: TObject);
+begin
+   {
+     A "qryListagem" traz toda a lista de categorias então eu pego o conteudo do campo "categoriaId"
+     e converto pra inteiro e passo como pararmetro pra função selecionar
+     que executa o select usando o di como parametro
+
+   }
+  if oCategoria.Selecionar(qryListagem.FieldByName('categoriaId').AsInteger) then
+    begin
+      //com os dados em mãos eu so preciso preencher  os campos
+      // codigo e descrição
+      edtCategoriaId.Text := IntToStr(oCategoria.codigo);
+      edtDescricao.Text   := oCategoria.descricao;
+    end
+  else
+    begin
+     // se alguma ccoisa der errado eu aciono click do botão cancelar
+      btnCancelar.Click;
+      //a aborto a execução da função
+      Abort;
+    end;
+
+  inherited;
+
+end;
+
+procedure TfrmCadCategoria.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+  if Assigned(oCategoria) then
+   begin
+       FreeAndNil(oCategoria);
+   end;
+end;
+
+
+
+
+procedure TfrmCadCategoria.FormCreate(Sender: TObject);
+
+begin
+  inherited;
+  oCategoria := Tcategoria.Create(dtmDados.conexao);
+
+
+end;
+
+{$endregion}
+
+
+
+end.
