@@ -55,5 +55,36 @@
     <Transaction>2026/10/10 19:55:07.000.946,C:\Delph_notes\projeto_delph\processo\uProVenda.pas=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
     <Transaction>2026/10/12 22:10:32.983,=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
     <Transaction>2026/10/12 22:10:53.392,C:\Delph_notes\projeto_delph\classes\cProVenda.pas=C:\Delph_notes\projeto_delph\Unit1.pas</Transaction>
-  </Transactions>
+  </Transactions>  <ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="Cadasto"/>
+    <File Path="Cadasto\uCadCategorias.pas"/>
+    <File Path="Cadasto\uCadCategorias.dfm"/>
+    <File Path="Cadasto\uCadCliente.pas"/>
+    <File Path="Cadasto\uCadCliente.dfm"/>
+    <File Path="Cadasto\uCadProduto.pas"/>
+    <File Path="Cadasto\uCadProduto.dfm"/>
+    <File Path="classes"/>
+    <File Path="classes\cCadCategoria.pas"/>
+    <File Path="classes\cCadCliente.pas"/>
+    <File Path="classes\cCadProduto.pas"/>
+    <File Path="classes\cProVenda.pas"/>
+    <File Path="components"/>
+    <File Path="components\uDtmDados.pas"/>
+    <File Path="components\uDtmDados.dfm"/>
+    <File Path="components\uDtmVenda.pas"/>
+    <File Path="components\uDtmVenda.dfm"/>
+    <File Path="components\uFrmAtualizaDB.pas"/>
+    <File Path="components\uFrmAtualizaDB.dfm"/>
+    <File Path="Heranca"/>
+    <File Path="Heranca\uEnum.pas"/>
+    <File Path="Heranca\uTelaHeranca.pas"/>
+    <File Path="Heranca\uTelaHeranca.dfm"/>
+    <File Path="processo"/>
+    <File Path="processo\uProVenda.pas"/>
+    <File Path="processo\uProVenda.dfm"/>
+    <File Path="terceiros"/>
+    <File Path="terceiros\Enter.pas"/>
+    <File Path="uPrincipal.pas"/>
+    <File Path="uPrincipal.dfm"/>
+  </ProjectSortOrder>
 </BorlandProject>

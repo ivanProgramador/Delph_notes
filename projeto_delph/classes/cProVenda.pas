@@ -101,6 +101,37 @@ function TVenda.Apagar(id: Integer): Boolean;
     end;
   end;
 
+function TVenda.Atualizar: Boolean;
+ var Qry:TZQuery;
+   begin
+     try
+      Result := true;
+      Qry := TZQuery.Create(nil);
+      Qry.Connection := conexaoDB;
+      Qry.SQL.Clear;
+      Qry.SQL.Add(' UPDATE vendas ' +
+                  ' SET clienteId = :clienteId, '+
+                  '  dataVenda = :dataVenda,    '+
+                  '  totalVenda = :totalVenda   '+
+                  ' WHERE vendaId = :vendaId    ');
+      Qry.ParamByName('vendaId').AsInteger    := Self.F_vendaId;
+      Qry.ParamByName('clienteId').AsInteger  := Self.F_clienteId;
+      Qry.ParamByName('dataVenda').AsDateTime := Self.F_dataVenda;
+      Qry.ParamByName('totalVenda').AsFloat   := Self.F_totalVenda;
+
+          try
+              Qry.ExecSQL;
+            except
+              Result := false;
+          end;
+
+     finally
+       if Assigned(Qry) then
+         begin
+           FreeAndNil(Qry);
+         end;
+     end;
+   end;
 
 
 
