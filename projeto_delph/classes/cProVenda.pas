@@ -56,6 +56,9 @@ destructor TVenda.Destroy;
 
 {$endregion}
 
+
+{$region 'CRUD'}
+
 function TVenda.Apagar(id: Integer): Boolean;
 
  var Qry:TZQuery;
@@ -131,10 +134,87 @@ function TVenda.Atualizar: Boolean;
            FreeAndNil(Qry);
          end;
      end;
+ end;
+
+function TVenda.Inserir: Boolean;
+ var
+   Qry:TZQuery;
+   IdVendaGerado:Integer;
+
+   begin
+     try
+       Result := true;
+       ConexaoDB.StartTransaction;
+       Qry:=TZQuery.Create(nil);
+       Qry.Connection := ConexaoDB;
+       //INCLUINDO A VENDA NA BASE
+
+       Qry.SQL.Clear;
+       Qry.SQL.Add('INSERT INTO vendas(clienteId, dataVenda,totalVenda) '+
+                   'VALUES (:clienteId,:dataVenda,:totalVenda)');
+
+       Qry.ParamByName('clienteId').AsInteger := Self.F_clienteId;
+       Qry.ParamByName('dataVenda').AsDateTime := Self.F_dataVenda;
+       Qry.ParamByName('totalVenda').AsFloat := Self.F_totalVenda;
+        Try
+              Qry.ExecSQL;
+              //pegando o id gerado no insert porque ue preciso desse id
+              //pra associar um produtos a essa venda
+              Qry.SQL.Clear;
+              Qry.SQL.Add('SELECT SCOPE_IDENTITY() AS ID');
+              Qry.Open;
+
+              //id da venda
+              IdVendaGerado := Qry.FieldByName('ID').AsInteger;
+
+              ConexaoDB.Commit;
+
+           Except
+            ConexaoDB.Rollback;
+            Result := False;
+        End;
+
+        finally
+         if Assigned(Qry) then
+           begin
+             FreeAndNil(Qry);
+           end;
+     end;
    end;
 
+function TVenda.Selecionar(id: Integer): Boolean;
+var
+  Qry: TZQuery;
+    begin
+      try
+        Result := true;
+        Qry := TZQuery.Create(nil);
+        Qry.Connection := ConexaoDB;
+        Qry.SQL.Clear;
+        Qry.SQL.Add('SELECT vendaId ' +
+                    '      ,clienteId ' +
+                    '      ,dataVenda ' +
+                    '      ,totalVenda ' +
+                    '  FROM vendas ' +
+                    ' WHERE vendaId=:vendaId');
+        Qry.ParamByName('vendaId').AsInteger := id;
+          try
+            Qry.Open;
+
+            Self.F_vendaId   := Qry.FieldByName('vendaId').AsInteger;
+            Self.F_clienteId := Qry.FieldByName('clienteId').AsInteger;
+            Self.F_dataVenda := Qry.FieldByName('dataVenda').AsDateTime;
+            Self.F_totalVenda := Qry.FieldByName('totalVenda').AsFloat;
+          Except
+            Result := false;
+          End;
+
+      finally
+        if Assigned(Qry) then
+          FreeAndNil(Qry);
+      end;
+end;
 
 
-
-
+{$endregion}
 end.
