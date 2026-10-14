@@ -42,6 +42,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure btnAlterarClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
   private
     { Private declarations }
     dtmVenda :TdtmVenda;
@@ -129,12 +130,24 @@ begin
 
 end;
 
+procedure TfrmProVenda.btnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDataVenda.Date := Date;
+  lkpCliente.SetFocus;
+end;
+
 procedure TfrmProVenda.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
   if Assigned(dtmVenda) then
      begin
           FreeAndNil(dtmVenda);
+     end;
+
+  if Assigned(oVenda) then
+     begin
+          FreeAndNil(oVenda);
      end;
 end;
 
@@ -147,6 +160,8 @@ procedure TfrmProVenda.FormCreate(Sender: TObject);
 begin
   inherited;
   dtmVenda := TdtmVenda.Create(Self);
+  oVenda   := TVenda.Create(dtmDados.conexao);
+  IndiceAtual := 'clienteId'
 end;
 
 {$endregion}
