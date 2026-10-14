@@ -2,7 +2,6 @@ inherited frmProVenda: TfrmProVenda
   Caption = 'Venda'
   ClientWidth = 1018
   StyleElements = [seFont, seClient, seBorder]
-  ExplicitLeft = -118
   ExplicitWidth = 1034
   TextHeight = 15
   inherited pgcPrincipal: TPageControl
@@ -193,6 +192,7 @@ inherited frmProVenda: TfrmProVenda
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
             TitleFont.Style = []
+            OnKeyDown = grdItensVendaKeyDown
             Columns = <
               item
                 Expanded = False

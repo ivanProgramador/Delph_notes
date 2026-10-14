@@ -37,6 +37,10 @@ type
     Label3: TLabel;
     Label5: TLabel;
     Label6: TLabel;
+    procedure grdItensVendaKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     dtmVenda :TdtmVenda;
@@ -62,6 +66,8 @@ begin
      Result := oVenda.Apagar(QryListagem.ParamByName('vendaId').AsInteger);
 end;
 
+
+
 function TfrmProVenda.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
 begin
 
@@ -85,6 +91,38 @@ begin
          Result := oVenda.Atualizar;
       end;
 end;
+
+
 {$endregion}
 
+{$region 'Convencional'}
+
+procedure TfrmProVenda.grdItensVendaKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+    BloqueiaCTRL_DEL_DBGrid(key,Shift);
+end;
+
+procedure TfrmProVenda.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+  if Assigned(dtmVenda) then
+     begin
+          FreeAndNil(dtmVenda);
+     end;
+end;
+
+
+
+
+
+
+procedure TfrmProVenda.FormCreate(Sender: TObject);
+begin
+  inherited;
+  dtmVenda := TdtmVenda.Create(Self);
+end;
+
+{$endregion}
 end.

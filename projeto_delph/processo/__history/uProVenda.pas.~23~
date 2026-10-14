@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHeranca, Data.DB,
   ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.Buttons, Vcl.DBCtrls,
   Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.ComCtrls,uDtmDados,uDtmVenda,
-  RxToolEdit, RxCurrEdit;
+  RxToolEdit, RxCurrEdit,uEnum,cProVenda;
 
 type
   TfrmProVenda = class(TfrmTelaHeranca)
@@ -24,7 +24,7 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
-    edtValor: TCurrencyEdit;
+    edtValorTotal: TCurrencyEdit;
     Label1: TLabel;
     grdItensVenda: TDBGrid;
     Label2: TLabel;
@@ -39,6 +39,11 @@ type
     Label6: TLabel;
   private
     { Private declarations }
+    dtmVenda :TdtmVenda;
+    oVenda:TVenda;
+    function Apagar:Boolean; Override;
+    function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; Override;
+
   public
     { Public declarations }
   end;
@@ -49,5 +54,37 @@ var
 implementation
 
 {$R *.dfm}
+
+{$region 'Override'}
+
+function TfrmProVenda.Apagar: Boolean;
+begin
+     Result := oVenda.Apagar(QryListagem.ParamByName('vendaId').AsInteger);
+end;
+
+function TfrmProVenda.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+begin
+
+    if edtVendaId.Text <> EmptyStr then
+       begin
+         oVenda.VendaId := StrToInt(edtVendaId.Text);
+       end
+    else
+
+      oVenda.VendaId :=0;
+      oVenda.clienteId := lkpCliente.KeyValue;
+      oVenda.dataVenda := edtDataVenda.Date;
+      oVenda.totalVenda := edtValorTotal.Value;
+
+    if (EstadoDoCadastro = ecInserir) then
+      begin
+         Result := oVenda.Inserir;
+      end
+    else if(EstadoDoCadastro = ecAlterar) then
+      begin
+         Result := oVenda.Atualizar;
+      end;
+end;
+{$endregion}
 
 end.
