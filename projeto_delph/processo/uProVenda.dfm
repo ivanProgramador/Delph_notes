@@ -2,6 +2,7 @@ inherited frmProVenda: TfrmProVenda
   Caption = 'Venda'
   ClientWidth = 1018
   StyleElements = [seFont, seClient, seBorder]
+  ExplicitTop = -64
   ExplicitWidth = 1034
   TextHeight = 15
   inherited pgcPrincipal: TPageControl

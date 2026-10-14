@@ -41,6 +41,7 @@ type
       Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
   private
     { Private declarations }
     dtmVenda :TdtmVenda;
@@ -102,6 +103,30 @@ procedure TfrmProVenda.grdItensVendaKeyDown(Sender: TObject; var Key: Word;
 begin
   inherited;
     BloqueiaCTRL_DEL_DBGrid(key,Shift);
+end;
+
+procedure TfrmProVenda.btnAlterarClick(Sender: TObject);
+begin
+
+  if oVenda.Selecionar(QryListagem.FieldByName('VendaId').AsInteger) then
+    begin
+
+      edtVendaId.Text     := IntToStr(oVenda.VendaId);
+      lkpCliente.KeyValue := oVenda.clienteId;
+      edtDataVenda.Date   := oVenda.dataVenda;
+      edtValorTotal.Value := oVenda.totalVenda;
+
+    end
+  else
+    begin
+      btnCancelar.Click;
+      Abort;
+    end;
+
+   inherited;
+
+
+
 end;
 
 procedure TfrmProVenda.FormClose(Sender: TObject; var Action: TCloseAction);

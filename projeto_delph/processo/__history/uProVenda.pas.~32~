@@ -1,0 +1,151 @@
+unit uProVenda;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHeranca, Data.DB,
+  ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.Buttons, Vcl.DBCtrls,
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.ComCtrls,uDtmDados,uDtmVenda,
+  RxToolEdit, RxCurrEdit,uEnum,cProVenda;
+
+type
+  TfrmProVenda = class(TfrmTelaHeranca)
+    qryListagemvendaId: TZIntegerField;
+    qryListagemclienteId: TZIntegerField;
+    qryListagemnome: TZUnicodeStringField;
+    qryListagemdataVenda: TZDateTimeField;
+    qryListagemtotalVenda: TZFMTBCDField;
+    edtVendaId: TLabeledEdit;
+    lkpCliente: TDBLookupComboBox;
+    Label4: TLabel;
+    edtDataVenda: TDateEdit;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    edtValorTotal: TCurrencyEdit;
+    Label1: TLabel;
+    grdItensVenda: TDBGrid;
+    Label2: TLabel;
+    lkpProduto: TDBLookupComboBox;
+    edtValorUnitario: TCurrencyEdit;
+    edtQuantidade: TCurrencyEdit;
+    edtTotalProduto: TCurrencyEdit;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    Label3: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    procedure grdItensVendaKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+  private
+    { Private declarations }
+    dtmVenda :TdtmVenda;
+    oVenda:TVenda;
+    function Apagar:Boolean; Override;
+    function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; Override;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  frmProVenda: TfrmProVenda;
+
+implementation
+
+{$R *.dfm}
+
+{$region 'Override'}
+
+function TfrmProVenda.Apagar: Boolean;
+begin
+     Result := oVenda.Apagar(QryListagem.ParamByName('vendaId').AsInteger);
+end;
+
+
+
+function TfrmProVenda.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+begin
+
+    if edtVendaId.Text <> EmptyStr then
+       begin
+         oVenda.VendaId := StrToInt(edtVendaId.Text);
+       end
+    else
+
+      oVenda.VendaId :=0;
+      oVenda.clienteId := lkpCliente.KeyValue;
+      oVenda.dataVenda := edtDataVenda.Date;
+      oVenda.totalVenda := edtValorTotal.Value;
+
+    if (EstadoDoCadastro = ecInserir) then
+      begin
+         Result := oVenda.Inserir;
+      end
+    else if(EstadoDoCadastro = ecAlterar) then
+      begin
+         Result := oVenda.Atualizar;
+      end;
+end;
+
+
+{$endregion}
+
+{$region 'Convencional'}
+
+procedure TfrmProVenda.grdItensVendaKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+    BloqueiaCTRL_DEL_DBGrid(key,Shift);
+end;
+
+procedure TfrmProVenda.btnAlterarClick(Sender: TObject);
+begin
+
+  if oVenda.Selecionar(QryListagem.FieldByName('VendaId').AsInteger) then
+    begin
+
+      edtVendaId.Text     := IntToStr(oVenda.VendaId);
+      lkpCliente.KeyValue := oVenda.clienteId;
+      edtDataVenda.Date   := oVenda.dataVenda;
+      edtValorTotal.Value := oVenda.totalVenda;
+
+    end
+  else
+    begin
+      btnCancelar.Click;
+      Abort;
+    end;
+
+  inherited;
+
+end;
+
+procedure TfrmProVenda.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+  if Assigned(dtmVenda) then
+     begin
+          FreeAndNil(dtmVenda);
+     end;
+end;
+
+
+
+
+
+
+procedure TfrmProVenda.FormCreate(Sender: TObject);
+begin
+  inherited;
+  dtmVenda := TdtmVenda.Create(Self);
+end;
+
+{$endregion}
+end.
