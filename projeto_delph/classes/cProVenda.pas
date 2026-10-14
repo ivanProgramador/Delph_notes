@@ -73,6 +73,7 @@ function TVenda.Apagar(id: Integer): Boolean;
 
     try
       Result := true;
+      ConexaoDB.StartTransaction;
       Qry := TZQuery.Create(nil);
       Qry.Connection := ConexaoDB;
       //apagando primeiro os itens da venda
@@ -90,9 +91,11 @@ function TVenda.Apagar(id: Integer): Boolean;
                       ' WHERE vendaId = :vendaId ');
              Qry.ParamByName('vendaId').AsInteger := id;
              Qry.ExecSQL;
+             ConexaoDB.Commit;
 
 
              Except
+             ConexaoDB.Rollback;
              Result := false;
           End;
 

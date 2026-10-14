@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHeranca, Data.DB,
   ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.Buttons, Vcl.DBCtrls,
   Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.ComCtrls,uDtmDados,uDtmVenda,
-  RxToolEdit, RxCurrEdit;
+  RxToolEdit, RxCurrEdit,uEnum,cProVenda;
 
 type
   TfrmProVenda = class(TfrmTelaHeranca)
@@ -28,12 +28,21 @@ type
     Label1: TLabel;
     grdItensVenda: TDBGrid;
     Label2: TLabel;
-    DBLookupComboBox1: TDBLookupComboBox;
+    lkpProduto: TDBLookupComboBox;
+    edtValorUnitario: TCurrencyEdit;
     edtQuantidade: TCurrencyEdit;
-    CurrencyEdit1: TCurrencyEdit;
-    CurrencyEdit2: TCurrencyEdit;
+    edtTotalProduto: TCurrencyEdit;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    Label3: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
   private
     { Private declarations }
+    dtmVenda :TdtmVenda;
+    function Apagar:Boolean; Override;
+    function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; Override;
+
   public
     { Public declarations }
   end;
@@ -44,5 +53,18 @@ var
 implementation
 
 {$R *.dfm}
+
+{$region 'Override'}
+
+function TfrmProVenda.Apagar: Boolean;
+begin
+
+end;
+
+function TfrmProVenda.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+begin
+
+end;
+{$endregion}
 
 end.

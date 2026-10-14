@@ -2,6 +2,7 @@ inherited frmProVenda: TfrmProVenda
   Caption = 'Venda'
   ClientWidth = 1018
   StyleElements = [seFont, seClient, seBorder]
+  ExplicitLeft = -118
   ExplicitWidth = 1034
   TextHeight = 15
   inherited pgcPrincipal: TPageControl
@@ -156,7 +157,7 @@ inherited frmProVenda: TfrmProVenda
             Font.Style = [fsBold]
             ParentFont = False
           end
-          object edtValor: TCurrencyEdit
+          object edtValorTotal: TCurrencyEdit
             Left = 922
             Top = 6
             Width = 75
@@ -206,16 +207,19 @@ inherited frmProVenda: TfrmProVenda
               item
                 Expanded = False
                 FieldName = 'quantidade'
+                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'ValorUnitario'
+                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'ValorTotalProduto'
+                Width = 64
                 Visible = True
               end>
           end
