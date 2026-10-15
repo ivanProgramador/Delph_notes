@@ -65,7 +65,7 @@ function TVenda.Apagar(id: Integer): Boolean;
 
   begin
     if MessageDlg('Apagar registro ' +#13+#13+
-                  'Venda numero : ' +IntToStr(VendaId),mtConfirmation,[mbYes,mbNo],0)=mrNo then
+                  'Venda numero : ' +IntToStr(id),mtConfirmation,[mbYes,mbNo],0)=mrNo then
     begin
       Result := False;
       abort;

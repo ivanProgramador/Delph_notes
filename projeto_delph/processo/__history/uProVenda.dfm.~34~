@@ -2,6 +2,7 @@ inherited frmProVenda: TfrmProVenda
   Caption = 'Venda'
   ClientWidth = 1018
   StyleElements = [seFont, seClient, seBorder]
+  ExplicitTop = -64
   ExplicitWidth = 1034
   TextHeight = 15
   inherited pgcPrincipal: TPageControl
@@ -113,7 +114,7 @@ inherited frmProVenda: TfrmProVenda
         Width = 553
         Height = 23
         KeyField = 'clienteId'
-        ListField = 'descricao'
+        ListField = 'nome'
         ListSource = dtmVenda.dtsCliente
         TabOrder = 7
       end
@@ -156,7 +157,7 @@ inherited frmProVenda: TfrmProVenda
             Font.Style = [fsBold]
             ParentFont = False
           end
-          object edtValor: TCurrencyEdit
+          object edtValorTotal: TCurrencyEdit
             Left = 922
             Top = 6
             Width = 75
@@ -192,6 +193,7 @@ inherited frmProVenda: TfrmProVenda
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
             TitleFont.Style = []
+            OnKeyDown = grdItensVendaKeyDown
             Columns = <
               item
                 Expanded = False
@@ -206,16 +208,19 @@ inherited frmProVenda: TfrmProVenda
               item
                 Expanded = False
                 FieldName = 'quantidade'
+                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'ValorUnitario'
+                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'ValorTotalProduto'
+                Width = 64
                 Visible = True
               end>
           end
@@ -364,7 +369,7 @@ inherited frmProVenda: TfrmProVenda
       '  clientes '
       'ON'
       '  clientes.clienteId = vendas.clienteId;')
-    Left = 956
+    Left = 964
     Top = 34
     object qryListagemvendaId: TZIntegerField
       DisplayLabel = 'Numero venda'

@@ -43,6 +43,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnAlterarClick(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
+
   private
     { Private declarations }
     dtmVenda :TdtmVenda;
@@ -65,7 +66,7 @@ implementation
 
 function TfrmProVenda.Apagar: Boolean;
 begin
-     Result := oVenda.Apagar(QryListagem.ParamByName('vendaId').AsInteger);
+     Result := oVenda.Apagar(QryListagem.FieldByName('vendaId').AsInteger);
 end;
 
 
@@ -129,6 +130,8 @@ begin
 
 
 end;
+
+
 
 procedure TfrmProVenda.btnNovoClick(Sender: TObject);
 begin
