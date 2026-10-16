@@ -270,7 +270,7 @@ inherited frmProVenda: TfrmProVenda
         ReadOnly = True
         TabOrder = 3
       end
-      object BitBtn1: TBitBtn
+      object btnAdicionar: TBitBtn
         Left = 744
         Top = 82
         Width = 121
@@ -304,6 +304,7 @@ inherited frmProVenda: TfrmProVenda
           17BF6F17FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         TabOrder = 4
+        OnClick = btnAdicionarClick
       end
       object BitBtn2: TBitBtn
         Left = 871
