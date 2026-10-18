@@ -2,7 +2,6 @@ inherited frmProVenda: TfrmProVenda
   Caption = 'Venda'
   ClientWidth = 1018
   StyleElements = [seFont, seClient, seBorder]
-  ExplicitTop = -64
   ExplicitWidth = 1034
   TextHeight = 15
   inherited pgcPrincipal: TPageControl
@@ -243,6 +242,7 @@ inherited frmProVenda: TfrmProVenda
         ListField = 'nome'
         ListSource = dtmVenda.dtsProdutos
         TabOrder = 0
+        OnExit = lkpProdutoExit
       end
       object edtValorUnitario: TCurrencyEdit
         Left = 471
@@ -259,6 +259,8 @@ inherited frmProVenda: TfrmProVenda
         Height = 23
         DisplayFormat = ',0.00;-R$ ,0.00'
         TabOrder = 2
+        OnEnter = edtQuantidadeEnter
+        OnExit = edtQuantidadeExit
       end
       object edtTotalProduto: TCurrencyEdit
         Left = 652
@@ -306,7 +308,7 @@ inherited frmProVenda: TfrmProVenda
         TabOrder = 4
         OnClick = btnAdicionarClick
       end
-      object BitBtn2: TBitBtn
+      object btnRemover: TBitBtn
         Left = 871
         Top = 82
         Width = 127

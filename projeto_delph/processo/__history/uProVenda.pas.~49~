@@ -44,6 +44,9 @@ type
     procedure btnAlterarClick(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
     procedure btnAdicionarClick(Sender: TObject);
+    procedure lkpProdutoExit(Sender: TObject);
+    procedure edtQuantidadeExit(Sender: TObject);
+    procedure edtQuantidadeEnter(Sender: TObject);
 
   private
     { Private declarations }
@@ -51,6 +54,8 @@ type
     oVenda:TVenda;
     function Apagar:Boolean; Override;
     function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; Override;
+    function TotalizarProduto(valorUnitario, Quantidade: Double): Double;
+
 
   public
     { Public declarations }
@@ -108,10 +113,23 @@ begin
     BloqueiaCTRL_DEL_DBGrid(key,Shift);
 end;
 
+
+
+
+procedure TfrmProVenda.lkpProdutoExit(Sender: TObject);
+begin
+  inherited;
+  edtValorUnitario.Value := dtmVenda.QryProdutos.FieldByName('valor').AsFloat;
+  edtQuantidade.Value := 1;
+end;
+
+
+
+
 procedure TfrmProVenda.btnAdicionarClick(Sender: TObject);
 begin
   inherited;
-  {Para que um porduto possa ser inserido em uma venda ele deve passar por 3 criterios}
+  {Para que um porduto possa ser inserido em uma venda ele deve passar por 4 criterios}
 
   if lkpProduto.KeyValue = null then
       begin
@@ -134,8 +152,25 @@ begin
         abort;
       end;
 
+  {o produto repetido precisa ser tratado ainda }
 
+   if dtmVenda.cdsItensVenda.Locate('produtoId',lkpProduto.KeyValue,[]) then
+      begin
+        MessageDlg('Esse produto ja foi selecionado',mtInformation,[mbOK],0);
+        lkpProduto.SetFocus;
+        abort;
+      end;
+   edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value , edtQuantidade.Value);
 end;
+
+ {totalizando o produto}
+
+function TfrmProVenda.TotalizarProduto(valorUnitario,Quantidade:Double):Double;
+ begin
+   result := valorUnitario * Quantidade;
+ end;
+
+
 
 procedure TfrmProVenda.btnAlterarClick(Sender: TObject);
 begin
@@ -168,6 +203,19 @@ begin
   inherited;
   edtDataVenda.Date := Date;
   lkpCliente.SetFocus;
+end;
+
+procedure TfrmProVenda.edtQuantidadeEnter(Sender: TObject);
+begin
+  inherited;
+  edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value, edtQuantidade.Value);
+end;
+
+procedure TfrmProVenda.edtQuantidadeExit(Sender: TObject);
+begin
+  inherited;
+  edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value, edtQuantidade.Value);
+
 end;
 
 procedure TfrmProVenda.FormClose(Sender: TObject; var Action: TCloseAction);

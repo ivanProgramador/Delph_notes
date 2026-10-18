@@ -33,7 +33,7 @@ type
     edtQuantidade: TCurrencyEdit;
     edtTotalProduto: TCurrencyEdit;
     btnAdicionar: TBitBtn;
-    BitBtn2: TBitBtn;
+    btnRemover: TBitBtn;
     Label3: TLabel;
     Label5: TLabel;
     Label6: TLabel;
@@ -44,6 +44,9 @@ type
     procedure btnAlterarClick(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
     procedure btnAdicionarClick(Sender: TObject);
+    procedure lkpProdutoExit(Sender: TObject);
+    procedure edtQuantidadeExit(Sender: TObject);
+    procedure edtQuantidadeEnter(Sender: TObject);
 
   private
     { Private declarations }
@@ -52,6 +55,7 @@ type
     function Apagar:Boolean; Override;
     function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; Override;
     function TotalizarProduto(valorUnitario, Quantidade: Double): Double;
+    procedure LimparComponenteItem;
 
 
   public
@@ -110,6 +114,19 @@ begin
     BloqueiaCTRL_DEL_DBGrid(key,Shift);
 end;
 
+
+
+
+procedure TfrmProVenda.lkpProdutoExit(Sender: TObject);
+begin
+  inherited;
+  edtValorUnitario.Value := dtmVenda.QryProdutos.FieldByName('valor').AsFloat;
+  edtQuantidade.Value := 1;
+end;
+
+
+
+
 procedure TfrmProVenda.btnAdicionarClick(Sender: TObject);
 begin
   inherited;
@@ -144,8 +161,33 @@ begin
         lkpProduto.SetFocus;
         abort;
       end;
-   edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value , edtQuantidade.Value);
+
+    edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value , edtQuantidade.Value);
+
+    {incluindo os dados do produto na tabela virtual que guarda as vendas no cds}
+
+    dtmVenda.cdsItensVenda.Append;
+    dtmVenda.cdsItensVenda.FieldByName('produtoId').AsString          := lkpProduto.KeyValue;
+    dtmVenda.cdsItensVenda.FieldByName('nomeProduto').AsString        := dtmVenda.QryProdutos.FieldByName('nome').AsString;
+    dtmVenda.cdsItensVenda.FieldByName('quantidade').AsFloat          := edtQuantidade.Value;
+    dtmVenda.cdsItensVenda.FieldByName('valorUnitario').AsFloat       := edtValorUnitario.Value;
+    dtmVenda.cdsItensVenda.FieldByName('valorTotalProduto').AsFloat   := edtTotalProduto.Value;
+    dtmVenda.cdsItensVenda.Post;
+
+    LimparComponenteItem;
+
+    lkpProduto.SetFocus;
+
+
 end;
+
+procedure TfrmProVenda.LimparComponenteItem;
+ begin
+    lkpProduto.KeyValue    := null;
+    edtQuantidade.Value    := 0;
+    edtValorUnitario.Value := 0;
+    edtTotalProduto.Value  := 0;
+ end;
 
  {totalizando o produto}
 
@@ -189,6 +231,19 @@ begin
   lkpCliente.SetFocus;
 end;
 
+procedure TfrmProVenda.edtQuantidadeEnter(Sender: TObject);
+begin
+  inherited;
+  edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value, edtQuantidade.Value);
+end;
+
+procedure TfrmProVenda.edtQuantidadeExit(Sender: TObject);
+begin
+  inherited;
+  edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value, edtQuantidade.Value);
+
+end;
+
 procedure TfrmProVenda.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
@@ -215,6 +270,9 @@ begin
   oVenda   := TVenda.Create(dtmDados.conexao);
   IndiceAtual := 'clienteId'
 end;
+
+
+
 
 {$endregion}
 end.
