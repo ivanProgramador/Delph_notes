@@ -185,7 +185,6 @@ inherited frmProVenda: TfrmProVenda
             Width = 1006
             Height = 284
             Align = alClient
-            DataSource = dtmVenda.dtsItensVenda
             TabOrder = 0
             TitleFont.Charset = DEFAULT_CHARSET
             TitleFont.Color = clWindowText
@@ -207,19 +206,16 @@ inherited frmProVenda: TfrmProVenda
               item
                 Expanded = False
                 FieldName = 'quantidade'
-                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'ValorUnitario'
-                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'ValorTotalProduto'
-                Width = 64
                 Visible = True
               end>
           end
@@ -308,7 +304,7 @@ inherited frmProVenda: TfrmProVenda
         TabOrder = 4
         OnClick = btnAdicionarClick
       end
-      object BitBtn2: TBitBtn
+      object btnRemover: TBitBtn
         Left = 871
         Top = 82
         Width = 127
@@ -342,6 +338,7 @@ inherited frmProVenda: TfrmProVenda
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         TabOrder = 5
+        OnClick = btnRemoverClick
       end
     end
   end

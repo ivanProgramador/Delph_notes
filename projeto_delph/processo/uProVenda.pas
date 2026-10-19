@@ -49,6 +49,9 @@ type
     procedure edtQuantidadeEnter(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
+    procedure btnRemoverClick(Sender: TObject);
+    procedure grdItensVendaDblClick(Sender: TObject);
+    procedure lkpProdutoCloseUp(Sender: TObject);
 
   private
 
@@ -60,6 +63,7 @@ type
     function TotalizarProduto(valorUnitario, Quantidade: Double): Double;
     procedure LimparComponenteItem;
     procedure LimparCds;
+    procedure CarregarRegistroSelecionado;
 
 
   public
@@ -111,6 +115,12 @@ end;
 
 {$region 'Convencional'}
 
+procedure TfrmProVenda.grdItensVendaDblClick(Sender: TObject);
+begin
+  inherited;
+  carregarRegistroSelecionado;
+end;
+
 procedure TfrmProVenda.grdItensVendaKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -121,12 +131,41 @@ end;
 
 
 
+procedure TfrmProVenda.lkpProdutoCloseUp(Sender: TObject);
+begin
+  inherited;
+  if not VarIsNull(lkpProduto.KeyValue) then
+    begin
+      { apontando  a query no id selecionado e fazendo a busca }
+
+      if dtmVenda.QryProdutos.Locate('produtoId', lkpProduto.KeyValue, []) then
+      begin
+
+        { se char o id ele preeche logo o valor unitario do porduto que esta selecionado }
+        edtValorUnitario.Value := dtmVenda.QryProdutos.FieldByName('valor').AsFloat;
+
+        { coloca a quantidade minima de 1 como um padrão }
+        edtQuantidade.Value    := 1;
+
+        { coloca o total do produto com base na quantiodade atual  }
+        edtTotalProduto.Value  := TotalizarProduto(edtValorUnitario.Value, edtQuantidade.Value);
+      end;
+    end;
+end;
+
 procedure TfrmProVenda.lkpProdutoExit(Sender: TObject);
 begin
   inherited;
-  edtValorUnitario.Value := dtmVenda.QryProdutos.FieldByName('valor').AsFloat;
-  edtQuantidade.Value := 1;
+  if TDBLookupComboBox(Sender).KeyValue <> Null  then
+     begin
+       edtValorUnitario.Value := dtmVenda.QryProdutos.FieldByName('Valor').AsFloat;
+       edtQuantidade.Value := 1;
+       edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value,edtQuantidade.Value);
+     end;
+
 end;
+
+
 
 
 
@@ -134,53 +173,62 @@ end;
 procedure TfrmProVenda.btnAdicionarClick(Sender: TObject);
 begin
   inherited;
-  {Para que um porduto possa ser inserido em uma venda ele deve passar por 4 criterios}
 
-  if lkpProduto.KeyValue = null then
+
+     { Valida os parametros necessarios pra entrara na venda  }
+      if (lkpProduto.KeyValue = Null) or VarIsNull(lkpProduto.KeyValue) then
       begin
-        MessageDlg('Produto é um campo obrigatorio',mtInformation,[mbOK],0);
+        MessageDlg('Produto é um campo obrigatório', mtInformation, [mbOK], 0);
         lkpProduto.SetFocus;
-        abort;
+        Abort;
       end;
 
-  if edtValorUnitario.Value <=0 then
+      if edtValorUnitario.Value <= 0 then
       begin
-        MessageDlg('O valor unitario não pode ser zero ',mtInformation,[mbOK],0);
+        MessageDlg('O valor unitário não pode ser zero', mtInformation, [mbOK], 0);
         edtValorUnitario.SetFocus;
-        abort;
+        Abort;
       end;
 
-  if edtQuantidade.Value <=0 then
+      if edtQuantidade.Value <= 0 then
       begin
-        MessageDlg('A quantidade não pode ser zero ',mtInformation,[mbOK],0);
-        edtValorUnitario.SetFocus;
-        abort;
+        MessageDlg('A quantidade não pode ser zero', mtInformation, [mbOK], 0);
+        edtQuantidade.SetFocus;
+        Abort;
       end;
 
-  {o produto repetido precisa ser tratado ainda }
-
-   if dtmVenda.cdsItensVenda.Locate('produtoId',lkpProduto.KeyValue,[]) then
+      { Produto duplicado ainda precisa ser tratado }
+      if dtmVenda.cdsItensVenda.Locate('produtoId', lkpProduto.KeyValue, []) then
       begin
-        MessageDlg('Esse produto ja foi selecionado',mtInformation,[mbOK],0);
+        MessageDlg('Esse produto já foi selecionado', mtInformation, [mbOK], 0);
         lkpProduto.SetFocus;
-        abort;
+        Abort;
       end;
 
-    edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value , edtQuantidade.Value);
+      { SINCRONIZAÇÃO CRITICA: coloca a QryProdutos no ID do Lookup }
 
-    {incluindo os dados do produto na tabela virtual que guarda as vendas no cds}
+      if not dtmVenda.QryProdutos.Locate('produtoId', lkpProduto.KeyValue, []) then
+      begin
+        MessageDlg('Erro ao localizar os dados do produto selecionado.', mtError, [mbOK], 0);
+        Exit;
+      end;
 
-    dtmVenda.cdsItensVenda.Append;
-    dtmVenda.cdsItensVenda.FieldByName('produtoId').AsString          := lkpProduto.KeyValue;
-    dtmVenda.cdsItensVenda.FieldByName('nomeProduto').AsString        := dtmVenda.QryProdutos.FieldByName('nome').AsString;
-    dtmVenda.cdsItensVenda.FieldByName('quantidade').AsFloat          := edtQuantidade.Value;
-    dtmVenda.cdsItensVenda.FieldByName('valorUnitario').AsFloat       := edtValorUnitario.Value;
-    dtmVenda.cdsItensVenda.FieldByName('valorTotalProduto').AsFloat   := edtTotalProduto.Value;
-    dtmVenda.cdsItensVenda.Post;
+      { Calcula do total do item }
+      edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value, edtQuantidade.Value);
 
-    LimparComponenteItem;
+      { coloca no ClientDataSet os valores corretos dos edts }
 
-    lkpProduto.SetFocus;
+      dtmVenda.cdsItensVenda.Append;
+      dtmVenda.cdsItensVenda.FieldByName('produtoId').AsString         := lkpProduto.KeyValue;
+      dtmVenda.cdsItensVenda.FieldByName('nomeProduto').AsString       := dtmVenda.QryProdutos.FieldByName('nome').AsString;
+      dtmVenda.cdsItensVenda.FieldByName('quantidade').AsFloat         := edtQuantidade.Value;
+      dtmVenda.cdsItensVenda.FieldByName('valorUnitario').AsFloat      := edtValorUnitario.Value;
+      dtmVenda.cdsItensVenda.FieldByName('valorTotalProduto').AsFloat := edtTotalProduto.Value;
+      dtmVenda.cdsItensVenda.Post;
+
+      { Limpeza dos campos }
+      LimparComponenteItem;
+      lkpProduto.SetFocus;
 
 
 end;
@@ -200,6 +248,7 @@ function TfrmProVenda.TotalizarProduto(valorUnitario,Quantidade:Double):Double;
    result := valorUnitario * Quantidade;
  end;
 
+
 {
   limpando o cache
    Isso evita que os produtos fiquem na lista quando uma nnova venda for feita
@@ -216,7 +265,20 @@ begin
 
 end;
 
+{
+ Selecionar item
+  A remoção de um item da venda vai funcionar em 2 etapas
+  1 - ao selecionar o sistema traz os dados do produto de volta para os campos
+  2 - o usuario clieca no botão remover eo produto sai da venda
+}
 
+procedure TfrmProVenda.CarregarRegistroSelecionado;
+  begin
+     lkpProduto.KeyValue    := dtmVenda.cdsItensVenda.FieldByName('produtoId').AsString;
+     edtQuantidade.Value    := dtmVenda.cdsItensVenda.FieldByName('quantidade').AsFloat;
+     edtValorUnitario.Value := dtmVenda.cdsItensVenda.FieldByName('valorUnitario').AsFloat;
+     edtTotalProduto.Value  := dtmVenda.cdsItensVenda.FieldByName('valorTotalProduto').AsFloat;
+  end;
 
 
 
@@ -266,6 +328,35 @@ begin
   lkpCliente.SetFocus;
   LimparCds;
 end;
+
+
+
+procedure TfrmProVenda.btnRemoverClick(Sender: TObject);
+begin
+  inherited;
+  if lkpProduto.KeyValue = null then
+     begin
+       MessageDlg('Selecione o produto a ser excluido !',mtInformation,[mbOK],0);
+       grdItensVenda.SetFocus;
+       abort;
+     end;
+
+  {
+     O locate vai comparara o id dos porduto que esta selecionado atualmente
+     com o id que existe salvo dentro da tabela cds se esse id existir
+     ele apaga o produto e limpa os campos do formulario.
+   }
+
+  if dtmVenda.cdsItensVenda.Locate('produtoId',lkpProduto.KeyValue,[]) then
+     begin
+       dtmVenda.cdsItensVenda.Delete;
+       LimparComponenteItem;
+     end;
+
+end;
+
+
+
 
 procedure TfrmProVenda.edtQuantidadeEnter(Sender: TObject);
 begin

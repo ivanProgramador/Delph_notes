@@ -185,7 +185,6 @@ inherited frmProVenda: TfrmProVenda
             Width = 1006
             Height = 284
             Align = alClient
-            DataSource = dtmVenda.dtsItensVenda
             TabOrder = 0
             TitleFont.Charset = DEFAULT_CHARSET
             TitleFont.Color = clWindowText
@@ -207,19 +206,16 @@ inherited frmProVenda: TfrmProVenda
               item
                 Expanded = False
                 FieldName = 'quantidade'
-                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'ValorUnitario'
-                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'ValorTotalProduto'
-                Width = 64
                 Visible = True
               end>
           end
