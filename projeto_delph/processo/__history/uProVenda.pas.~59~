@@ -33,7 +33,7 @@ type
     edtQuantidade: TCurrencyEdit;
     edtTotalProduto: TCurrencyEdit;
     btnAdicionar: TBitBtn;
-    BitBtn2: TBitBtn;
+    btnRemover: TBitBtn;
     Label3: TLabel;
     Label5: TLabel;
     Label6: TLabel;
@@ -46,14 +46,19 @@ type
     procedure btnAdicionarClick(Sender: TObject);
     procedure lkpProdutoExit(Sender: TObject);
     procedure edtQuantidadeExit(Sender: TObject);
+    procedure edtQuantidadeEnter(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
 
   private
+
     { Private declarations }
     dtmVenda :TdtmVenda;
     oVenda:TVenda;
     function Apagar:Boolean; Override;
     function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; Override;
     function TotalizarProduto(valorUnitario, Quantidade: Double): Double;
+    procedure LimparComponenteItem;
+    procedure LimparCds;
 
 
   public
@@ -159,8 +164,33 @@ begin
         lkpProduto.SetFocus;
         abort;
       end;
-   edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value , edtQuantidade.Value);
+
+    edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value , edtQuantidade.Value);
+
+    {incluindo os dados do produto na tabela virtual que guarda as vendas no cds}
+
+    dtmVenda.cdsItensVenda.Append;
+    dtmVenda.cdsItensVenda.FieldByName('produtoId').AsString          := lkpProduto.KeyValue;
+    dtmVenda.cdsItensVenda.FieldByName('nomeProduto').AsString        := dtmVenda.QryProdutos.FieldByName('nome').AsString;
+    dtmVenda.cdsItensVenda.FieldByName('quantidade').AsFloat          := edtQuantidade.Value;
+    dtmVenda.cdsItensVenda.FieldByName('valorUnitario').AsFloat       := edtValorUnitario.Value;
+    dtmVenda.cdsItensVenda.FieldByName('valorTotalProduto').AsFloat   := edtTotalProduto.Value;
+    dtmVenda.cdsItensVenda.Post;
+
+    LimparComponenteItem;
+
+    lkpProduto.SetFocus;
+
+
 end;
+
+procedure TfrmProVenda.LimparComponenteItem;
+ begin
+    lkpProduto.KeyValue    := null;
+    edtQuantidade.Value    := 0;
+    edtValorUnitario.Value := 0;
+    edtTotalProduto.Value  := 0;
+ end;
 
  {totalizando o produto}
 
@@ -168,6 +198,25 @@ function TfrmProVenda.TotalizarProduto(valorUnitario,Quantidade:Double):Double;
  begin
    result := valorUnitario * Quantidade;
  end;
+
+{
+  limpando o cache
+   Isso evita que os produtos fiquem na lista quando uma nnova venda for feita
+   ou quando uma venda for cancelada, nesse while eu faço um loop que percorre
+   a lista do meu cds e enquanto ele não cehgar no final da lista elçe sai deletando
+   tudo oque ele achar dentro do cache, ate chegar no final.
+}
+
+procedure TfrmProVenda.LimparCds;
+begin
+  while not dtmVenda.cdsItensVenda.Eof do
+     dtmVenda.cdsItensVenda.Delete;
+
+
+end;
+
+
+
 
 
 
@@ -197,11 +246,23 @@ end;
 
 
 
+procedure TfrmProVenda.btnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  LimparCds;
+end;
+
 procedure TfrmProVenda.btnNovoClick(Sender: TObject);
 begin
   inherited;
   edtDataVenda.Date := Date;
   lkpCliente.SetFocus;
+end;
+
+procedure TfrmProVenda.edtQuantidadeEnter(Sender: TObject);
+begin
+  inherited;
+  edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value, edtQuantidade.Value);
 end;
 
 procedure TfrmProVenda.edtQuantidadeExit(Sender: TObject);
@@ -235,8 +296,13 @@ begin
   inherited;
   dtmVenda := TdtmVenda.Create(Self);
   oVenda   := TVenda.Create(dtmDados.conexao);
-  IndiceAtual := 'clienteId'
+  IndiceAtual := 'clienteId';
+  //fazendo referencia ao meu dts logo noi inicio do formulario
+  grdItensVenda.DataSource := dtmVenda.dtsItensVenda;
 end;
+
+
+
 
 {$endregion}
 end.

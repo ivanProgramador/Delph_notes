@@ -185,7 +185,6 @@ inherited frmProVenda: TfrmProVenda
             Width = 1006
             Height = 284
             Align = alClient
-            DataSource = dtmVenda.dtsItensVenda
             TabOrder = 0
             TitleFont.Charset = DEFAULT_CHARSET
             TitleFont.Color = clWindowText
@@ -259,6 +258,8 @@ inherited frmProVenda: TfrmProVenda
         Height = 23
         DisplayFormat = ',0.00;-R$ ,0.00'
         TabOrder = 2
+        OnEnter = edtQuantidadeEnter
+        OnExit = edtQuantidadeExit
       end
       object edtTotalProduto: TCurrencyEdit
         Left = 652
@@ -306,7 +307,7 @@ inherited frmProVenda: TfrmProVenda
         TabOrder = 4
         OnClick = btnAdicionarClick
       end
-      object BitBtn2: TBitBtn
+      object btnRemover: TBitBtn
         Left = 871
         Top = 82
         Width = 127

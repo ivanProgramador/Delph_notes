@@ -185,7 +185,6 @@ inherited frmProVenda: TfrmProVenda
             Width = 1006
             Height = 284
             Align = alClient
-            DataSource = dtmVenda.dtsItensVenda
             TabOrder = 0
             TitleFont.Charset = DEFAULT_CHARSET
             TitleFont.Color = clWindowText
@@ -207,19 +206,16 @@ inherited frmProVenda: TfrmProVenda
               item
                 Expanded = False
                 FieldName = 'quantidade'
-                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'ValorUnitario'
-                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'ValorTotalProduto'
-                Width = 64
                 Visible = True
               end>
           end
@@ -242,6 +238,7 @@ inherited frmProVenda: TfrmProVenda
         ListField = 'nome'
         ListSource = dtmVenda.dtsProdutos
         TabOrder = 0
+        OnExit = lkpProdutoExit
       end
       object edtValorUnitario: TCurrencyEdit
         Left = 471
@@ -258,6 +255,8 @@ inherited frmProVenda: TfrmProVenda
         Height = 23
         DisplayFormat = ',0.00;-R$ ,0.00'
         TabOrder = 2
+        OnEnter = edtQuantidadeEnter
+        OnExit = edtQuantidadeExit
       end
       object edtTotalProduto: TCurrencyEdit
         Left = 652
@@ -269,7 +268,7 @@ inherited frmProVenda: TfrmProVenda
         ReadOnly = True
         TabOrder = 3
       end
-      object BitBtn1: TBitBtn
+      object btnAdicionar: TBitBtn
         Left = 744
         Top = 82
         Width = 121
@@ -303,8 +302,9 @@ inherited frmProVenda: TfrmProVenda
           17BF6F17FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         TabOrder = 4
+        OnClick = btnAdicionarClick
       end
-      object BitBtn2: TBitBtn
+      object btnRemover: TBitBtn
         Left = 871
         Top = 82
         Width = 127

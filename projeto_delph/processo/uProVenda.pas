@@ -47,8 +47,11 @@ type
     procedure lkpProdutoExit(Sender: TObject);
     procedure edtQuantidadeExit(Sender: TObject);
     procedure edtQuantidadeEnter(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
 
   private
+
     { Private declarations }
     dtmVenda :TdtmVenda;
     oVenda:TVenda;
@@ -56,6 +59,7 @@ type
     function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; Override;
     function TotalizarProduto(valorUnitario, Quantidade: Double): Double;
     procedure LimparComponenteItem;
+    procedure LimparCds;
 
 
   public
@@ -196,6 +200,25 @@ function TfrmProVenda.TotalizarProduto(valorUnitario,Quantidade:Double):Double;
    result := valorUnitario * Quantidade;
  end;
 
+{
+  limpando o cache
+   Isso evita que os produtos fiquem na lista quando uma nnova venda for feita
+   ou quando uma venda for cancelada, nesse while eu faço um loop que percorre
+   a lista do meu cds e enquanto ele não cehgar no final da lista elçe sai deletando
+   tudo oque ele achar dentro do cache, ate chegar no final.
+}
+
+procedure TfrmProVenda.LimparCds;
+begin
+  while not dtmVenda.cdsItensVenda.Eof do
+     dtmVenda.cdsItensVenda.Delete;
+
+
+end;
+
+
+
+
 
 
 procedure TfrmProVenda.btnAlterarClick(Sender: TObject);
@@ -224,11 +247,24 @@ end;
 
 
 
+procedure TfrmProVenda.btnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  LimparCds;
+end;
+
+procedure TfrmProVenda.btnGravarClick(Sender: TObject);
+begin
+  inherited;
+  LimparCds;
+end;
+
 procedure TfrmProVenda.btnNovoClick(Sender: TObject);
 begin
   inherited;
   edtDataVenda.Date := Date;
   lkpCliente.SetFocus;
+  LimparCds;
 end;
 
 procedure TfrmProVenda.edtQuantidadeEnter(Sender: TObject);
@@ -268,7 +304,9 @@ begin
   inherited;
   dtmVenda := TdtmVenda.Create(Self);
   oVenda   := TVenda.Create(dtmDados.conexao);
-  IndiceAtual := 'clienteId'
+  IndiceAtual := 'clienteId';
+  //fazendo referencia ao meu dts logo noi inicio do formulario
+  grdItensVenda.DataSource := dtmVenda.dtsItensVenda;
 end;
 
 

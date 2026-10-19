@@ -183,7 +183,10 @@ end;
 
 procedure TfrmProVenda.LimparComponenteItem;
  begin
-
+    lkpProduto.KeyValue    := null;
+    edtQuantidade.Value    := 0;
+    edtValorUnitario.Value := 0;
+    edtTotalProduto.Value  := 0;
  end;
 
  {totalizando o produto}
@@ -267,6 +270,9 @@ begin
   oVenda   := TVenda.Create(dtmDados.conexao);
   IndiceAtual := 'clienteId'
 end;
+
+
+
 
 {$endregion}
 end.
