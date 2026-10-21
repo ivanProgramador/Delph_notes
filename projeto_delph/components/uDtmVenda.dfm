@@ -121,10 +121,5 @@ object dtmVenda: TdtmVenda
       DisplayWidth = 69
       FieldName = 'ValorTotalProduto'
     end
-    object cdsItensVendaValorTotalVenda: TAggregateField
-      FieldName = 'ValorTotalVenda'
-      DisplayName = ''
-      Expression = 'SUM(ValorTotalProduto)'
-    end
   end
 end

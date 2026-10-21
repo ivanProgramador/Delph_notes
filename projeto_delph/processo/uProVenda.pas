@@ -64,6 +64,7 @@ type
     procedure LimparComponenteItem;
     procedure LimparCds;
     procedure CarregarRegistroSelecionado;
+    function TotalizarVenda: Double;
 
 
   public
@@ -226,6 +227,10 @@ begin
       dtmVenda.cdsItensVenda.FieldByName('valorTotalProduto').AsFloat := edtTotalProduto.Value;
       dtmVenda.cdsItensVenda.Post;
 
+      {calculando o total da venda }
+
+      edtValorTotal.Value := TotalizarVenda;
+
       { Limpeza dos campos }
       LimparComponenteItem;
       lkpProduto.SetFocus;
@@ -280,7 +285,26 @@ procedure TfrmProVenda.CarregarRegistroSelecionado;
      edtTotalProduto.Value  := dtmVenda.cdsItensVenda.FieldByName('valorTotalProduto').AsFloat;
   end;
 
+{Totaliza a venda }
+function TfrmProVenda.TotalizarVenda:Double;
+  begin
+     {primeiro o result dessa função recebe 0 como valor inicial}
+     result := 0;
 
+     {depois eu pego o primeiro indice pora começar o loop isso funciona pra prosicionar o cursor do processador }
+     dtmVenda.cdsItensVenda.First;
+
+     {aqui o while começa a percorrer as linhas de registro e enquanto o arquivo não terminar  }
+     while not dtmVenda.cdsItensVenda.Eof do
+       begin
+       {ele pega o campo "ValorTotalProduto" como float e vai somando linha a linha }
+
+         result := result + dtmVenda.cdsItensVenda.FieldByName('ValorTotalProduto').AsFloat;
+
+       {essa linha serve pra sair do loop depois que a ultima linha for lida }
+         dtmVenda.cdsItensVenda.Next;
+       end;
+  end;
 
 
 procedure TfrmProVenda.btnAlterarClick(Sender: TObject);
@@ -350,6 +374,7 @@ begin
   if dtmVenda.cdsItensVenda.Locate('produtoId',lkpProduto.KeyValue,[]) then
      begin
        dtmVenda.cdsItensVenda.Delete;
+       edtValorTotal.Value := TotalizarVenda;
        LimparComponenteItem;
      end;
 

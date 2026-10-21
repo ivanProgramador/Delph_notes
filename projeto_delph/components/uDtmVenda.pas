@@ -23,7 +23,6 @@ type
     cdsItensVendaquantidade: TFloatField;
     cdsItensVendaValorUnitario: TFloatField;
     cdsItensVendaValorTotalProduto: TFloatField;
-    cdsItensVendaValorTotalVenda: TAggregateField;
     QryClientesclienteId: TZIntegerField;
     QryClientesnome: TZUnicodeStringField;
     procedure DataModuleCreate(Sender: TObject);
