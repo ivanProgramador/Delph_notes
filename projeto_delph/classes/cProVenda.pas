@@ -11,6 +11,8 @@ interface
         ZAbstractRODataset,
         ZAbstractDataset,
         ZDataset,
+        Data.DB,
+        Datasnap.DBClient,
         System.SysUtils;
 
 type
@@ -22,12 +24,13 @@ type
      F_clienteId:Integer;
      F_dataVenda:TDateTime;
      F_totalVenda:Double;
+    function inserirItens(cds: TClientDataSet; IdVenda: Integer): Boolean;
 
    public
 
      constructor Create(aConexao:TZConnection);
      destructor Destroy; override;
-     function Inserir:Boolean;
+     function Inserir(cds:TClientDataSet):Boolean;
      function Atualizar:Boolean;
      function Apagar(id:Integer):Boolean;
      function Selecionar(id:Integer):Boolean;
@@ -139,51 +142,6 @@ function TVenda.Atualizar: Boolean;
      end;
  end;
 
-function TVenda.Inserir: Boolean;
- var
-   Qry:TZQuery;
-   IdVendaGerado:Integer;
-
-   begin
-     try
-       Result := true;
-       ConexaoDB.StartTransaction;
-       Qry:=TZQuery.Create(nil);
-       Qry.Connection := ConexaoDB;
-       //INCLUINDO A VENDA NA BASE
-
-       Qry.SQL.Clear;
-       Qry.SQL.Add('INSERT INTO vendas(clienteId, dataVenda,totalVenda) '+
-                   'VALUES (:clienteId,:dataVenda,:totalVenda)');
-
-       Qry.ParamByName('clienteId').AsInteger := Self.F_clienteId;
-       Qry.ParamByName('dataVenda').AsDateTime := Self.F_dataVenda;
-       Qry.ParamByName('totalVenda').AsFloat := Self.F_totalVenda;
-        Try
-              Qry.ExecSQL;
-              //pegando o id gerado no insert porque ue preciso desse id
-              //pra associar um produtos a essa venda
-              Qry.SQL.Clear;
-              Qry.SQL.Add('SELECT SCOPE_IDENTITY() AS ID');
-              Qry.Open;
-
-              //id da venda
-              IdVendaGerado := Qry.FieldByName('ID').AsInteger;
-
-              ConexaoDB.Commit;
-
-           Except
-            ConexaoDB.Rollback;
-            Result := False;
-        End;
-
-        finally
-         if Assigned(Qry) then
-           begin
-             FreeAndNil(Qry);
-           end;
-     end;
-   end;
 
 function TVenda.Selecionar(id: Integer): Boolean;
 var
@@ -218,6 +176,116 @@ var
       end;
 end;
 
+function TVenda.Inserir(cds:TClientDataSet): Boolean;
+ var
+   Qry:TZQuery;
+   IdVendaGerado:Integer;
+
+   begin
+     try
+       Result := true;
+       ConexaoDB.StartTransaction;
+       Qry:=TZQuery.Create(nil);
+       Qry.Connection := ConexaoDB;
+       //INCLUINDO A VENDA NA BASE
+
+       Qry.SQL.Clear;
+       Qry.SQL.Add(
+          'INSERT INTO vendas (clienteId, dataVenda, totalVenda) ' +
+          'OUTPUT INSERTED.vendaId AS ID ' +
+          'VALUES (:clienteId, :dataVenda, :totalVenda)'
+        );
+
+       Qry.ParamByName('clienteId').AsInteger := Self.F_clienteId;
+       Qry.ParamByName('dataVenda').AsDateTime := Self.F_dataVenda;
+       Qry.ParamByName('totalVenda').AsFloat := Self.F_totalVenda;
+
+        Try
+          Qry.ExecSQL;
+          Qry.SQL.Clear;
+          IdVendaGerado := Qry.SQL.Add('SELECT MAX(vendaId) AS id FROM dbo.vendas');
+          Qry.Open;
+
+          //pegando o ID da venda
+
+          IdVendaGerado := Qry.FieldByName('id').AsInteger;
+
+               {$region 'gravar na tabela itensvendas'}
+
+               //colocando o ponteiro no inicio da tabela virtual
+
+                   cds.First;
+
+                //nesse loop eu faço a leitura do cds da primiera ate a ultima linha
+                //a acada linha encontrada eu adicino o produto e o id da venda
+                //quando ele identifica que não tem mais linha ele párar o loop
+
+                   while not cds.Eof do
+                     begin
+                       inserirItens(cds,IdVendaGerado);
+                       cds.Next;
+                     end;
+                {$endregion}
+
+              ConexaoDB.Commit;
+
+           Except
+            ConexaoDB.Rollback;
+            Result := False;
+        End;
+
+        finally
+         if Assigned(Qry) then
+           begin
+             FreeAndNil(Qry);
+           end;
+     end;
+   end;
+
+
+function TVenda.inserirItens(cds: TClientDataSet; IdVenda: Integer): Boolean;
+var
+  Qry: TZQuery;
+begin
+  Result := True;
+  Qry := TZQuery.Create(nil);
+  try
+    Qry.Connection := ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('INSERT INTO VendasItens (VendaID, ProdutoID, ValorUnitario, Quantidade, TotalProduto) ');
+    Qry.SQL.Add('VALUES (:VendaID, :ProdutoID, :ValorUnitario, :Quantidade, :TotalProduto)');
+
+    cds.DisableControls;
+    try
+      cds.First; // começando pelo começõ da grid
+
+      while not cds.Eof do
+      begin
+        // passando os paramentros pra query
+        Qry.ParamByName('VendaID').AsInteger      := IdVenda; // adicionado o id do parametro
+        Qry.ParamByName('ProdutoID').AsInteger    := cds.FieldByName('produtoId').AsInteger;
+        Qry.ParamByName('ValorUnitario').AsFloat  := cds.FieldByName('valorUnitario').AsFloat;
+        Qry.ParamByName('Quantidade').AsFloat     := cds.FieldByName('quantidade').AsFloat;
+        Qry.ParamByName('TotalProduto').AsFloat   := cds.FieldByName('valorTotalProduto').AsFloat;
+
+        try
+          Qry.ExecSQL;
+        except
+          Result := False;
+          Break; // se der erro o loop para
+        end;
+
+        cds.Next; // indo para o proximo item
+      end;
+    finally
+      cds.EnableControls;
+    end;
+
+  finally
+    if Assigned(Qry) then
+      FreeAndNil(Qry);
+  end;
+end;
 
 {$endregion}
 end.

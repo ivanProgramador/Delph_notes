@@ -45,7 +45,7 @@ Os campos dessa tabela são configuraveis atraves de dataFields
 3 - um campo diferente que eu criri foi o campo TotalItensVenda qua vai somar o preço dos itens da venda e passar um valor unico
     esse campo é do tipo "Aggregate" porque o valor dele será baseado na soma de outro campo
     pra definir o valor eu preciso colocar a operação no atributo "expression" dele eu cccoloquei "SUM(ValorTotalProduto)" 
-    então ele vai somar tudo oque for adiconado no valor produto e se auto preencher com o resultado.
+    então ele vai somar tudo oque for adicionado no valor produto e se auto preencher com o resultado.
      
       
    

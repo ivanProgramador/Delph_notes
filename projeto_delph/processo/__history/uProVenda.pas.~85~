@@ -64,6 +64,7 @@ type
     procedure LimparComponenteItem;
     procedure LimparCds;
     procedure CarregarRegistroSelecionado;
+    function TotalizarVenda: Double;
 
 
   public
@@ -136,16 +137,18 @@ begin
   inherited;
   if not VarIsNull(lkpProduto.KeyValue) then
     begin
-      { Posiciona a query de produtos no ID selecionado }
-      if dtmVenda.QryProdutos.Locate('Codigo', lkpProduto.KeyValue, []) then
+      { apontando  a query no id selecionado e fazendo a busca }
+
+      if dtmVenda.QryProdutos.Locate('produtoId', lkpProduto.KeyValue, []) then
       begin
-        { Atribui o preço do cadastro ao campo de valor unitário da venda }
+
+        { se char o id ele preeche logo o valor unitario do porduto que esta selecionado }
         edtValorUnitario.Value := dtmVenda.QryProdutos.FieldByName('valor').AsFloat;
 
-        { Sugere a quantidade 1 por padrão (opcional) }
+        { coloca a quantidade minima de 1 como um padrão }
         edtQuantidade.Value    := 1;
 
-        { Atualiza o total do produto }
+        { coloca o total do produto com base na quantiodade atual  }
         edtTotalProduto.Value  := TotalizarProduto(edtValorUnitario.Value, edtQuantidade.Value);
       end;
     end;
@@ -171,7 +174,9 @@ end;
 procedure TfrmProVenda.btnAdicionarClick(Sender: TObject);
 begin
   inherited;
-       { 1. Validações dos campos }
+
+
+     { Valida os parametros necessarios pra entrara na venda  }
       if (lkpProduto.KeyValue = Null) or VarIsNull(lkpProduto.KeyValue) then
       begin
         MessageDlg('Produto é um campo obrigatório', mtInformation, [mbOK], 0);
@@ -189,11 +194,11 @@ begin
       if edtQuantidade.Value <= 0 then
       begin
         MessageDlg('A quantidade não pode ser zero', mtInformation, [mbOK], 0);
-        edtQuantidade.SetFocus; // Foco corrigido para a quantidade
+        edtQuantidade.SetFocus;
         Abort;
       end;
 
-      { 2. Verificar se o produto já foi adicionado na venda }
+      { Produto duplicado ainda precisa ser tratado }
       if dtmVenda.cdsItensVenda.Locate('produtoId', lkpProduto.KeyValue, []) then
       begin
         MessageDlg('Esse produto já foi selecionado', mtInformation, [mbOK], 0);
@@ -201,27 +206,32 @@ begin
         Abort;
       end;
 
-      { 3. SINCRONIZAÇÃO CRÍTICA: Posiciona a QryProdutos no ID do Lookup }
-      { Substitua 'Codigo' pelo nome exato da chave primária na sua QryProdutos (ex: 'codigo' ou 'id') }
+      { SINCRONIZAÇÃO CRITICA: coloca a QryProdutos no ID do Lookup }
+
       if not dtmVenda.QryProdutos.Locate('produtoId', lkpProduto.KeyValue, []) then
       begin
         MessageDlg('Erro ao localizar os dados do produto selecionado.', mtError, [mbOK], 0);
         Exit;
       end;
 
-      { 4. Cálculo do total do item }
+      { Calcula do total do item }
       edtTotalProduto.Value := TotalizarProduto(edtValorUnitario.Value, edtQuantidade.Value);
 
-      { 5. Inserção no ClientDataSet com os valores corretos dos edts }
+      { coloca no ClientDataSet os valores corretos dos edts }
+
       dtmVenda.cdsItensVenda.Append;
       dtmVenda.cdsItensVenda.FieldByName('produtoId').AsString         := lkpProduto.KeyValue;
       dtmVenda.cdsItensVenda.FieldByName('nomeProduto').AsString       := dtmVenda.QryProdutos.FieldByName('nome').AsString;
       dtmVenda.cdsItensVenda.FieldByName('quantidade').AsFloat         := edtQuantidade.Value;
-      dtmVenda.cdsItensVenda.FieldByName('valorUnitario').AsFloat      := edtValorUnitario.Value; // Usa o valor do edt
+      dtmVenda.cdsItensVenda.FieldByName('valorUnitario').AsFloat      := edtValorUnitario.Value;
       dtmVenda.cdsItensVenda.FieldByName('valorTotalProduto').AsFloat := edtTotalProduto.Value;
       dtmVenda.cdsItensVenda.Post;
 
-      { 6. Limpeza e foco }
+      {calculando o total da venda }
+
+      edtValorTotal.Value := TotalizarVenda;
+
+      { Limpeza dos campos }
       LimparComponenteItem;
       lkpProduto.SetFocus;
 
@@ -275,7 +285,26 @@ procedure TfrmProVenda.CarregarRegistroSelecionado;
      edtTotalProduto.Value  := dtmVenda.cdsItensVenda.FieldByName('valorTotalProduto').AsFloat;
   end;
 
+{Totaliza a venda }
+function TfrmProVenda.TotalizarVenda:Double;
+  begin
+     {primeiro o result dessa função recebe 0 como valor inicial}
+     result := 0;
 
+     {depois eu pego o primeiro indice pora começar o loop isso funciona pra prosicionar o cursor do processador }
+     dtmVenda.cdsItensVenda.First;
+
+     {aqui o while começa a percorrer as linhas de registro e enquanto o arquivo não terminar  }
+     while not dtmVenda.cdsItensVenda.Eof do
+       begin
+       {ele pega o campo "ValorTotalProduto" como float e vai somando linha a linha }
+
+         result := result + dtmVenda.cdsItensVenda.FieldByName('ValorTotalProduto').AsFloat;
+
+       {essa linha serve pra sair do loop depois que a ultima linha for lida }
+         dtmVenda.cdsItensVenda.Next;
+       end;
+  end;
 
 
 procedure TfrmProVenda.btnAlterarClick(Sender: TObject);
@@ -345,6 +374,7 @@ begin
   if dtmVenda.cdsItensVenda.Locate('produtoId',lkpProduto.KeyValue,[]) then
      begin
        dtmVenda.cdsItensVenda.Delete;
+       edtValorTotal.Value := TotalizarVenda;
        LimparComponenteItem;
      end;
 

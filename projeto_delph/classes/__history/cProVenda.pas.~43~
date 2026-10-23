@@ -11,6 +11,8 @@ interface
         ZAbstractRODataset,
         ZAbstractDataset,
         ZDataset,
+        Data.DB,
+        Datasnap.DBClient,
         System.SysUtils;
 
 type
@@ -22,12 +24,13 @@ type
      F_clienteId:Integer;
      F_dataVenda:TDateTime;
      F_totalVenda:Double;
+    function inserirItens(cds: TClientDataSet; IdVenda: Integer): Boolean;
 
    public
 
      constructor Create(aConexao:TZConnection);
      destructor Destroy; override;
-     function Inserir:Boolean;
+     function Inserir(cds:TClientDataSet):Boolean;
      function Atualizar:Boolean;
      function Apagar(id:Integer):Boolean;
      function Selecionar(id:Integer):Boolean;
@@ -56,13 +59,16 @@ destructor TVenda.Destroy;
 
 {$endregion}
 
+
+{$region 'CRUD'}
+
 function TVenda.Apagar(id: Integer): Boolean;
 
  var Qry:TZQuery;
 
   begin
     if MessageDlg('Apagar registro ' +#13+#13+
-                  'Venda numero : ' +IntToStr(VendaId),mtConfirmation,[mbYes,mbNo],0)=mrNo then
+                  'Venda numero : ' +IntToStr(id),mtConfirmation,[mbYes,mbNo],0)=mrNo then
     begin
       Result := False;
       abort;
@@ -70,6 +76,7 @@ function TVenda.Apagar(id: Integer): Boolean;
 
     try
       Result := true;
+      ConexaoDB.StartTransaction;
       Qry := TZQuery.Create(nil);
       Qry.Connection := ConexaoDB;
       //apagando primeiro os itens da venda
@@ -87,9 +94,11 @@ function TVenda.Apagar(id: Integer): Boolean;
                       ' WHERE vendaId = :vendaId ');
              Qry.ParamByName('vendaId').AsInteger := id;
              Qry.ExecSQL;
+             ConexaoDB.Commit;
 
 
              Except
+             ConexaoDB.Rollback;
              Result := false;
           End;
 
@@ -133,7 +142,41 @@ function TVenda.Atualizar: Boolean;
      end;
  end;
 
-function TVenda.Inserir: Boolean;
+
+function TVenda.Selecionar(id: Integer): Boolean;
+var
+  Qry: TZQuery;
+    begin
+      try
+        Result := true;
+        Qry := TZQuery.Create(nil);
+        Qry.Connection := ConexaoDB;
+        Qry.SQL.Clear;
+        Qry.SQL.Add('SELECT vendaId ' +
+                    '      ,clienteId ' +
+                    '      ,dataVenda ' +
+                    '      ,totalVenda ' +
+                    '  FROM vendas ' +
+                    ' WHERE vendaId=:vendaId');
+        Qry.ParamByName('vendaId').AsInteger := id;
+          try
+            Qry.Open;
+
+            Self.F_vendaId   := Qry.FieldByName('vendaId').AsInteger;
+            Self.F_clienteId := Qry.FieldByName('clienteId').AsInteger;
+            Self.F_dataVenda := Qry.FieldByName('dataVenda').AsDateTime;
+            Self.F_totalVenda := Qry.FieldByName('totalVenda').AsFloat;
+          Except
+            Result := false;
+          End;
+
+      finally
+        if Assigned(Qry) then
+          FreeAndNil(Qry);
+      end;
+end;
+
+function TVenda.Inserir(cds:TClientDataSet): Boolean;
  var
    Qry:TZQuery;
    IdVendaGerado:Integer;
@@ -147,21 +190,35 @@ function TVenda.Inserir: Boolean;
        //INCLUINDO A VENDA NA BASE
 
        Qry.SQL.Clear;
-       Qry.SQL.Add('INSERT INTO vendas(clienteId, dataVenda,totalVenda) '+
-                   'VALUES (:clienteId,:dataVenda,:totalVenda)');
+       Qry.SQL.Add(
+          'INSERT INTO vendas (clienteId, dataVenda, totalVenda) ' +
+          'OUTPUT INSERTED.vendaId AS ID ' +
+          'VALUES (:clienteId, :dataVenda, :totalVenda)'
+        );
 
        Qry.ParamByName('clienteId').AsInteger := Self.F_clienteId;
        Qry.ParamByName('dataVenda').AsDateTime := Self.F_dataVenda;
        Qry.ParamByName('totalVenda').AsFloat := Self.F_totalVenda;
-        Try
-              Qry.ExecSQL;
-              //pegando o id gerado no insert
-              Qry.SQL.Clear;
-              Qry.SQL.Add('SELECT SCOPE_IDENTITY() AS ID');
-              Qry.Open;
 
-              //id da venda
-              IdVendaGerado := Qry.FieldByName('ID').AsInteger;
+        Try
+          Qry.ExecSQL;
+          Qry.SQL.Clear;
+          Qry.SQL.Add('SELECT SCOPE_IDENTITY() AS :ID');
+
+
+
+         //pegando o ID da venda
+         IdVendaGerado :=  Qry.FieldByName('ID').AsInteger;
+
+               {$region 'gravar na tabela itensvendas'}
+                   cds.First;
+                   while not cds.Eof do
+                     begin
+                       inserirItens(cds,IdVendaGerado);
+                       cds.Next;
+                     end;
+                {$endregion}
+
               ConexaoDB.Commit;
 
            Except
@@ -178,6 +235,50 @@ function TVenda.Inserir: Boolean;
    end;
 
 
+function TVenda.inserirItens(cds: TClientDataSet; IdVenda: Integer): Boolean;
+var
+  Qry: TZQuery;
+begin
+  Result := True;
+  Qry := TZQuery.Create(nil);
+  try
+    Qry.Connection := ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('INSERT INTO VendasItens (VendaID, ProdutoID, ValorUnitario, Quantidade, TotalProduto) ');
+    Qry.SQL.Add('VALUES (:VendaID, :ProdutoID, :ValorUnitario, :Quantidade, :TotalProduto)');
 
+    // 1. Guardar a posição atual do ClientDataSet para não estragar a navegação na UI (opcional, mas boa prática)
+    cds.DisableControls;
+    try
+      cds.First; // Garante que começa do primeiro item da grelha/venda
 
+      while not cds.Eof do
+      begin
+        // 2. Passar os parâmetros para cada item
+        Qry.ParamByName('VendaID').AsInteger      := IdVenda; // Aqui o ID 16 vai para todos os itens desta venda!
+        Qry.ParamByName('ProdutoID').AsInteger    := cds.FieldByName('produtoId').AsInteger;
+        Qry.ParamByName('ValorUnitario').AsFloat  := cds.FieldByName('valorUnitario').AsFloat;
+        Qry.ParamByName('Quantidade').AsFloat     := cds.FieldByName('quantidade').AsFloat;
+        Qry.ParamByName('TotalProduto').AsFloat   := cds.FieldByName('valorTotalProduto').AsFloat;
+
+        try
+          Qry.ExecSQL;
+        except
+          Result := False;
+          Break; // Se falhar um item, interrompe o ciclo
+        end;
+
+        cds.Next; // 3. Avança para o próximo produto do carrinho/venda
+      end;
+    finally
+      cds.EnableControls;
+    end;
+
+  finally
+    if Assigned(Qry) then
+      FreeAndNil(Qry);
+  end;
+end;
+
+{$endregion}
 end.

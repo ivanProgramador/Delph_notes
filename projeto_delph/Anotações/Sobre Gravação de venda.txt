@@ -1,0 +1,31 @@
+A venda tem duas TABELAS
+ 
+1 - cabeçalho
+   No cabeçalho eu tenho numero da venda, nome do cliente, data da venda e o total 
+   na tabela venda. 
+
+     1 vendaId
+     2 clienteId
+     3 dataVenda
+     4 totalVenda
+
+ 
+2 - corpo da venda 
+    O corpo da venda e repesentado pela tabela "vendasItens" oque liga um item dessa lista a uma venda seria o campo 
+    "vendaId".  
+    
+    1 vendaId
+    2 produtoId
+    3 dataVenda
+    4 valorUnitario
+    5 quantidade
+    6 totalProduto
+
+Eu estou usando um componente chamado " TClientDataSet " ele repesenta uma tebla virtual em tempo de excução onde 
+eu posso gravar os itens em uma lista ccomo se fosse uma tebla SQL sem precisar usar a ram pra acessar a base de dados
+toda vez que um produto for adicionado. 
+
+  
+
+  
+    

@@ -103,7 +103,7 @@ begin
 
     if (EstadoDoCadastro = ecInserir) then
       begin
-         Result := oVenda.Inserir;
+         Result := oVenda.Inserir(dtmVenda.cdsItensVenda);
       end
     else if(EstadoDoCadastro = ecAlterar) then
       begin
