@@ -191,6 +191,7 @@ inherited frmProVenda: TfrmProVenda
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
             TitleFont.Style = []
+            OnDblClick = grdItensVendaDblClick
             OnKeyDown = grdItensVendaKeyDown
             Columns = <
               item
@@ -238,6 +239,7 @@ inherited frmProVenda: TfrmProVenda
         ListField = 'nome'
         ListSource = dtmVenda.dtsProdutos
         TabOrder = 0
+        OnCloseUp = lkpProdutoCloseUp
         OnExit = lkpProdutoExit
       end
       object edtValorUnitario: TCurrencyEdit
@@ -338,6 +340,7 @@ inherited frmProVenda: TfrmProVenda
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         TabOrder = 5
+        OnClick = btnRemoverClick
       end
     end
   end

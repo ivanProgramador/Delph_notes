@@ -33,7 +33,7 @@ type
      function Inserir(cds:TClientDataSet):Boolean;
      function Atualizar:Boolean;
      function Apagar(id:Integer):Boolean;
-     function Selecionar(id:Integer):Boolean;
+     function Selecionar(id:Integer; var cds:TClientDataSet):Boolean;
 
     published
 
@@ -143,7 +143,10 @@ function TVenda.Atualizar: Boolean;
  end;
 
 
-function TVenda.Selecionar(id: Integer): Boolean;
+
+
+
+function TVenda.Selecionar(id: Integer; var cds:TClientDataSet): Boolean;
 var
   Qry: TZQuery;
     begin
@@ -166,6 +169,35 @@ var
             Self.F_clienteId := Qry.FieldByName('clienteId').AsInteger;
             Self.F_dataVenda := Qry.FieldByName('dataVenda').AsDateTime;
             Self.F_totalVenda := Qry.FieldByName('totalVenda').AsFloat;
+
+            {$region 'SELECIONAR A TABELA VENDAS ITENS'}
+                //limpa o cds antes de colocar os dados da venda atual
+
+                cds.First;
+                while not cds.Eof do
+                 begin
+                   cds.Delete;
+                 end;
+
+            //Seleciona os Itens do Banco de dados com a base F_VendaId passado
+
+                Qry.Close;
+                Qry.SQL.Clear;
+                Qry.SQL.Add('SELECT VendasItens.ProdutoID, '+
+                           '       Produtos.Nome, '+
+                           '       VendasItens.ValorUnitario, '+
+                           '       VendasItens.Quantidade, '+
+                           '       VendasItens.TotalProduto '+
+                           'FROM VendasItens '+
+                           '     INNER JOIN produtos On Produtos.produtoId = VendasItens.produtoId '+
+                           'WHERE VendaID=:VendaID ');
+
+
+                Qry.ParamByName('VendaID').AsInteger := Self.F_vendaId;
+
+                Qry.Open;
+
+            {$endregion}
           Except
             Result := false;
           End;
@@ -175,6 +207,13 @@ var
           FreeAndNil(Qry);
       end;
 end;
+
+
+
+
+
+
+
 
 function TVenda.Inserir(cds:TClientDataSet): Boolean;
  var

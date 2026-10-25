@@ -310,7 +310,7 @@ function TfrmProVenda.TotalizarVenda:Double;
 procedure TfrmProVenda.btnAlterarClick(Sender: TObject);
 begin
 
-  if oVenda.Selecionar(QryListagem.FieldByName('VendaId').AsInteger) then
+  if oVenda.Selecionar(QryListagem.FieldByName('VendaId').AsInteger,dtmVenda.cdsItensVenda) then
     begin
 
       edtVendaId.Text     := IntToStr(oVenda.VendaId);
