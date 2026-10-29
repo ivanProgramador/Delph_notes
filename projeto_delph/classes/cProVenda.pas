@@ -32,7 +32,7 @@ type
      destructor Destroy; override;
      function Inserir(cds:TClientDataSet):Boolean;
      function Atualizar:Boolean;
-     function Apagar(id:Integer):Boolean;
+     function Apagar(id:Integer; var cds:TClientDataSet):Boolean;
      function Selecionar(id:Integer; var cds:TClientDataSet):Boolean;
 
     published
@@ -62,7 +62,7 @@ destructor TVenda.Destroy;
 
 {$region 'CRUD'}
 
-function TVenda.Apagar(id: Integer): Boolean;
+function TVenda.Apagar(id: Integer; var cds:TClientDataSet): Boolean;
 
  var Qry:TZQuery;
 
@@ -190,12 +190,43 @@ var
                            '       VendasItens.TotalProduto '+
                            'FROM VendasItens '+
                            '     INNER JOIN produtos On Produtos.produtoId = VendasItens.produtoId '+
-                           'WHERE VendaID=:VendaID ');
+                           'WHERE VendasItens.VendaID=:VendaID ');
 
 
                 Qry.ParamByName('VendaID').AsInteger := Self.F_vendaId;
 
                 Qry.Open;
+
+            {Passando parar o cliDataSet }
+
+            Qry.First;    //colocando o ponteiro no primeiro regirstro
+
+            {Esse loop vai varrer o resultados da consulta ate ele dá Eof end of file }
+
+            while not Qry.Eof do
+
+              begin
+
+                {a acada loop eu vou adcionando uma linha }
+
+                cds.Append;
+
+                  {Associando dados entre oque veio da mina consulta e os campo do cds }
+
+                    cds.FieldByName('produtoId').AsInteger := Qry.FieldByName('ProdutoId').AsInteger;
+                    cds.FieldByName('nomeProduto').AsString := Qry.FieldByName('Nome').AsString;
+                    cds.FieldByName('valorUnitario').AsFloat := Qry.FieldByName('valorUnitario').AsFloat;
+                    cds.FieldByName('quantidade').AsFloat := Qry.FieldByName('quantidade').AsFloat;
+                    cds.FieldByName('valorTotalProduto').AsFloat := Qry.FieldByName('TotalProduto').AsFloat;
+
+                  {fazendo uma post pro cds }
+
+                cds.Post;
+
+               {mandando a consulta seguir em frente pa proxima linha }
+                Qry.Next;
+
+              end;
 
             {$endregion}
           Except

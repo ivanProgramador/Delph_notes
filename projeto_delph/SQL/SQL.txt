@@ -89,3 +89,36 @@ FROM
   clientes 
 ON
   clientes.clienteId = vendas.clienteId;
+
+--------------------------------------------------------------------------
+SELECT QUE FAZ A LIGAÇÃO VENDA / PRODUTO 
+
+
+SELECT 
+--Listagem de tabelas e campos que eu preciso pegar 
+  
+     VendasItens.ProdutoID,
+     produtos.Nome,
+     VendasItens.ValorUnitario,
+     VendasItens.Quantidade,
+     VendasItens.TotalProduto
+     
+FROM 
+--primeira tabela de consulta 
+     VendasItens
+
+--comando de junção de resultados
+
+     INNER JOIN 
+     
+--segunda tabela da consulta
+     
+     produtos
+     
+     On Produtos.produtoId = VendasItens.produtoId
+     
+WHERE 
+
+--condição da cconsulta 
+  
+ VendasItens.VendaID = 28

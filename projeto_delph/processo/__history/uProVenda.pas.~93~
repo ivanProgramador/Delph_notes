@@ -82,7 +82,11 @@ implementation
 
 function TfrmProVenda.Apagar: Boolean;
 begin
-     Result := oVenda.Apagar(QryListagem.FieldByName('vendaId').AsInteger);
+     if oVenda.Selecionar(QryListagem.FieldByName('vendaId').AsInteger, dtmVenda.cdsItensVenda) then
+       begin
+         Result := oVenda.Apagar(QryListagem.FieldByName('vendaId').AsInteger, dtmVenda.cdsItensVenda);
+       end;
+
 end;
 
 
@@ -103,7 +107,7 @@ begin
 
     if (EstadoDoCadastro = ecInserir) then
       begin
-         Result := oVenda.Inserir;
+         Result := oVenda.Inserir(dtmVenda.cdsItensVenda);
       end
     else if(EstadoDoCadastro = ecAlterar) then
       begin
@@ -227,6 +231,10 @@ begin
       dtmVenda.cdsItensVenda.FieldByName('valorTotalProduto').AsFloat := edtTotalProduto.Value;
       dtmVenda.cdsItensVenda.Post;
 
+      {calculando o total da venda }
+
+      edtValorTotal.Value := TotalizarVenda;
+
       { Limpeza dos campos }
       LimparComponenteItem;
       lkpProduto.SetFocus;
@@ -284,11 +292,20 @@ procedure TfrmProVenda.CarregarRegistroSelecionado;
 {Totaliza a venda }
 function TfrmProVenda.TotalizarVenda:Double;
   begin
+     {primeiro o result dessa função recebe 0 como valor inicial}
      result := 0;
+
+     {depois eu pego o primeiro indice pora começar o loop isso funciona pra prosicionar o cursor do processador }
      dtmVenda.cdsItensVenda.First;
+
+     {aqui o while começa a percorrer as linhas de registro e enquanto o arquivo não terminar  }
      while not dtmVenda.cdsItensVenda.Eof do
        begin
+       {ele pega o campo "ValorTotalProduto" como float e vai somando linha a linha }
+
          result := result + dtmVenda.cdsItensVenda.FieldByName('ValorTotalProduto').AsFloat;
+
+       {essa linha serve pra sair do loop depois que a ultima linha for lida }
          dtmVenda.cdsItensVenda.Next;
        end;
   end;
@@ -297,7 +314,7 @@ function TfrmProVenda.TotalizarVenda:Double;
 procedure TfrmProVenda.btnAlterarClick(Sender: TObject);
 begin
 
-  if oVenda.Selecionar(QryListagem.FieldByName('VendaId').AsInteger) then
+  if oVenda.Selecionar(QryListagem.FieldByName('VendaId').AsInteger,dtmVenda.cdsItensVenda) then
     begin
 
       edtVendaId.Text     := IntToStr(oVenda.VendaId);
@@ -361,6 +378,7 @@ begin
   if dtmVenda.cdsItensVenda.Locate('produtoId',lkpProduto.KeyValue,[]) then
      begin
        dtmVenda.cdsItensVenda.Delete;
+       edtValorTotal.Value := TotalizarVenda;
        LimparComponenteItem;
      end;
 

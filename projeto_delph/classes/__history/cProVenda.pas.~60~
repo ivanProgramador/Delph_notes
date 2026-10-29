@@ -32,8 +32,8 @@ type
      destructor Destroy; override;
      function Inserir(cds:TClientDataSet):Boolean;
      function Atualizar:Boolean;
-     function Apagar(id:Integer):Boolean;
-     function Selecionar(id:Integer):Boolean;
+     function Apagar(id:Integer; var cds:TClientDataSet):Boolean;
+     function Selecionar(id:Integer; var cds:TClientDataSet):Boolean;
 
     published
 
@@ -62,7 +62,7 @@ destructor TVenda.Destroy;
 
 {$region 'CRUD'}
 
-function TVenda.Apagar(id: Integer): Boolean;
+function TVenda.Apagar(id: Integer; var cds:TClientDataSet): Boolean;
 
  var Qry:TZQuery;
 
@@ -143,7 +143,10 @@ function TVenda.Atualizar: Boolean;
  end;
 
 
-function TVenda.Selecionar(id: Integer): Boolean;
+
+
+
+function TVenda.Selecionar(id: Integer; var cds:TClientDataSet): Boolean;
 var
   Qry: TZQuery;
     begin
@@ -166,6 +169,47 @@ var
             Self.F_clienteId := Qry.FieldByName('clienteId').AsInteger;
             Self.F_dataVenda := Qry.FieldByName('dataVenda').AsDateTime;
             Self.F_totalVenda := Qry.FieldByName('totalVenda').AsFloat;
+
+            {$region 'SELECIONAR A TABELA VENDAS ITENS'}
+                //limpa o cds antes de colocar os dados da venda atual
+
+                cds.First;
+                while not cds.Eof do
+                 begin
+                   cds.Delete;
+                 end;
+
+            //Seleciona os Itens do Banco de dados com a base F_VendaId passado
+
+                Qry.Close;
+                Qry.SQL.Clear;
+                Qry.SQL.Add('SELECT VendasItens.ProdutoID, '+
+                           '       Produtos.Nome, '+
+                           '       VendasItens.ValorUnitario, '+
+                           '       VendasItens.Quantidade, '+
+                           '       VendasItens.TotalProduto '+
+                           'FROM VendasItens '+
+                           '     INNER JOIN produtos On Produtos.produtoId = VendasItens.produtoId '+
+                           'WHERE VendasItens.VendaID=:VendaID ');
+
+
+                Qry.ParamByName('VendaID').AsInteger := Self.F_vendaId;
+
+                Qry.Open;
+
+            {Passando parar o cliDataSet }
+            Qry.First;
+            while not Qry.Eof do
+              begin
+                cds.Append;
+                cds.FieldByName('produtoId').AsInteger := Qry.FieldByName('ProdutoId').AsInteger;
+                cds.FieldByName('nomeProduto').AsString := Qry.FieldByName('Nome').AsString;
+                cds.FieldByName('valorUnitario').AsFloat := Qry.FieldByName('valorUnitario').AsFloat;
+                cds.FieldByName('quantidade').AsFloat := Qry.FieldByName('quantidade').AsFloat;
+                cds.FieldByName('valorTotalProduto').AsFloat := Qry.FieldByName('valorTotalProduto').AsFloat;
+              end;
+
+            {$endregion}
           Except
             Result := false;
           End;
@@ -175,6 +219,13 @@ var
           FreeAndNil(Qry);
       end;
 end;
+
+
+
+
+
+
+
 
 function TVenda.Inserir(cds:TClientDataSet): Boolean;
  var
@@ -203,16 +254,23 @@ function TVenda.Inserir(cds:TClientDataSet): Boolean;
         Try
           Qry.ExecSQL;
           Qry.SQL.Clear;
-          IdVendaGerado := Qry.SQL.Add('SELECT MAX(vendaId) AS MaiorID FROM dbo.vendas');
+          IdVendaGerado := Qry.SQL.Add('SELECT MAX(vendaId) AS id FROM dbo.vendas');
           Qry.Open;
-          ShowMessage('ID da ultima venda : '  + IntToStr(IdVendaGerado));
 
+          //pegando o ID da venda
 
-         //pegando o ID da venda
-         // IdVendaGerado :=  Qry.FieldByName('vendaId').AsInteger;
+          IdVendaGerado := Qry.FieldByName('id').AsInteger;
 
                {$region 'gravar na tabela itensvendas'}
+
+               //colocando o ponteiro no inicio da tabela virtual
+
                    cds.First;
+
+                //nesse loop eu faço a leitura do cds da primiera ate a ultima linha
+                //a acada linha encontrada eu adicino o produto e o id da venda
+                //quando ele identifica que não tem mais linha ele párar o loop
+
                    while not cds.Eof do
                      begin
                        inserirItens(cds,IdVendaGerado);
@@ -248,15 +306,14 @@ begin
     Qry.SQL.Add('INSERT INTO VendasItens (VendaID, ProdutoID, ValorUnitario, Quantidade, TotalProduto) ');
     Qry.SQL.Add('VALUES (:VendaID, :ProdutoID, :ValorUnitario, :Quantidade, :TotalProduto)');
 
-    // 1. Guardar a posição atual do ClientDataSet para não estragar a navegação na UI (opcional, mas boa prática)
     cds.DisableControls;
     try
-      cds.First; // Garante que começa do primeiro item da grelha/venda
+      cds.First; // começando pelo começõ da grid
 
       while not cds.Eof do
       begin
-        // 2. Passar os parâmetros para cada item
-        Qry.ParamByName('VendaID').AsInteger      := IdVenda; // Aqui o ID 16 vai para todos os itens desta venda!
+        // passando os paramentros pra query
+        Qry.ParamByName('VendaID').AsInteger      := IdVenda; // adicionado o id do parametro
         Qry.ParamByName('ProdutoID').AsInteger    := cds.FieldByName('produtoId').AsInteger;
         Qry.ParamByName('ValorUnitario').AsFloat  := cds.FieldByName('valorUnitario').AsFloat;
         Qry.ParamByName('Quantidade').AsFloat     := cds.FieldByName('quantidade').AsFloat;
@@ -266,10 +323,10 @@ begin
           Qry.ExecSQL;
         except
           Result := False;
-          Break; // Se falhar um item, interrompe o ciclo
+          Break; // se der erro o loop para
         end;
 
-        cds.Next; // 3. Avança para o próximo produto do carrinho/venda
+        cds.Next; // indo para o proximo item
       end;
     finally
       cds.EnableControls;

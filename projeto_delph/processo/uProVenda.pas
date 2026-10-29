@@ -82,7 +82,11 @@ implementation
 
 function TfrmProVenda.Apagar: Boolean;
 begin
-     Result := oVenda.Apagar(QryListagem.FieldByName('vendaId').AsInteger);
+     if oVenda.Selecionar(QryListagem.FieldByName('vendaId').AsInteger, dtmVenda.cdsItensVenda) then
+       begin
+         Result := oVenda.Apagar(QryListagem.FieldByName('vendaId').AsInteger, dtmVenda.cdsItensVenda);
+       end;
+
 end;
 
 
@@ -264,6 +268,7 @@ function TfrmProVenda.TotalizarProduto(valorUnitario,Quantidade:Double):Double;
 
 procedure TfrmProVenda.LimparCds;
 begin
+  dtmVenda.cdsItensVenda.First;
   while not dtmVenda.cdsItensVenda.Eof do
      dtmVenda.cdsItensVenda.Delete;
 

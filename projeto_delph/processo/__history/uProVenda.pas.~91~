@@ -103,7 +103,7 @@ begin
 
     if (EstadoDoCadastro = ecInserir) then
       begin
-         Result := oVenda.Inserir;
+         Result := oVenda.Inserir(dtmVenda.cdsItensVenda);
       end
     else if(EstadoDoCadastro = ecAlterar) then
       begin
@@ -227,6 +227,10 @@ begin
       dtmVenda.cdsItensVenda.FieldByName('valorTotalProduto').AsFloat := edtTotalProduto.Value;
       dtmVenda.cdsItensVenda.Post;
 
+      {calculando o total da venda }
+
+      edtValorTotal.Value := TotalizarVenda;
+
       { Limpeza dos campos }
       LimparComponenteItem;
       lkpProduto.SetFocus;
@@ -306,7 +310,7 @@ function TfrmProVenda.TotalizarVenda:Double;
 procedure TfrmProVenda.btnAlterarClick(Sender: TObject);
 begin
 
-  if oVenda.Selecionar(QryListagem.FieldByName('VendaId').AsInteger) then
+  if oVenda.Selecionar(QryListagem.FieldByName('VendaId').AsInteger,dtmVenda.cdsItensVenda) then
     begin
 
       edtVendaId.Text     := IntToStr(oVenda.VendaId);
@@ -370,6 +374,7 @@ begin
   if dtmVenda.cdsItensVenda.Locate('produtoId',lkpProduto.KeyValue,[]) then
      begin
        dtmVenda.cdsItensVenda.Delete;
+       edtValorTotal.Value := TotalizarVenda;
        LimparComponenteItem;
      end;
 
